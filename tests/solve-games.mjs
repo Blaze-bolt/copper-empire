@@ -1,15 +1,18 @@
 import assert from 'node:assert/strict';
-import {gameAction as A,tickGame as T} from '../src/empire/games.js';
+import {gameAction as rawA,tickGame as rawT} from '../src/empire/games.js';
 import {rotate} from '../src/engine.js';
+const recordings=new WeakMap();
+const A=(g,a,p={})=>{if(g.status==='active')recordings.get(g)?.push(['a',a,structuredClone(p)]);return rawA(g,a,p);};
+const T=(g,dt)=>{if(dt>0)recordings.get(g)?.push(['t',dt]);return rawT(g,dt);};
 export function advance(g,seconds){for(let t=0;t<seconds&&g.status==='active';t+=.02)T(g,Math.min(.02,seconds-t));}
 const act=(g,a,i=0,value=0,extra={})=>A(g,a,{i,value,...extra});
 function circuit(g,p,board){for(let i=0;i<p.masks.length;i++){if(!p.solution[i])continue;for(let n=0;n<4&&p.masks[i]!==p.solution[i];n++)A(g,'tile',{i,board});}}
-export function solve(g){switch(g.id){
+export function solve(g,recording){if(recording)recordings.set(g,recording);switch(g.id){
 case 1:while(g.status==='active'){while(Math.abs(g.position-g.center)>.015&&g.status==='active')advance(g,.02);act(g,'hit');}break;
 case 2:for(let i=0;i<g.pieces.length;i++){act(g,'select',i);while(g.pieces[i].angle!==g.targets[i])act(g,'rotate');act(g,'slot',i);}break;
 case 3:for(const m of g.undo){act(g,'cell',m.from);act(g,'cell',m.to);}act(g,'test');break;
 case 4:case 6:case 18:case 48:{const values=g.secret||g.target;values.forEach((v,i)=>act(g,'slider',i,v));if(g.id===6)act(g,'test');else advance(g,3.1);break;}
-case 5:advance(g,g.watchLength+.1);for(const duration of g.sequence)A(g,'pulse',{duration});break;
+case 5:advance(g,g.watchLength+.1);for(const duration of g.sequence){if(recording)advance(g,duration);A(g,'pulse',{duration});}break;
 case 7:for(let i=0;i<g.puzzle.arrows.length;i++)while(g.puzzle.arrows[i]!==g.puzzle.target[i])act(g,'tile',i);act(g,'test');break;
 case 8:circuit(g,g.puzzle);act(g,'test');break;
 case 9:case 11:for(let t=0;t<10000&&g.status==='active';t++){for(const o of g.objects)if(!o.hit&&!o.miss&&g.elapsed>=o.born&&g.elapsed<o.born+6){if(g.id===9){if(o.kind===g.target)act(g,'target',o.id);}else{act(g,'select',o.id);act(g,'bin',o.kind);}}advance(g,.05);}break;
@@ -53,5 +56,5 @@ case 50:for(const m of g.witness){act(g,'select',m.pattern);act(g,'place',m.cell
 case 51:for(let k=0;k<10000&&g.status==='active';k++){for(let i=0;i<3;i++){const sys=g.systems[i];if(sys.coolUntil>g.elapsed)continue;if(sys.heat>68){act(g,'cool',i);continue;}while(sys.allocation<sys.need&&g.systems.reduce((v,s)=>v+s.allocation,0)<4)act(g,'resource',i,1);}advance(g,.05);}break;
 case 52:circuit(g,g.puzzle);act(g,'gate',0);act(g,'gate',1);for(const i of [0,1]){act(g,'destination',i);while(Math.abs(g.position-g.center)>.025&&g.status==='active')advance(g,.02);act(g,'convert');}break;
 }
- assert.equal(g.status,'success',`Game ${g.id}: ${g.reason||g.message||'still active'}; elapsed ${g.elapsed}, moves ${g.moves}`);return g;
+ assert.equal(g.status,'success',`Game ${g.id}: ${g.reason||g.message||'still active'}; elapsed ${g.elapsed}, moves ${g.moves}`);recordings.delete(g);return g;
 }

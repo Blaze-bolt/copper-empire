@@ -1,0 +1,45 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {PGlite} from '@electric-sql/pglite';
+import * as E from '../src/empire/state.js';
+import {pack} from '../supabase/functions/service.js';
+const db=new PGlite();
+await db.exec(`create role anon;create role authenticated;create role service_role;create schema auth;create table auth.users(id uuid primary key,raw_user_meta_data jsonb);create function auth.uid() returns uuid language sql stable as $$ select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid $$;grant usage on schema auth to authenticated;grant execute on function auth.uid() to authenticated;`);
+// Freeze only the test database clock, so a wall-clock tick cannot make trade assertions flaky.
+await db.exec("create function public.empire_test_clock() returns timestamptz language sql stable as $clock$ select '2026-10-16 08:00:00+00'::timestamptz $clock$;");
+const migration=await readFile(new URL('../supabase/migrations/202610160001_empire.sql',import.meta.url),'utf8');
+await db.exec(migration.replaceAll('clock_timestamp()','public.empire_test_clock()').replaceAll('now()','public.empire_test_clock()'));
+await db.exec(await readFile(new URL('../supabase/migrations/202610160005_enforce_compact_market.sql',import.meta.url),'utf8'));
+const u1='10000000-0000-4000-8000-000000000001',u2='10000000-0000-4000-8000-000000000002';
+await db.query('insert into auth.users values($1,$2),($3,$4)',[u1,{username:'test_recycler'},u2,{username:'other_recycler'}]);
+const rpc=async(name,args)=>{const keys=Object.keys(args);const r=await db.query(`select public.${name}(${keys.map((k,i)=>`${k}=>$${i+1}`).join(',')}) as result`,Object.values(args));return r.rows[0].result;};
+test('SQL: unique normalized usernames and reserved names',async()=>{await assert.rejects(db.query('insert into auth.users values($1,$2)',['10000000-0000-4000-8000-000000000003',{username:'TEST_RECYCLER'}]),/unique/);await assert.rejects(db.query('insert into auth.users values($1,$2)',['10000000-0000-4000-8000-000000000003',{username:'admin'}]),/check/);});
+test('SQL: only the latest hour of prices, one permanent shared quote',async()=>{await db.exec('insert into empire_private.prices values(1,9000);update empire_private.market set epoch=epoch-1');const m=await rpc('empire_market',{});assert.equal(m.global,true);assert.equal(m.next%10000,0);assert.ok(m.history.length<=361);assert.ok(m.history.every(p=>p.at>=m.serverTime-3600000-10000));assert.deepEqual((await rpc('empire_market',{})).quote,m.quote);assert.equal((await db.query('select count(*) as n from empire_private.prices where epoch=1')).rows[0].n,0);});
+test('SQL: quote polls within one tick do not rewrite the singleton',async()=>{const before=(await db.query('select xmin::text as version from empire_private.market')).rows[0].version;await rpc('empire_market',{});await rpc('empire_market',{});const after=(await db.query('select xmin::text as version from empire_private.market')).rows[0].version;assert.equal(after,before);});
+test('SQL: atomic revision, duplicate protection, private saves, verified board',async()=>{
+ const state=E.newState();const loaded=await rpc('empire_load',{p_user:u1,p_initial:pack(state)});assert.equal(loaded.revision,0);assert.equal('history' in loaded.state.market,false);assert.equal(loaded.state.market.quote,state.market.quote);assert.deepEqual(loaded.state.inventory,state.inventory);
+ state.stats.completed=2;state.stats.copperCollected=123456789012345678901234567890n;
+ const request={p_user:u1,p_request:'20000000-0000-4000-8000-000000000001',p_expected:0,p_state:pack(state),p_attempt:null,p_result:{test:true},p_quote:null,p_volume:'0'};
+ const a=await rpc('empire_commit',request);assert.equal(a.revision,1);
+ const b=await rpc('empire_commit',request);assert.equal(b.revision,1);assert.equal(b.duplicate,true);
+ assert.equal((await rpc('empire_receipt',{p_user:u1,p_request:request.p_request})).revision,1);
+ await assert.rejects(rpc('empire_commit',{...request,p_request:'20000000-0000-4000-8000-000000000002'}),/SAVE_CONFLICT/);
+ const board=await rpc('empire_rankings',{});assert.equal(board[0].username,'test_recycler');assert.equal(board[0].copper_mg,'123456789012345678901234567890');assert.equal(Object.keys(board[0]).some(k=>/email|state/.test(k)),false);
+ await db.exec(`set role authenticated;select set_config('request.jwt.claim.sub','${u1}',false);`);
+ await assert.rejects(db.query('select * from empire_private.players'),/permission denied/);
+ await assert.rejects(rpc('empire_commit',request),/permission denied/);
+ await db.query('insert into public.empire_backups(user_id,save) values($1,$2)',[u1,'local progress']);
+ await assert.rejects(db.query('insert into public.empire_backups(user_id,save) values($1,$2)',[u2,'forged']),/row-level security/);
+ await db.exec(`select set_config('request.jwt.claim.sub','${u2}',false)`);assert.equal((await db.query('select * from public.empire_backups')).rows.length,0);
+ await db.exec('reset role');
+});
+test('SQL: shared quote is checked atomically, each player has bounded influence',async()=>{
+ const s=E.newState();await rpc('empire_load',{p_user:u2,p_initial:pack(s)});const m=await rpc('empire_market',{});
+ const base={p_user:u2,p_expected:0,p_state:pack(s),p_attempt:null,p_result:null,p_quote:m.quote,p_volume:'99999999999999999999999999999999999999'};
+ await assert.rejects(rpc('empire_commit',{...base,p_request:crypto.randomUUID(),p_quote:m.quote===5000?5001:5000}),/QUOTE_CHANGED/);
+ await rpc('empire_commit',{...base,p_request:crypto.randomUUID()});const rows=await db.query('select pressure from empire_private.market');assert.ok(Math.abs(rows.rows[0].pressure)<=20);
+ for(let i=1;i<6;i++)await rpc('empire_commit',{...base,p_expected:i,p_request:crypto.randomUUID()});
+ await assert.rejects(rpc('empire_commit',{...base,p_expected:6,p_request:crypto.randomUUID()}),/next 10-second/);
+});
+test.after(async()=>db.close());
