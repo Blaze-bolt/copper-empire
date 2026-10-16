@@ -1,0 +1,522 @@
+[
+  {
+    "id": 1,
+    "name": "Small DC Motor",
+    "price": "0",
+    "min": "500",
+    "max": "2000",
+    "level": 1,
+    "rebirth": 0,
+    "signature": 1
+  },
+  {
+    "id": 2,
+    "name": "USB Desk Fan",
+    "price": "750000000",
+    "min": "3000",
+    "max": "8000",
+    "level": 2,
+    "rebirth": 0,
+    "signature": 2
+  },
+  {
+    "id": 3,
+    "name": "Computer Cooling Fan",
+    "price": "2000000000",
+    "min": "8000",
+    "max": "18000",
+    "level": 4,
+    "rebirth": 0,
+    "signature": 3
+  },
+  {
+    "id": 4,
+    "name": "Old Speaker",
+    "price": "4000000000",
+    "min": "15000",
+    "max": "30000",
+    "level": 6,
+    "rebirth": 0,
+    "signature": 4
+  },
+  {
+    "id": 5,
+    "name": "Phone Vibration Motor",
+    "price": "6000000000",
+    "min": "25000",
+    "max": "50000",
+    "level": 1,
+    "rebirth": 1,
+    "signature": 5
+  },
+  {
+    "id": 6,
+    "name": "Portable Speaker",
+    "price": "12000000000",
+    "min": "50000",
+    "max": "90000",
+    "level": 3,
+    "rebirth": 1,
+    "signature": 6
+  },
+  {
+    "id": 7,
+    "name": "Laptop Cooling Assembly",
+    "price": "20000000000",
+    "min": "90000",
+    "max": "160000",
+    "level": 5,
+    "rebirth": 1,
+    "signature": 7
+  },
+  {
+    "id": 8,
+    "name": "Power Adapter",
+    "price": "35000000000",
+    "min": "150000",
+    "max": "280000",
+    "level": 8,
+    "rebirth": 1,
+    "signature": 8
+  },
+  {
+    "id": 9,
+    "name": "Desktop Power Supply",
+    "price": "55000000000",
+    "min": "250000",
+    "max": "450000",
+    "level": 1,
+    "rebirth": 2,
+    "signature": 9
+  },
+  {
+    "id": 10,
+    "name": "Electric Toothbrush Motor",
+    "price": "85000000000",
+    "min": "400000",
+    "max": "700000",
+    "level": 4,
+    "rebirth": 2,
+    "signature": 10
+  },
+  {
+    "id": 11,
+    "name": "Printer Motor Assembly",
+    "price": "140000000000",
+    "min": "650000",
+    "max": "1100000",
+    "level": 7,
+    "rebirth": 2,
+    "signature": 11
+  },
+  {
+    "id": 12,
+    "name": "Electric Drill Motor",
+    "price": "220000000000",
+    "min": "1000000",
+    "max": "1800000",
+    "level": 10,
+    "rebirth": 2,
+    "signature": 12
+  },
+  {
+    "id": 13,
+    "name": "Vacuum Cleaner Motor",
+    "price": "350000000000",
+    "min": "1700000",
+    "max": "2800000",
+    "level": 1,
+    "rebirth": 3,
+    "signature": 13
+  },
+  {
+    "id": 14,
+    "name": "Small Water Pump",
+    "price": "550000000000",
+    "min": "2600000",
+    "max": "4500000",
+    "level": 4,
+    "rebirth": 3,
+    "signature": 14
+  },
+  {
+    "id": 15,
+    "name": "Transformer Unit",
+    "price": "850000000000",
+    "min": "4000000",
+    "max": "7000000",
+    "level": 7,
+    "rebirth": 3,
+    "signature": 15
+  },
+  {
+    "id": 16,
+    "name": "Washing Machine Motor",
+    "price": "1400000000000",
+    "min": "6500000",
+    "max": "11000000",
+    "level": 11,
+    "rebirth": 3,
+    "signature": 16
+  },
+  {
+    "id": 17,
+    "name": "Dishwasher Motor",
+    "price": "2100000000000",
+    "min": "10000000",
+    "max": "17000000",
+    "level": 1,
+    "rebirth": 4,
+    "signature": 17
+  },
+  {
+    "id": 18,
+    "name": "Air Conditioner Motor",
+    "price": "3500000000000",
+    "min": "16000000",
+    "max": "28000000",
+    "level": 5,
+    "rebirth": 4,
+    "signature": 18
+  },
+  {
+    "id": 19,
+    "name": "Refrigerator Compressor",
+    "price": "5500000000000",
+    "min": "26000000",
+    "max": "43000000",
+    "level": 9,
+    "rebirth": 4,
+    "signature": 19
+  },
+  {
+    "id": 20,
+    "name": "Heavy Electric Pump",
+    "price": "8500000000000",
+    "min": "42000000",
+    "max": "70000000",
+    "level": 13,
+    "rebirth": 4,
+    "signature": 20
+  },
+  {
+    "id": 21,
+    "name": "Industrial Fan Motor",
+    "price": "13000000000000",
+    "min": "65000000",
+    "max": "110000000",
+    "level": 1,
+    "rebirth": 5,
+    "signature": 21
+  },
+  {
+    "id": 22,
+    "name": "Heavy-Duty Alternator",
+    "price": "21000000000000",
+    "min": "105000000",
+    "max": "175000000",
+    "level": 5,
+    "rebirth": 5,
+    "signature": 22
+  },
+  {
+    "id": 23,
+    "name": "Industrial Transformer",
+    "price": "34000000000000",
+    "min": "170000000",
+    "max": "280000000",
+    "level": 10,
+    "rebirth": 5,
+    "signature": 23
+  },
+  {
+    "id": 24,
+    "name": "Generator Stator",
+    "price": "55000000000000",
+    "min": "275000000",
+    "max": "450000000",
+    "level": 15,
+    "rebirth": 5,
+    "signature": 24
+  },
+  {
+    "id": 25,
+    "name": "Industrial Water Pump",
+    "price": "85000000000000",
+    "min": "430000000",
+    "max": "700000000",
+    "level": 1,
+    "rebirth": 6,
+    "signature": 25
+  },
+  {
+    "id": 26,
+    "name": "Elevator Motor",
+    "price": "140000000000000",
+    "min": "700000000",
+    "max": "1150000000",
+    "level": 6,
+    "rebirth": 6,
+    "signature": 26
+  },
+  {
+    "id": 27,
+    "name": "Factory Conveyor Motor",
+    "price": "225000000000000",
+    "min": "1100000000",
+    "max": "1900000000",
+    "level": 11,
+    "rebirth": 6,
+    "signature": 27
+  },
+  {
+    "id": 28,
+    "name": "Heavy Machinery Motor",
+    "price": "370000000000000",
+    "min": "1850000000",
+    "max": "3000000000",
+    "level": 16,
+    "rebirth": 6,
+    "signature": 28
+  },
+  {
+    "id": 29,
+    "name": "Industrial Power Generator",
+    "price": "600000000000000",
+    "min": "3000000000",
+    "max": "5000000000",
+    "level": 1,
+    "rebirth": 7,
+    "signature": 29
+  },
+  {
+    "id": 30,
+    "name": "Factory Recycling Machine",
+    "price": "950000000000000",
+    "min": "4800000000",
+    "max": "8000000000",
+    "level": 7,
+    "rebirth": 7,
+    "signature": 30
+  },
+  {
+    "id": 31,
+    "name": "Large Generator Assembly",
+    "price": "1550000000000000",
+    "min": "7800000000",
+    "max": "13000000000",
+    "level": 12,
+    "rebirth": 7,
+    "signature": 31
+  },
+  {
+    "id": 32,
+    "name": "Industrial Power Station Module",
+    "price": "2500000000000000",
+    "min": "12500000000",
+    "max": "21000000000",
+    "level": 18,
+    "rebirth": 7,
+    "signature": 32
+  },
+  {
+    "id": 33,
+    "name": "High-Capacity Generator",
+    "price": "4000000000000000",
+    "min": "20000000000",
+    "max": "34000000000",
+    "level": 1,
+    "rebirth": 8,
+    "signature": 33
+  },
+  {
+    "id": 34,
+    "name": "Automated Factory Motor Array",
+    "price": "6500000000000000",
+    "min": "32000000000",
+    "max": "55000000000",
+    "level": 7,
+    "rebirth": 8,
+    "signature": 34
+  },
+  {
+    "id": 35,
+    "name": "Heavy Industrial Power Unit",
+    "price": "10500000000000000",
+    "min": "52000000000",
+    "max": "90000000000",
+    "level": 13,
+    "rebirth": 8,
+    "signature": 35
+  },
+  {
+    "id": 36,
+    "name": "Mega Transformer Assembly",
+    "price": "17000000000000000",
+    "min": "85000000000",
+    "max": "145000000000",
+    "level": 19,
+    "rebirth": 8,
+    "signature": 36
+  },
+  {
+    "id": 37,
+    "name": "Giant Industrial Alternator",
+    "price": "27000000000000000",
+    "min": "135000000000",
+    "max": "230000000000",
+    "level": 1,
+    "rebirth": 9,
+    "signature": 37
+  },
+  {
+    "id": 38,
+    "name": "High-Output Generator Complex",
+    "price": "44000000000000000",
+    "min": "220000000000",
+    "max": "375000000000",
+    "level": 8,
+    "rebirth": 9,
+    "signature": 38
+  },
+  {
+    "id": 39,
+    "name": "Massive Motor Assembly",
+    "price": "72000000000000000",
+    "min": "360000000000",
+    "max": "610000000000",
+    "level": 14,
+    "rebirth": 9,
+    "signature": 39
+  },
+  {
+    "id": 40,
+    "name": "Automated Copper Recovery Plant",
+    "price": "115000000000000000",
+    "min": "575000000000",
+    "max": "980000000000",
+    "level": 20,
+    "rebirth": 9,
+    "signature": 40
+  },
+  {
+    "id": 41,
+    "name": "Ultra-Industrial Motor",
+    "price": "185000000000000000",
+    "min": "930000000000",
+    "max": "1600000000000",
+    "level": 1,
+    "rebirth": 10,
+    "signature": 41
+  },
+  {
+    "id": 42,
+    "name": "Advanced Generator Complex",
+    "price": "300000000000000000",
+    "min": "1500000000000",
+    "max": "2600000000000",
+    "level": 8,
+    "rebirth": 10,
+    "signature": 42
+  },
+  {
+    "id": 43,
+    "name": "Mega Recycling Assembly",
+    "price": "480000000000000000",
+    "min": "2400000000000",
+    "max": "4100000000000",
+    "level": 15,
+    "rebirth": 10,
+    "signature": 43
+  },
+  {
+    "id": 44,
+    "name": "Titan Generator System",
+    "price": "780000000000000000",
+    "min": "3900000000000",
+    "max": "6700000000000",
+    "level": 22,
+    "rebirth": 10,
+    "signature": 44
+  },
+  {
+    "id": 45,
+    "name": "Experimental Power Module",
+    "price": "1250000000000000000",
+    "min": "6300000000000",
+    "max": "10700000000000",
+    "level": 1,
+    "rebirth": 11,
+    "signature": 45
+  },
+  {
+    "id": 46,
+    "name": "Hyper-Industrial Generator",
+    "price": "2000000000000000000",
+    "min": "10000000000000",
+    "max": "17000000000000",
+    "level": 9,
+    "rebirth": 11,
+    "signature": 46
+  },
+  {
+    "id": 47,
+    "name": "Advanced Electromagnetic Array",
+    "price": "3200000000000000000",
+    "min": "16000000000000",
+    "max": "27000000000000",
+    "level": 16,
+    "rebirth": 11,
+    "signature": 47
+  },
+  {
+    "id": 48,
+    "name": "Experimental Copper Core",
+    "price": "5200000000000000000",
+    "min": "26000000000000",
+    "max": "44000000000000",
+    "level": 23,
+    "rebirth": 11,
+    "signature": 48
+  },
+  {
+    "id": 49,
+    "name": "Next-Generation Power Generator",
+    "price": "8300000000000000000",
+    "min": "41500000000000",
+    "max": "70000000000000",
+    "level": 1,
+    "rebirth": 12,
+    "signature": 49
+  },
+  {
+    "id": 50,
+    "name": "Ultra-Dense Motor Assembly",
+    "price": "13500000000000000000",
+    "min": "67500000000000",
+    "max": "114000000000000",
+    "level": 9,
+    "rebirth": 12,
+    "signature": 50
+  },
+  {
+    "id": 51,
+    "name": "Hyper-Scale Industrial Core",
+    "price": "21500000000000000000",
+    "min": "107500000000000",
+    "max": "183000000000000",
+    "level": 17,
+    "rebirth": 12,
+    "signature": 51
+  },
+  {
+    "id": 52,
+    "name": "Experimental Energy Converter",
+    "price": "35000000000000000000",
+    "min": "175000000000000",
+    "max": "300000000000000",
+    "level": 25,
+    "rebirth": 12,
+    "signature": 52
+  }
+]
