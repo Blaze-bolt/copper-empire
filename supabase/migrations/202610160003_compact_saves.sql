@@ -1,5 +1,5 @@
 -- Remove redundant chart snapshots from workshop rows; retain all player progress.
-update empire_private.players set state=jsonb_set(state,'{market}',(state->'market')-'history'-'quote'-'previous'-'next'-'high'-'low'-'serverTime'-'seed');
+update empire_private.players set state=state #- '{market,history}' where state->'market' ? 'history';
 -- Explicit denial documents the deliberate browser isolation of these tables.
 create policy players_deny_browser on empire_private.players for all to anon,authenticated using(false) with check(false);
 create policy receipts_deny_browser on empire_private.receipts for all to anon,authenticated using(false) with check(false);
