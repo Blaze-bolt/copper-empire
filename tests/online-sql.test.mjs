@@ -11,6 +11,7 @@ await db.exec("create function public.empire_test_clock() returns timestamptz la
 const migration=await readFile(new URL('../supabase/migrations/202610160001_empire.sql',import.meta.url),'utf8');
 await db.exec(migration.replaceAll('clock_timestamp()','public.empire_test_clock()').replaceAll('now()','public.empire_test_clock()'));
 await db.exec(await readFile(new URL('../supabase/migrations/202610160005_enforce_compact_market.sql',import.meta.url),'utf8'));
+await db.exec(await readFile(new URL('../supabase/migrations/202610160006_backup_price_history.sql',import.meta.url),'utf8'));
 const u1='10000000-0000-4000-8000-000000000001',u2='10000000-0000-4000-8000-000000000002';
 await db.query('insert into auth.users values($1,$2),($3,$4)',[u1,{username:'test_recycler'},u2,{username:'other_recycler'}]);
 const rpc=async(name,args)=>{const keys=Object.keys(args);const r=await db.query(`select public.${name}(${keys.map((k,i)=>`${k}=>$${i+1}`).join(',')}) as result`,Object.values(args));return r.rows[0].result;};
@@ -29,7 +30,8 @@ test('SQL: atomic revision, duplicate protection, private saves, verified board'
  await db.exec(`set role authenticated;select set_config('request.jwt.claim.sub','${u1}',false);`);
  await assert.rejects(db.query('select * from empire_private.players'),/permission denied/);
  await assert.rejects(rpc('empire_commit',request),/permission denied/);
- await db.query('insert into public.empire_backups(user_id,save) values($1,$2)',[u1,'local progress']);
+ await db.query('insert into public.empire_backups(user_id,save) values($1,$2)',[u1,E.encode(state)]);
+ const saved=JSON.parse((await db.query('select save from public.empire_backups where user_id=$1',[u1])).rows[0].save);assert.deepEqual(saved.market.history,[]);assert.deepEqual(saved.money,pack(state).money);
  await assert.rejects(db.query('insert into public.empire_backups(user_id,save) values($1,$2)',[u2,'forged']),/row-level security/);
  await db.exec(`select set_config('request.jwt.claim.sub','${u2}',false)`);assert.equal((await db.query('select * from public.empire_backups')).rows.length,0);
  await db.exec('reset role');
