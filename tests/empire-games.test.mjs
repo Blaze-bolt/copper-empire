@@ -1,0 +1,3 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';
+import {createGame,tickGame,gameAction} from '../src/empire/games.js';import {solve,advance} from './solve-games.mjs';import {gameView,HOW_TO} from '../src/empire/game-ui.js';
+for(let id=1;id<=52;id++)test(`signature ${id}: playable success, failure, instructions, and rendered controls`,()=>{for(const seed of [1,7,538]){const g=createGame(id,2,seed);assert.ok(HOW_TO[id]);const v=gameView(g);assert.ok(v.scene.length>20);solve(g);const failed=createGame(id,2,seed);if([1,52].includes(id))gameAction(failed,id===1?'hit':'convert');else if(id===31){for(let k=0;k<70;k++)gameAction(failed,'rotor-speed',{i:0,value:1});}else advance(failed,400);assert.equal(failed.status,'failed',`Failure game ${id}`);}});
