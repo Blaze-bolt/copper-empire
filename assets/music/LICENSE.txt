@@ -1,0 +1,27 @@
+Music attribution and license record
+
+Track: Dreams Become Real
+Composer: Kevin MacLeod (incompetech.com)
+ISRC: USUAN1500027
+Official track page: https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1500027
+Official catalog: https://incompetech.com/music/royalty-free/pieces.json
+Original download: https://incompetech.com/music/royalty-free/mp3-royaltyfree/Dreams%20Become%20Real.mp3
+License: Creative Commons Attribution 4.0 International (CC BY 4.0)
+License terms: https://creativecommons.org/licenses/by/4.0/
+Legal code: https://creativecommons.org/licenses/by/4.0/legalcode
+Composer licensing page: https://incompetech.com/music/royalty-free/licenses/
+Verified: 2026-10-16
+Original MP3 SHA-256: A8EA5DF5F969ED8D898AF7FE07EB4712233F03E9D83F7EBCC88D1C851F3171B0
+
+CC BY 4.0 permits copying, public distribution, adaptation, and commercial use with attribution, a license link, and an indication of changes. No purchase is required for the composer's Creative Commons option. No endorsement is implied.
+
+Credit shown in the game's Settings:
+"Dreams Become Real" — Kevin MacLeod (incompetech.com).
+Licensed under Creative Commons Attribution 4.0.
+Excerpted and crossfaded for continuous looping. No endorsement implied.
+
+The bundled MP3 contains a 90-second excerpt. Playback applies a four-second crossfade in memory to form a continuous loop. The controls preserve on/off and volume preferences, wait for user interaction, and keep one audio graph across menu changes. The CC BY license applies to the music asset, independently of the game's code.
+
+Online storage note: the bundled file is a lossless MP3-frame excerpt of approximately 90–180 seconds of the original track, prepared to reduce download size and decoded audio memory on phones. Runtime applies the four-second loop crossfade. This is an adaptation, permitted under CC BY 4.0. The original download hash above records the full source file, not the excerpt. Original source files are excluded from Git and deployment.
+
+Bundled excerpt SHA-256: 88AA229B06B27BA50F9ABC295080AE5237CC2EE6E16A02C35592B3EE7FC5556C
