@@ -1,0 +1,12 @@
+# Validation record — 2026-10-16
+
+- 112 automated checks pass (`node --test tests/*.test.mjs`). All 94 original checks are retained. The 52 authored minigame modules, catalogue, illustrations, and original shared engine are unchanged.
+- Every original signature has a valid replay at difficulty 0, 4, and 6, verified through the same engine used by the deployed backend.
+- PostgreSQL/PGlite checks pass for normalized unique usernames, reserved-name rejection, exact large quantities, private save isolation, service-only writes, duplicate receipts, stale revisions, bounded market influence, one-hour retention, and quote polls that do not rewrite an unchanged price. The test database clock is frozen to make boundary tests deterministic; production uses the database clock.
+- Deployed `empire-api` version 3 passes live smoke tests with two disposable confirmed accounts: real sign-in, successful minigame replay, single payout under duplicate delivery, exact copper trade, second-session cloud restore, private backup isolation, worldwide leaderboard update, rejected direct writes, zero-reward failure with retained inventory, and stale-device save rejection.
+- Browser test completed an online Small DC Motor recovery through normal controls: grade A, exactly 1,229 mg copper, 30 XP, and one recovered part. No skip or reward bypass was used.
+- Browser music controls retain OFF and 12% volume after reload. Licensed music is a 90-second lossless excerpt with a four-second runtime crossfade, reducing download and decoded memory. Attribution and the commercial-use license link appear in Settings.
+- The deployed database clock is active on a 10-second schedule. There is one permanent quote row, bounded recent price points, and no player chart-history snapshots. An intentionally expired QA price point was automatically removed by the live clock.
+- GitHub Pages deployment remains on the existing repository. The workflow installs the lockfile, tests, builds static assets, and deploys only after checks pass. Pull requests build and test without publishing.
+
+Brevo phone verification and sender verification are complete. Public email signup confirmation and password-reset delivery still require an SMTP key entered directly in Supabase. Those delivery checks remain pending until that setup is complete; seeded-account sign-in testing does not count as email-delivery testing. No private key or password is included in this repository.

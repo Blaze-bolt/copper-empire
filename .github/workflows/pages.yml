@@ -3,6 +3,7 @@ name: Publish Copper Empire
 on:
   push:
     branches: [main]
+  pull_request:
   workflow_dispatch:
 
 permissions:
@@ -26,6 +27,8 @@ jobs:
         with:
           node-version: '22'
           package-manager-cache: false
+      - name: Install locked dependencies
+        run: npm ci
       - name: Check game mechanics and hosting paths
         run: node --test tests/*.test.mjs
       - name: Build static game
@@ -38,6 +41,7 @@ jobs:
           path: dist
 
   deploy:
+    if: github.event_name != 'pull_request'
     needs: build
     runs-on: ubuntu-latest
     permissions:

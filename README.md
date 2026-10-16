@@ -8,7 +8,7 @@ Open the published GitHub Pages website. Claim a free Small DC Motor, complete i
 
 The game supports keyboard, mouse, and touch. Instructions appear before each challenge. Escape pauses; leaving the tab pauses active minigames. Practice has selectable difficulty and grants no rewards.
 
-Progress saves in the browser. Use Settings to export/import a backup. Localhost, GitHub Pages, different browsers, and different profiles have separate storage; import a backup once to move existing progress onto the published website. No accounts, real money, or backend are required.
+Progress saves in the browser. Use Settings to export/import a backup. Localhost, GitHub Pages, different browsers, and different profiles have separate storage; import a backup once to move existing progress onto the published website. Local play needs no account. Online accounts add cloud saves, verified rankings, and shared trades. There is no real money or cash-out.
 
 ## Systems
 
@@ -18,13 +18,15 @@ Progress saves in the browser. Use Settings to export/import a backup. Localhost
 - Virtual smelting at Rebirth 5, automation at Rebirth 8, refining at Rebirth 10, and refining research at Rebirth 11.
 - Rebirth trials and explicit reset confirmation. Four new electronics unlock per tier through R12; prestige remains repeatable afterward.
 
-All devices, circuits, and furnace activities are stylized game abstractions, without practical electrical disassembly instructions. This is a client-side single-player game; save ownership is local and there is no server-side anti-cheat.
+All devices, circuits, and furnace activities are stylized game abstractions, without practical electrical disassembly instructions. Local workshops retain browser saves. Verified online workshops use server-checked actions and rewards; imported saves remain local.
 
 ## Develop locally
 
-Install Node.js 18 or newer, then run:
+Install Node.js 22 or newer, then run:
 
 ```sh
+npm ci
+npm run build
 node server.mjs
 ```
 
@@ -36,7 +38,7 @@ node scripts/build.mjs
 node scripts/balance.mjs
 ```
 
-The static build is written to `dist/`. No package installation is needed. Optional Google Fonts fall back to system fonts when unavailable.
+The static build is written to `dist/`. The locked dependencies bundle the official Supabase client and run the PostgreSQL tests. Optional Google Fonts fall back to system fonts when unavailable.
 
 ## Publish with GitHub Pages
 
@@ -49,3 +51,13 @@ The repository contains only Copper Empire's game source, tests, build tools, an
 Automated checks cover all 52 signatures, seeded solvability at beginner/expert/extreme settings, failure resets, duplicate rewards, exact transactions, migration, tools, progression, bosses, refining, and browser rendering templates. Economic simulations at 70% and 95% independent per-stage success reach R13. They demonstrate reachability, not human playtime; long stage chains require practice.
 
 The original game remains available at `classic.html` with a separate save. Original shared circuit logic, illustrations, and layout are retained in `src/engine.js`, `src/art.js`, and `styles.css`.
+
+## Online upgrade
+
+Optional accounts add unique usernames, private cloud backups, a verified online workshop, worldwide rankings, and a shared copper market that ticks every 10 seconds. Only the latest hour of chart prices is retained. All 52 original games and the original local workshop remain available. Existing local progress is preserved separately from verified online balances.
+
+Run `npm ci` before testing or building. Node 22+ is recommended. The production build bundles the official Supabase client and copies the licensed music; the development server serves its generated SDK from `dist/vendor`. Run `npm run build` once before `npm start`.
+
+See [online setup and security](docs/ONLINE_SETUP.md) for migrations, Edge Function deployment, public environment variables, SMTP setup, transaction/reward validation, polling, and data retention. Public signup email delivery requires a configured SMTP sender; the default Supabase sender is restricted. Do not commit credentials.
+
+Background music: “Dreams Become Real” by Kevin MacLeod, licensed CC BY 4.0. Attribution, source links, permissions, and loop adaptation are recorded in [the music license](assets/music/LICENSE.txt) and shown in game Settings. Music waits for user interaction, preserves volume/on-off, and continues across menus.
