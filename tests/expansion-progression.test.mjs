@@ -44,3 +44,8 @@ test('gold and essence purchases are bounded and duplicate-safe',()=>{
  E.buyGoldEquipment(s,'pan',1);assert.equal(s.gold.balance,9980n);assert.throws(()=>E.buyGoldEquipment(s,'pan',1));assert.throws(()=>E.unlockGoldClaim(s,1));s.gold.recovered=200n;E.buyGoldEquipment(s,'map',1);E.unlockGoldClaim(s,1);assert.deepEqual(s.gold.claims,[0,1]);
  E.buyGoldResearch(s,'contacts');assert.throws(()=>E.buyGoldResearch(s,'contacts'));
 });
+test('an early CE build can always be refunded to unlock advanced research without minting CE',()=>{
+ const s=E.newState();s.ascension.level=1;s.ascension.ce=25;s.gold.unlocked=true;s.gold.research=['contacts'];
+ for(const id of ['extraction','learning','momentum','precision'])E.buyEssence(s,id,1);
+ assert.equal(s.ascension.ce,1);assert.throws(()=>E.buyEssence(s,'master',1));assert.equal(E.refundEssence(s),24);assert.equal(s.ascension.ce,25);assert.equal(E.refundEssence(s),0);assert.equal(s.ascension.ce,25);E.buyEssence(s,'master',1);assert.equal(s.ascension.ce,10);assert.equal(s.ascension.upgrades.master,1);assert.deepEqual(s.gold.research,['contacts']);assert.equal(s.ascension.level,1);
+});
