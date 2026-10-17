@@ -41,7 +41,7 @@ export class OwnerAdminPanel {
  }
  tick(){const q=this.asset==='gold'?this.online.goldMarket:this.online.market;for(const el of this.root.querySelectorAll('[data-owner-countdown]'))el.textContent=Math.max(0,Math.ceil(((q?.next||0)-Date.now()-(this.online.clockOffset||0))/1000))+'s';for(const el of this.root.querySelectorAll('[data-owner-quote]'))el.textContent='$'+((q?.quote||0)/10000).toFixed(4)+'/g';}
  confirm(text,run,description=''){this.confirmation={text,run,description};this.render(true);}
- async refresh(){await this.online.adminStatus();this.render(true);}
+ async refresh(reload=false){await this.online.adminStatus();if(reload&&this.online.active&&!this.h.attempt()&&!this.online.busy&&!this.online.pending){const data=await this.online.load();this.h.apply(data);this.h.render();}this.render(true);}
  async saveAction(payload){const o=this.online;if(!o.active)throw Error('Select Main or Debug Workshop first.');if(this.h.attempt())throw Error('Leave your current attempt before editing or switching saves.');const data=await o.command('admin-save',payload);this.h.apply(data);this.h.render();this.render(true);}
  async market(action,payload={}){const o=this.online,config=o.admin.markets[this.asset];const data=await o.command('admin-market',{asset:this.asset,action,expectedVersion:config.version,...payload});if(data.admin)o.admin=data.admin;await this.h.poll();this.render(true);}
  async action(action,el){
@@ -49,7 +49,7 @@ export class OwnerAdminPanel {
   if(action==='cancel-confirm'){this.confirmation=null;this.render(true);return;}
   if(this.running)return;if(action==='confirm'){const c=this.confirmation;if(!c)return;this.confirmation=null;this.running=true;this.render(true);try{await c.run();}finally{this.running=false;this.render(true);}return;}
   this.error='';const o=this.online;
-  if(action==='refresh'){await this.refresh();return;}
+  if(action==='refresh'){await this.refresh(true);return;}
   if(action==='retry'){const data=await o.retry();if(data.state){this.h.apply(data);this.h.render();}this.render(true);return;}
   if(action.startsWith('switch-')){if(this.h.attempt())throw Error('Leave your current attempt before switching.');if(!o.active)await this.h.enter();await this.saveAction({action:'switch',target:action==='switch-debug'?'debug':'main'});return;}
   if(action==='copy'){await this.refresh();const other=o.slot==='main'?o.admin.debugRevision:o.admin.mainRevision;this.confirm('Replace the Debug Workshop with a copy of Main? Main will not be changed.',()=>this.saveAction({action:'copy',otherRevision:other??0,confirm:true}));return;}
@@ -68,7 +68,7 @@ export class OwnerAdminPanel {
    else if(kind==='gold-claims')p.value=Number(this.value('claim'));
    else if(kind!=='reset-progression')p.value=Number(value??this.value({'rebirth-set':'rebirth','level-set':'level','xp-add':'xp','xp-set':'xp',prestige:'pp',ascension:'ascension','ce-add':'ce','ce-set':'ce'}[kind]));
    const run=()=>this.saveAction({action:'edit',edit:p,confirm:o.slot==='main'});
-   if(o.slot==='main'||kind==='reset-progression')this.confirm(o.slot==='main'?MAIN_WARNING:'Reset the selected Debug Workshop progression?',run,kind+' · '+(p.value??p.id??'reset'));
+   if(o.slot==='main'||kind==='reset-progression')this.confirm(o.slot==='main'?MAIN_WARNING:'Reset the selected Debug Workshop progression?',run,kind==='reset-progression'?'This replaces the selected save with a fresh game, including its gold, upgrades, achievements and statistics. Main keeps its original recovery backup.':kind+' · '+(p.value??p.id??'reset'));
    else await run();return;
   }
   if(action.startsWith('market-')){
