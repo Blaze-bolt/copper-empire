@@ -65,3 +65,7 @@ Run `npm ci` before testing or building. Node 22+ is recommended. The production
 See [online setup and security](docs/ONLINE_SETUP.md) for migrations, Edge Function deployment, public environment variables, SMTP setup, transaction/reward validation, polling, and data retention. Public signup email delivery requires a configured SMTP sender; the default Supabase sender is restricted. Do not commit credentials.
 
 Background music: “Dreams Become Real” by Kevin MacLeod, licensed CC BY 4.0. Attribution, source links, permissions, and loop adaptation are recorded in [the music license](assets/music/LICENSE.txt) and shown in game Settings. Music waits for user interaction, preserves volume/on-off, and continues across menus.
+# Owner controls
+
+The existing owner's floating copper coin opens two persistent cloud workshops, exact save editors, and independent worldwide copper/gold market administration. See [Owner Admin V2](docs/OWNER_ADMIN.md) for access, backups, competitive safeguards, settings, deployment and UUID provisioning.
+

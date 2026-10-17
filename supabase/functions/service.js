@@ -81,8 +81,8 @@ export function transition(s,a,command,p={},now=Date.now()){
   else if(p.side==='buy'&&q===0){const cost=(n*BigInt(s.market.quote)*100n*101n+99n)/100n;if(s.money<cost)throw Error('Not enough money.');s.money-=cost;s.stats.moneySpent+=cost;s.copper[0]+=n;result={side:'buy',amount:n,quality:0,quote:s.market.quote,cost};trade={quote:s.market.quote,volume:n};}
   else throw Error('Unknown trade.');break;
  }
- case 'set-alert':s.market.alert=integer(p.quote,3000,20000);break;
- case 'limit-order':{const n=amount(p.amount),q=integer(p.quality,0,5);if(!s.market.upgrades.includes('terminal')||n>s.copper[q])throw Error('Check the order quantity and terminal upgrade.');s.market.limit={amount:n,quality:q,quote:integer(p.quote,3000,20000)};break;}
+ case 'set-alert':s.market.alert=integer(p.quote,s.market.minimum||3000,s.market.maximum||20000);break;
+ case 'limit-order':{const n=amount(p.amount),q=integer(p.quality,0,5);if(!s.market.upgrades.includes('terminal')||n>s.copper[q])throw Error('Check the order quantity and terminal upgrade.');s.market.limit={amount:n,quality:q,quote:integer(p.quote,s.market.minimum||3000,s.market.maximum||20000)};break;}
  case 'cancel-order':s.market.limit=null;break;
  case 'market-refresh':if(!s.market.upgrades.includes('permit')||now<s.market.refreshAt||s.money<25000n*DOLLAR)throw Error('Check your permit, funds, and cooldown.');s.money-=25000n*DOLLAR;s.stats.moneySpent+=25000n*DOLLAR;s.market.refreshAt=now+60000;trade={quote:s.market.quote,volume:20000000n};result={message:'A shared demand signal was submitted for the next tick. The price is not guaranteed to rise.'};break;
  case 'craft':E.craft(s,id);break;
@@ -119,6 +119,6 @@ export async function handleCommand(db,user,body,now=Date.now()){
  if(loaded.revision!==body.revision)throw Error('SAVE_CONFLICT: Another device changed your workshop. Refresh before continuing.');
  const s=E.expansionDefaults(unpack(loaded.state)),a=unpack(loaded.attempt);const quotes=await db.rpc('empire_quotes',{});Object.assign(s.market,quotes.copper);s.market.history=[];Object.assign(s.goldMarket,quotes.gold);s.goldMarket.history=[];
  const before=E.encode(s);const t=transition(s,a,body.command,body.payload,now);
- if(body.command==='heartbeat'&&before===E.encode(t.state))return {state:pack(t.state),attempt:pack(t.attempt),revision:loaded.revision,result:null};
+ if(body.command==='heartbeat'&&before===E.encode(t.state))return {state:pack(t.state),attempt:pack(t.attempt),revision:loaded.revision,result:null,classification:loaded.classification};
  const committed=await db.rpc('empire_commit_asset',{p_user:user,p_request:body.requestId,p_expected:body.revision,p_state:storedState(t.state),p_attempt:pack(t.attempt),p_result:pack(t.result),p_quote:t.trade?.quote??null,p_volume:t.trade?.volume.toString()??'0',p_asset:t.trade?.asset||'copper'});Object.assign(committed.state.market,quotes.copper);Object.assign(committed.state.goldMarket,quotes.gold);return committed;
 }

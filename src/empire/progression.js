@@ -131,7 +131,7 @@ export function rewardGold(s,a,grade,random){
  const result={gold:true,claim:a.claim,grade,amount,base,xp:0,at:Date.now()};g.history.unshift(result);g.history=g.history.slice(0,50);s.revision++;return result;
 }
 export function tradeGold(s,side,amount,quote){
- if(!s.gold?.unlocked||typeof amount!=='bigint'||amount<=0n||!Number.isInteger(quote)||quote<300000||quote>1800000||quote!==s.goldMarket.quote)throw Error('Review your available gold and current gold quote.');
+ if(!s.gold?.unlocked||typeof amount!=='bigint'||amount<=0n||!Number.isInteger(quote)||quote<1||quote>2000000000||quote!==s.goldMarket.quote)throw Error('Review your available gold and current gold quote.');
  const value=amount*BigInt(quote)*100n;
  if(side==='buy'){const cost=(value*101n+99n)/100n;if(s.money<cost)throw Error('Not enough money.');s.money-=cost;s.stats.moneySpent+=cost;s.gold.balance+=amount;s.revision++;return {gold:true,side,amount,cost,quote};}
  if(side==='sell'){if(s.gold.balance<amount)throw Error('Not enough gold.');s.gold.balance-=amount;s.money+=value;s.stats.moneyEarned+=value;s.run.earned+=value;s.revision++;return {gold:true,side,amount,proceeds:value,quote};}
