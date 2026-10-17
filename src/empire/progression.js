@@ -69,6 +69,11 @@ export function buyEssence(s,id,expectedRank){
  if(!u||!s.ascension.level||rank>=u.max||expectedRank!==rank+1||s.ascension.ce<essenceCost(s,u))throw Error('Check the essence cost, rank, and Ascension requirement.');
  s.ascension.ce-=essenceCost(s,u);s.ascension.upgrades[id]=rank+1;s.revision++;
 }
+export function refundEssence(s){
+ expansionDefaults(s);if(!s.ascension.level)throw Error('Ascend before managing essence skills.');
+ const refund=ESSENCE_UPGRADES.reduce((n,u)=>{const rank=s.ascension.upgrades[u.id]||0;return n+u.cost*rank*(rank+1)/2;},0);
+ s.ascension.upgrades={};s.ascension.ce+=refund;s.revision++;return refund;
+}
 export function permanentBonuses(s){
  const a=s.ascension||{level:0,upgrades:{}},u=a.upgrades,r=s.gold?.research||[],e=s.gold?.equipment||{};
  return {recovery:(ASCENSIONS[a.level]?.recovery||100)*(100+(u.extraction||0)*10+(r.includes('contacts')?10:0)+(r.includes('recovery')?20:0))/100,

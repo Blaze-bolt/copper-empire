@@ -1,5 +1,5 @@
 import * as P from './progression.js';
-export {expansionDefaults,tradeGold,buyCompression,buyEssence,buyGoldEquipment,buyGoldResearch,unlockGoldClaim,effectiveStageCount,ascensionReady,ascensionRequirement} from './progression.js';
+export {refundEssence,expansionDefaults,tradeGold,buyCompression,buyEssence,buyGoldEquipment,buyGoldResearch,unlockGoldClaim,effectiveStageCount,ascensionReady,ascensionRequirement} from './progression.js';
 import {CATALOGUE,deviceById} from './catalogue.js';
 import {DOLLAR,QUALITY,qualityNames,TOOLS,MARKET_UPGRADES,AURAS,RECIPES,RESEARCH,PRESTIGE,FURNACE_UPGRADES,REBIRTH_REQUIREMENTS,BOSSES,seedNow,rng} from './data.js';
 export const SAVE_KEY='copper-empire-v4';
