@@ -1,3 +1,5 @@
+import {createGoldGame,goldAction,tickGoldGame} from './gold-games.js';
+import {createExpansionGame,expansionAction,tickExpansionGame} from './expansion-games.js';
 import {generateCircuit,circuitConnected,circuitUsefulTile,rotate} from '../engine.js';
 import {rng} from './data.js';
 export const colors=['#eea06b','#7bc1ae','#8ca9df','#c291d6','#d6c078','#d47f84'];
@@ -14,6 +16,7 @@ function gearClick(values,i,delta=1){values[i]=(values[i]+delta+4)%4;if(i>0)valu
 function ringClick(values,i,delta,linked){values[i]=(values[i]+delta+360)%360;if(linked&&i<values.length-1)values[i+1]=(values[i+1]+delta+360)%360;}
 export function createGame(id,difficulty=0,seed=1,bonuses={}){
  const random=rng(seed),d=Math.max(0,Math.min(6,difficulty));const g={id,d,seed,status:'active',score:0,reason:'',message:'',elapsed:0,actions:0,errors:0,moves:0,maxMoves:80+(bonuses.moves||0),duration:120*(1+(bonuses.time||0)),bonus:bonuses,selected:null,stable:0};
+ if(id>=101&&id<=107)return createGoldGame(g);if(id>=53&&id<=87)return createExpansionGame(g);
  switch(id){
  case 1:Object.assign(g,{position:.04,direction:1,center:.55,width:Math.min(.7,(.35-d*.025)*(1+(bonuses.width||0))),speed:.5+d*.04,hits:0,required:1+Math.floor(d/2),duration:d===0?0:45*(1+(bonuses.time||0))});break;
  case 2:{const count=3+Math.floor(d/3);Object.assign(g,{pieces:Array.from({length:count},(_,i)=>({id:i,angle:pick(random,6)*60})),targets:Array.from({length:count},()=>pick(random,6)*60),placed:[],duration:100*(1+(bonuses.time||0))});break;}
@@ -79,6 +82,7 @@ function graphValid(g){const reached=new Set([0]);for(let k=0;k<g.nodes;k++)for(
 export function scheduleValid(g){if(g.placements.some(x=>!x))return false;const occupancy=Array.from({length:g.capacity},()=>Array(g.horizon).fill(0));for(let i=0;i<g.jobs.length;i++){const p=g.placements[i],j=g.jobs[i];if(p.row<0||p.start<0||p.row+j.load>g.capacity||p.start+j.duration>g.horizon)return false;for(let r=p.row;r<p.row+j.load;r++)for(let t=p.start;t<p.start+j.duration;t++)if(++occupancy[r][t]>1)return false;}return true;}
 export function gameAction(g,action,payload={}){
  if(g.status!=='active')return g;g.actions++;g.message='';const i=Number(payload.i??0),value=Number(payload.value??0);let valid;
+ if(g.id>=101&&g.id<=107){goldAction(g,action,payload);return g;}if(g.id>=53&&g.id<=87){expansionAction(g,action,payload);return g;}
  if(action==='hint'){const p=g.id===23?g.boards[0]:g.puzzle;if(!p?.solution)return g;const tile=circuitUsefulTile(p);g.hint=tile;g.message=tile===undefined?'The route is ready to test.':`Tile ${tile+1} is part of the path and needs rotation.`;return g;}
  if(action==='replay'){if([5,20,24].includes(g.id)){g.phase='watch';g.input=0;g.watchStart=g.elapsed;g.message='Replay the pattern.';}return g;}
  switch(g.id){
@@ -133,6 +137,7 @@ export function gameAction(g,action,payload={}){
  if(g.status==='active'&&g.moves>g.maxMoves)fail(g,'The challenge ran out of adjustment moves.');return g;
 }
 export function tickGame(g,dt){if(g.status!=='active')return g;g.elapsed+=dt;if(g.duration&&g.elapsed>=g.duration){fail(g,'The challenge timer expired.');return g;}
+ if(g.id>=101&&g.id<=107){tickGoldGame(g,dt);return g;}if(g.id>=53&&g.id<=87){tickExpansionGame(g,dt);return g;}
  if(g.id===1||g.id===52){g.position+=dt*g.speed*g.direction;if(g.position>=.99){g.position=.99;g.direction=-1;}if(g.position<=.01){g.position=.01;g.direction=1;}}
  if(g.id===4){g.stable=waveSimilarity(g)>=.9?g.stable+dt:0;if(g.stable>=2)win(g);}
  if([18,48].includes(g.id)){g.stable=meters(g.values,g.id).every((v,k)=>Math.abs(v-g.target[k])<.55)?g.stable+dt:0;if(g.stable>=3)win(g);}
