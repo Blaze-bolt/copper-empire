@@ -1,4 +1,6 @@
 import test from 'node:test';import assert from 'node:assert/strict';import * as E from '../src/empire/state.js';import {DOLLAR,MG} from '../src/empire/data.js';import {editSave,marketDefaults,validateMarketConfig,priceInteger} from '../supabase/functions/admin-editor.js';import {handleWorkshop} from '../supabase/functions/admin-service.js';import {OnlineWorkshop} from '../src/online/client.js';
+import {formatAuditDetails} from '../src/online/admin-panel.js';
+test('decoded exact-integer audit changes render without breaking the saved-balance panel',()=>{const text=formatAuditDetails(E.decode(E.encode({changed:{money:{before:0n,after:10000000000000n}}})));assert.equal(JSON.parse(text).changed.money.after,'10000000000000');});
 test('money and six copper qualities use exact durable arithmetic; grants do not forge earned records',()=>{
  let s=E.newState();s.money=5000n*DOLLAR;s.copper[0]=750n*MG.g;
  const edit=p=>s=editSave(s,p).state;
