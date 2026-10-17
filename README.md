@@ -1,6 +1,8 @@
 # Copper Empire — Recycling Tycoon
 
-A browser game with 52 electronics, 52 compulsory signature minigames, an exact copper economy, and twelve unlock chapters followed by repeatable prestige.
+A browser game with 87 electronics, 87 compulsory signature minigames, an exact copper/gold economy, 18 Rebirth chapters, and five Ascension levels.
+
+Read the [Ascension and Gold expansion guide](docs/ASCENSION_GOLD.md) for all new costs, bonuses, milestone/reset rules, device values and controls.
 
 Read the [complete player guide](docs/PLAYER_GUIDE.md) for every electronic and signature challenge, exact costs and recovery ranges, progression, workshop systems, accounts, and saves.
 
@@ -14,11 +16,11 @@ Progress saves in the browser. Use Settings to export/import a backup. Localhost
 
 ## Systems
 
-- 52 illustrated electronics and signature challenges, with compulsory stages and skill-based rewards.
+- 87 illustrated electronics and signature challenges, with compulsory stages and skill-based rewards.
 - Exact integer milligrams and nanodollars; six copper qualities and a fictional bounded copper market.
-- 15 tools, crafting, research, aura collection, prestige, contracts, five bosses, and achievements.
+- 15 tools, crafting, research, aura collection, prestige, contracts, six bosses, and achievements.
 - Virtual smelting at Rebirth 5, automation at Rebirth 8, refining at Rebirth 10, and refining research at Rebirth 11.
-- Rebirth trials and explicit reset confirmation. Four new electronics unlock per tier through R12; prestige remains repeatable afterward.
+- Rebirth trials and explicit reset confirmation. Four new electronics unlock per tier through R12; Ascension 1 opens the Gold Operation and eligibility for R13–R18.
 
 All devices, circuits, and furnace activities are stylized game abstractions, without practical electrical disassembly instructions. Local workshops retain browser saves. Verified online workshops use server-checked actions and rewards; imported saves remain local.
 
@@ -50,13 +52,13 @@ The repository contains only Copper Empire's game source, tests, build tools, an
 
 ## Validation
 
-Automated checks cover all 52 signatures, seeded solvability at beginner/expert/extreme settings, failure resets, duplicate rewards, exact transactions, migration, tools, progression, bosses, refining, and browser rendering templates. Economic simulations at 70% and 95% independent per-stage success reach R13. They demonstrate reachability, not human playtime; long stage chains require practice.
+Automated checks cover all 87 signatures and seven panning claims, seeded solvability at beginner/expert/extreme settings, failure resets, duplicate rewards, exact transactions, migration, tools, progression, bosses, refining, and browser rendering templates. Economic simulations at 70% and 95% independent per-stage success reach the R12 Ascension entry. They demonstrate reachability, not human playtime; long stage chains require practice.
 
 The original game remains available at `classic.html` with a separate save. Original shared circuit logic, illustrations, and layout are retained in `src/engine.js`, `src/art.js`, and `styles.css`.
 
 ## Online upgrade
 
-Optional accounts add unique usernames, private cloud backups, a verified online workshop, worldwide rankings, and a shared copper market that ticks every 10 seconds. Only the latest hour of chart prices is retained. All 52 original games and the original local workshop remain available. Existing local progress is preserved separately from verified online balances.
+Optional accounts add unique usernames, private cloud backups, a verified online workshop, worldwide rankings, and a shared copper market that ticks every 10 seconds. Only the latest hour of chart prices is retained. All 52 original games and the original local workshop remain available. The expansion adds 35 exact signatures, permanent Stage Compression, A1–A5, CE skills, gold equipment and Golden Engineering. Existing local progress is preserved separately from verified online balances.
 
 Run `npm ci` before testing or building. Node 22+ is recommended. The production build bundles the official Supabase client and copies the licensed music; the development server serves its generated SDK from `dist/vendor`. Run `npm run build` once before `npm start`.
 
