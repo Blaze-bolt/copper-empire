@@ -1,6 +1,6 @@
 import {createClient} from 'https://esm.sh/@supabase/supabase-js@2.118.0';
 import {handleCommand,pack,storedState} from '../service.js';
-import {newState} from '../../../src/empire/state.js';
+import {newState,expansionDefaults,decode} from '../../../src/empire/state.js';
 const cors={'Access-Control-Allow-Origin':'*','Access-Control-Allow-Headers':'authorization,apikey,content-type,x-client-info','Access-Control-Allow-Methods':'POST,OPTIONS','Content-Type':'application/json'};
 const send=(data,status=200)=>new Response(JSON.stringify(data),{status,headers:cors});
 Deno.serve(async req=>{
@@ -18,7 +18,7 @@ Deno.serve(async req=>{
   const raw=await req.text();if(raw.length>3000000)return send({error:'Request too large'},413);
   const body=JSON.parse(raw);
   const db={rpc:async(name:string,args:unknown)=>{const r=await client.rpc(name,args);if(r.error)throw Error(r.error.message);return r.data;}};
-  if(body.command==='load'){const data=await db.rpc('empire_load',{p_user:user.id,p_initial:storedState(newState())});Object.assign(data.state.market,await db.rpc('empire_quote',{}));return send(data);}
+  if(body.command==='load'){const data=await db.rpc('empire_load',{p_user:user.id,p_initial:storedState(newState())});data.state=pack(expansionDefaults(decode(JSON.stringify(data.state))));const quotes=await db.rpc('empire_quotes',{});Object.assign(data.state.market,quotes.copper);Object.assign(data.state.goldMarket,quotes.gold);return send(data);}
   return send(await handleCommand(db,user.id,body));
  }catch(error){return send({error:error.message||'Request failed'},400);}
 });

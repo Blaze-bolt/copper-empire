@@ -1,3 +1,4 @@
+import {EXPANSION_CATALOGUE,EXPANSION_SIGNATURES} from './expansion-catalogue.js';
 // Exact catalogue and signature descriptions from the supplied v4.0 specification.
 const rows=[
   {
@@ -835,6 +836,8 @@ export const SIGNATURES=[
     "spec": "This must be the most complex signature minigame currently available, but NOT the final challenge of the entire game.\nDisplay an interconnected abstract conversion network containing:\n\t•\tResource tokens.\n\t•\tLogic switches.\n\t•\tRotating pathway tiles.\n\t•\tLimited-capacity nodes.\n\t•\tTiming windows.\n\t•\tOutput targets.\nPlayers must configure the network, route the correct tokens, and trigger the conversion sequence at the appropriate moment.\nWin: Produce all required target outputs while respecting the resource budget, route constraints, and timing windows.\nLose: Exceed the resource budget, make an invalid conversion, or run out of time.\nThis minigame combines logic, planning, and timing into one coherent mechanic.\nIt must have its own proper interface and objective rather than simply playing other minigames in sequence."
   }
 ];
+SIGNATURES.push(...EXPANSION_SIGNATURES);
 export const TIERS=['Beginner','Easy','Normal','Hard','Expert','Master','Extreme'];
 export const CATALOGUE=rows.map(d=>({...d,price:BigInt(d.price),min:BigInt(d.min),max:BigInt(d.max),xp:30+d.rebirth*90+((d.id-1)%4)*25,difficulty:Math.min(6,Math.floor((d.id-1)/8)),tier:TIERS[Math.min(6,Math.floor((d.id-1)/8))],category:['Beginner devices','Compact electronics','Home electronics','Household machinery','Heavy domestic equipment','Industrial foundations','Large machinery','Factory-scale systems','Advanced industrial systems','Massive electrical systems','Gigantic recycling technology','Experimental technology','Next-generation technology'][d.rebirth],stageCount:d.id<=4?(d.id<=2?1:2):d.id<=8?(d.id<=6?2:3):d.id<=16?(d.id<=12?3:4):d.id<=24?(d.id<=20?4:5):d.id<=32?(d.id<=28?5:6):d.id<=40?6+Math.floor((d.id-33)/3):8+Math.floor((d.id-41)/4)}));
+CATALOGUE.push(...EXPANSION_CATALOGUE);
 export const deviceById=id=>CATALOGUE.find(d=>d.id===Number(id));
