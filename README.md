@@ -2,6 +2,8 @@
 
 A browser game with 52 electronics, 52 compulsory signature minigames, an exact copper economy, and twelve unlock chapters followed by repeatable prestige.
 
+Read the [complete player guide](docs/PLAYER_GUIDE.md) for every electronic and signature challenge, exact costs and recovery ranges, progression, workshop systems, accounts, and saves.
+
 ## Play
 
 Open the published GitHub Pages website. Claim a free Small DC Motor, complete its skill challenge, sell the recovered copper, and grow your workshop. Every required challenge must succeed before a disassembly pays. Failures retain the electronic and reset the attempt, with no copper or XP awarded.
