@@ -3,9 +3,9 @@ import {createGame,gameAction,tickGame} from '../../src/empire/games.js';
 import {deviceById} from '../../src/empire/catalogue.js';
 import {BOSSES,QUALITY,DOLLAR} from '../../src/empire/data.js';
 export const pack=x=>JSON.parse(E.encode(x));
-export function storedState(s){const copy=pack(s);copy.market={global:true,upgrades:copy.market.upgrades,alert:copy.market.alert,limit:copy.market.limit,refreshAt:copy.market.refreshAt};return copy;}
+export function storedState(s){const copy=pack(s);copy.goldMarket={global:true};copy.market={global:true,upgrades:copy.market.upgrades,alert:copy.market.alert,limit:copy.market.limit,refreshAt:copy.market.refreshAt};return copy;}
 export const unpack=x=>E.decode(JSON.stringify(x));
-const integer=(n,min=0,max=52)=>{if(!Number.isInteger(n)||n<min||n>max)throw Error('Invalid selection.');return n;};
+const integer=(n,min=0,max=87)=>{if(!Number.isInteger(n)||n<min||n>max)throw Error('Invalid selection.');return n;};
 const amount=x=>{if(typeof x!=='string'||!/^\d{1,110}$/.test(x)||BigInt(x)<=0n)throw Error('Enter a positive, exact copper amount.');return BigInt(x);};
 const seed=()=>crypto.getRandomValues(new Uint32Array(1))[0];
 export function replayStage(attempt,state,events,now=Date.now(),checkpoint=false){
@@ -33,18 +33,18 @@ export function replayStage(attempt,state,events,now=Date.now(),checkpoint=false
  return Math.max(.45,Math.min(g.score,timeScore)-(attempt.replays?.06:0)-g.errors*.02);
 }
 export function transition(s,a,command,p={},now=Date.now()){
- let result=null,trade=null;
+ E.expansionDefaults(s);let result=null,trade=null;
  const id=String(p.id??'');
  if(a&&['active','briefing'].includes(a.status)&&!['launch','stage','checkpoint','fail','begin','heartbeat'].includes(command))throw Error('Finish or leave your current attempt first.');
  switch(command){
  case 'heartbeat':if(!a||!['active','briefing'].includes(a.status))E.background(s,now);break;
  case 'begin':{
-  const n=integer(p.device,1),mode=p.mode||'device';if(!['device','practice','trial','boss','furnace'].includes(mode))throw Error('Unknown attempt.');
+  const n=integer(p.device,1),mode=p.mode||'device';if(!['device','practice','trial','boss','furnace','ascension','gold'].includes(mode))throw Error('Unknown attempt.');
   if(mode==='device'&&n===1&&!s.inventory[1])E.purchaseDevice(s,1);
   const boss=mode==='boss'?BOSSES.find(b=>b.id===p.boss):null;
   const d=deviceById(n);let difficulty=d.difficulty;
   if(mode==='practice')difficulty=integer(p.difficulty,0,6);
-  if(mode==='trial')difficulty=Math.min(6,Math.floor(s.rebirth/2));
+  if(mode==='ascension'||mode==='gold')difficulty=6;if(mode==='trial')difficulty=Math.min(6,Math.floor(s.rebirth/2));
   if(mode==='boss'){if(!boss)throw Error('Unknown boss.');difficulty=boss.difficulty;}
   if(p.expert){if(s.rebirth<4)throw Error('Expert unlocks at Rebirth 4.');difficulty=Math.max(4,difficulty);}
   if(a&&['active','briefing'].includes(a.status)){a.status='active';E.stageFail(s,a);}
@@ -53,7 +53,7 @@ export function transition(s,a,command,p={},now=Date.now()){
    a={id:crypto.randomUUID(),mode,job:id,device:1,stages:[1],index:0,scores:[],status:'briefing',seed:seed(),difficulty:1,hints:0,replays:0,paid:false};
   }else a=E.begin(s,n,{mode,difficulty,seed:seed(),boss});break;
  }
- case 'launch':if(a?.status!=='briefing')throw Error('No challenge to launch.');a.status='active';a.launchedAt=now;delete a.checkpoint;{const n=a.stages[a.index];if(!s.encountered.includes(n))s.encountered.push(n);}break;
+ case 'launch':if(a?.status!=='briefing')throw Error('No challenge to launch.');a.status='active';a.launchedAt=now;delete a.checkpoint;{const n=a.stages[a.index];if(n<=87&&!s.encountered.includes(n))s.encountered.push(n);}break;
  case 'checkpoint':if(p.attempt!==a?.id||p.index!==a.index)throw Error('This stage is no longer current.');replayStage(a,s,p.events,now,true);break;
  case 'stage':{
   if(p.attempt!==a?.id||p.index!==a.index)throw Error('This stage is no longer current.');
@@ -64,17 +64,24 @@ export function transition(s,a,command,p={},now=Date.now()){
   }break;
  }
  case 'fail':if(a&&['active','briefing'].includes(a.status)){a.status='active';E.stageFail(s,a);}break;
+ case 'compression':E.buyCompression(s,integer(p.rank,1,7));break;
+ case 'essence':E.buyEssence(s,id,integer(p.rank,1,5));break;
+ case 'gold-equipment':E.buyGoldEquipment(s,id,integer(p.rank,1,5));break;
+ case 'gold-research':E.buyGoldResearch(s,id);break;
+ case 'gold-claim':E.unlockGoldClaim(s,integer(Number(id),1,6));break;
+ case 'confirm-ascension':result=E.confirmAscension(s);break;
  case 'purchase':E.purchaseDevice(s,integer(Number(id),1));break;
  case 'tool':E.buyTool(s,id);break;
  case 'market-upgrade':E.buyMarket(s,id);break;
  case 'trade':{
+  if(p.asset==='gold'){const n=amount(p.amount);if(p.quote!==s.goldMarket.quote)throw Error('QUOTE_CHANGED: Review the new gold price.');result=E.tradeGold(s,p.side,n,p.quote);trade={quote:p.quote,volume:p.side==='buy'?n:-n,asset:'gold'};break;}if(p.asset&&p.asset!=='copper')throw Error('Unknown market asset.');
   const q=integer(p.quality??0,0,5),n=amount(p.amount);if(p.quote!==s.market.quote)throw Error('QUOTE_CHANGED: Review the new price.');
   if(p.side==='sell'){result={side:'sell',amount:n,quality:q,quote:s.market.quote,proceeds:E.sell(s,n,q)};trade={quote:s.market.quote,volume:-n};}
   else if(p.side==='buy'&&q===0){const cost=(n*BigInt(s.market.quote)*100n*101n+99n)/100n;if(s.money<cost)throw Error('Not enough money.');s.money-=cost;s.stats.moneySpent+=cost;s.copper[0]+=n;result={side:'buy',amount:n,quality:0,quote:s.market.quote,cost};trade={quote:s.market.quote,volume:n};}
   else throw Error('Unknown trade.');break;
  }
- case 'set-alert':s.market.alert=integer(p.quote,3000,10000);break;
- case 'limit-order':{const n=amount(p.amount),q=integer(p.quality,0,5);if(!s.market.upgrades.includes('terminal')||n>s.copper[q])throw Error('Check the order quantity and terminal upgrade.');s.market.limit={amount:n,quality:q,quote:integer(p.quote,3000,10000)};break;}
+ case 'set-alert':s.market.alert=integer(p.quote,3000,20000);break;
+ case 'limit-order':{const n=amount(p.amount),q=integer(p.quality,0,5);if(!s.market.upgrades.includes('terminal')||n>s.copper[q])throw Error('Check the order quantity and terminal upgrade.');s.market.limit={amount:n,quality:q,quote:integer(p.quote,3000,20000)};break;}
  case 'cancel-order':s.market.limit=null;break;
  case 'market-refresh':if(!s.market.upgrades.includes('permit')||now<s.market.refreshAt||s.money<25000n*DOLLAR)throw Error('Check your permit, funds, and cooldown.');s.money-=25000n*DOLLAR;s.stats.moneySpent+=25000n*DOLLAR;s.market.refreshAt=now+60000;trade={quote:s.market.quote,volume:20000000n};result={message:'A shared demand signal was submitted for the next tick. The price is not guaranteed to rise.'};break;
  case 'craft':E.craft(s,id);break;
@@ -105,12 +112,12 @@ export function transition(s,a,command,p={},now=Date.now()){
 }
 export async function handleCommand(db,user,body,now=Date.now()){
  if(!/^[0-9a-f-]{36}$/i.test(body.requestId||'')||!Number.isSafeInteger(body.revision))throw Error('Invalid request identity.');
- const receipt=await db.rpc('empire_receipt',{p_user:user,p_request:body.requestId});if(receipt){Object.assign(receipt.state.market,await db.rpc('empire_quote',{}));return receipt;}
+ const receipt=await db.rpc('empire_receipt',{p_user:user,p_request:body.requestId});if(receipt){const quotes=await db.rpc('empire_quotes',{});receipt.state=pack(E.expansionDefaults(unpack(receipt.state)));Object.assign(receipt.state.market,quotes.copper);Object.assign(receipt.state.goldMarket,quotes.gold);return receipt;}
  const initial=E.newState(now);initial.market.global=true;
  const loaded=await db.rpc('empire_load',{p_user:user,p_initial:storedState(initial)});
  if(loaded.revision!==body.revision)throw Error('SAVE_CONFLICT: Another device changed your workshop. Refresh before continuing.');
- const s=unpack(loaded.state),a=unpack(loaded.attempt);const quote=await db.rpc('empire_quote',{});Object.assign(s.market,quote);s.market.history=[];
+ const s=E.expansionDefaults(unpack(loaded.state)),a=unpack(loaded.attempt);const quotes=await db.rpc('empire_quotes',{});Object.assign(s.market,quotes.copper);s.market.history=[];Object.assign(s.goldMarket,quotes.gold);s.goldMarket.history=[];
  const before=E.encode(s);const t=transition(s,a,body.command,body.payload,now);
  if(body.command==='heartbeat'&&before===E.encode(t.state))return {state:pack(t.state),attempt:pack(t.attempt),revision:loaded.revision,result:null};
- const committed=await db.rpc('empire_commit',{p_user:user,p_request:body.requestId,p_expected:body.revision,p_state:storedState(t.state),p_attempt:pack(t.attempt),p_result:pack(t.result),p_quote:t.trade?.quote??null,p_volume:t.trade?.volume.toString()??'0'});Object.assign(committed.state.market,quote);return committed;
+ const committed=await db.rpc('empire_commit_asset',{p_user:user,p_request:body.requestId,p_expected:body.revision,p_state:storedState(t.state),p_attempt:pack(t.attempt),p_result:pack(t.result),p_quote:t.trade?.quote??null,p_volume:t.trade?.volume.toString()??'0',p_asset:t.trade?.asset||'copper'});Object.assign(committed.state.market,quotes.copper);Object.assign(committed.state.goldMarket,quotes.gold);return committed;
 }
