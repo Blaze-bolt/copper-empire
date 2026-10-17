@@ -64,6 +64,7 @@ export function transition(s,a,command,p={},now=Date.now()){
   }break;
  }
  case 'fail':if(a&&['active','briefing'].includes(a.status)){a.status='active';E.stageFail(s,a);}break;
+ case 'refund-essence':result={refunded:E.refundEssence(s)};break;
  case 'compression':E.buyCompression(s,integer(p.rank,1,7));break;
  case 'essence':E.buyEssence(s,id,integer(p.rank,1,5));break;
  case 'gold-equipment':E.buyGoldEquipment(s,id,integer(p.rank,1,5));break;
