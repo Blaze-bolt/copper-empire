@@ -1,13 +1,13 @@
 # Copper Empire — Complete Game Guide
 
-An explanation of the current game, checked against its source on 17 October 2026. This describes implemented features, rather than the additional gameplay ideas discussed for future updates.
+An explanation of the current game, checked against its source on 17 October 2026. The [Ascension and Gold expansion guide](ASCENSION_GOLD.md) covers devices #53–87, their 35 signature games, permanent Stage Compression, A1–A5, Gold Operation and the two worldwide markets. This describes implemented features, rather than the additional gameplay ideas discussed for future updates.
 
 Play at [Copper Empire](https://blaze-bolt.github.io/copper-empire/).
 
 ### Reading map
 
 - [Game overview](#1-what-the-game-is), [getting started](#2-your-first-recovery-and-the-main-gameplay-loop), and [disassembly rules](#3-how-a-disassembly-attempt-works).
-- [Rewards and grades](#4-recovery-rewards-grades-and-experience) and [all 52 electronics and minigames](#5-all-52-electronics-and-signature-minigames).
+- [Rewards and grades](#4-recovery-rewards-grades-and-experience) and [all 52 electronics and minigames](#5-all-52-original-electronics-and-signature-minigames).
 - [Market](#6-the-copper-market), [tools](#7-tools-and-workshop-improvements), [crafting](#8-crafting-and-research), and [auras](#9-auras-and-discovery-luck).
 - [Rebirth](#10-rebirth-and-chapter-progression), [prestige](#11-prestige-skill-tree), and [bosses](#12-boss-machines).
 - [Smelting](#13-smelting), [automation](#14-automation), and [refining](#15-industrial-refining).
@@ -20,7 +20,7 @@ Copper Empire is a skill-based recycling tycoon. You start with an empty wallet,
 
 The game combines an active arcade collection game with a growing workshop economy. Owning an expensive machine is only the beginning: you must complete its entire disassembly attempt to earn the recovery. Repeated clicks, automation, and purchased upgrades do not provide automatic victories.
 
-There are 52 electronics and 52 associated signature minigames. Four electronics belong to the starting chapter, with four more introduced at each rebirth through Rebirth 12. Rebirth continues afterward, but there are currently no additional authored electronics beyond number 52.
+There are 87 electronics and 87 associated signature minigames. The original 52 span R0–R12. Ascension 1 opens the Gold Operation and eligibility for R13–R18, with 35 additional authored electronics. R18 is the final chapter.
 
 Every device, quantity, circuit, pressure gauge, and processing system is part of a fictional simulator. The game does not teach real electrical disassembly, wiring, or furnace operation. Its money is game currency with no real-money cash-out.
 
@@ -49,7 +49,7 @@ Your workshop lets you select an owned device and review the attempt before star
 
 Every device has a signature minigame, listed in the catalogue below. For a multi-stage recovery, the game also selects earlier signatures as supporting stages and finishes with the selected device's own signature. Ordinary device attempts choose supporting signatures without repeating them within that selection.
 
-Completing a stage unlocks the next briefing. It does not award a partial recovery. Every required stage must succeed before the electronic pays copper or XP. The displayed stage count can be reduced for eligible devices by the Advanced Workbench, but the final signature still remains compulsory.
+Completing a stage unlocks the next briefing. It does not award a partial recovery. Every required stage must succeed before the electronic pays copper or XP. Permanent Stage Compression and the Advanced Workbench can reduce supporting stages. Current-chapter electronics with at least three authored stages retain a minimum of three; older chapters retain at least one. The final signature remains compulsory.
 
 ### Failure and retrying
 
@@ -63,7 +63,7 @@ The current difficulty labels are Beginner, Easy, Normal, Hard, Expert, Master, 
 
 Difficulty changes challenge-specific settings such as target width, indicator speed, sequence length, grid size, linked controls, reaction demands, and required successes. Timed challenges also become shorter as their selected difficulty rises. Some puzzles emphasize logic and move budgets instead of rapid input.
 
-Controls include mouse, touch, keyboard, sliders, and onscreen buttons as appropriate to each challenge. Timing games use Space; tracing and positioning challenges provide directional alternatives. Read the stage instructions because controls vary across all 52 signatures.
+Controls include mouse, touch, keyboard, sliders, and onscreen buttons as appropriate to each challenge. Timing games use Space; tracing and positioning challenges provide directional alternatives. Read the stage instructions because controls vary across all 87 signatures.
 
 Escape pauses an active challenge. Leaving the browser tab pauses active minigame simulation. Processing jobs and the world market use elapsed time independently; returning to a tab does not rewind the world's price clock.
 
@@ -111,11 +111,13 @@ Successful ordinary recoveries also have a 35% chance of a salvaged part and a s
 
 ### Units and levels
 
-Copper quantities use whole milligrams: 1 g = 1,000 mg, 1 kg = 1,000 g, 1 t = 1,000 kg, and 1 kt = 1,000 t. Display units grow with your inventory. Custom trades support these units and reject quantities smaller than 1 mg. Wallet accounting also uses exact internal units, so large late-game quantities do not rely on rounded display balances.
+Copper quantities use whole milligrams: 1 g = 1,000 mg, 1 kg = 1,000 g, 1 t = 1,000 kg, and 1 kt = 1,000 t, and 1 Mt = 1,000 kt. Display units grow with your inventory. Custom trades support these units and reject quantities smaller than 1 mg. Wallet accounting also uses exact internal units, so large late-game quantities do not rely on rounded display balances.
 
 Your level is determined by XP. Level 2 starts at 20 XP, level 3 at 80 XP, level 4 at 180 XP, and level 5 at 320 XP. In general, reaching level N requires 20 × (N − 1)² XP. Current XP and level reset on rebirth.
 
-## 5. All 52 electronics and signature minigames
+## 5. All 52 original electronics and signature minigames
+
+Devices #53–87 and their exact controls appear in the [expansion catalogue](ASCENSION_GOLD.md#exact-new-catalogue).
 
 The tables give undiscounted electronic prices, base recovery ranges, unmodified XP rewards, and ordinary stage counts before the workbench reduction. “Level” means current-run player level. Each listed signature is compulsory for its device; the stage total can also include earlier signatures.
 
@@ -450,7 +452,7 @@ Open both input gates and connect the converter route. Each batch consumes 2 A +
 
 ### Shared prices and trading
 
-The world market has one shared Standard-copper price, bounded between $0.30 and $1.00 per gram. Its backend price clock advances every 10 seconds. Players see a live line chart of the most recent hour, with previous price, hourly high, hourly low, and a countdown to the next update.
+The world market has one shared Standard-copper price, bounded between $0.30 and $2.00 per gram. Its backend price clock advances every 10 seconds. Players see a live line chart of the most recent hour, with previous price, hourly high, hourly low, and a countdown to the next update.
 
 The price model combines industrial demand, shared variation, and bounded player influence. Purchases add demand and sales add supply for subsequent ticks. Each player has a limited influence and at most six trades per tick. This is a shared simulated market with a market maker; it is not a player-to-player order book.
 
@@ -561,7 +563,7 @@ You must then complete the rebirth skill trial. A failed trial pays nothing and 
 | 11 | 26 | $6,000,000,000 | Earn 3 S grades |
 | 12 | 28 | $40,000,000,000 | Complete a master recycling challenge |
 
-For Rebirth 2, S grades count toward the requirement for two A-or-better completions. The “industrial boss” condition for Rebirth 10 specifically accepts Mega Generator or Copper Colossus. The “master recycling challenge” condition for Rebirth 12 and later specifically requires a Copper Colossus completion in the current run.
+For Rebirth 2, S grades count toward the requirement for two A-or-better completions. The “industrial boss” condition for Rebirth 10 specifically accepts Mega Generator or Copper Colossus. The “master recycling challenge” condition for Rebirth 12 specifically requires a Copper Colossus completion in the current run.
 
 Trials draw from currently unlocked signatures. Their stage counts progress through 3, 3, 4, 4, 5, 5, 6, 7, 7, 8, 9, and 10 for the first twelve rebirths. These trial chains can repeat a selected signature. Trial difficulty also rises with progression.
 
@@ -575,7 +577,7 @@ Your rebirth level and unlocked chapters, unspent Prestige Points, prestige rank
 
 Each confirmed rebirth awards a number of Prestige Points equal to the new rebirth number: R1 gives 1 PP, R2 gives 2 PP, and so on. The first twelve give 78 PP in total before spending.
 
-Beyond R12, all 52 devices remain authored content and prestige continues. R13 requires level 30 and $80 billion earned that run; later rebirths increase the level requirement by two and double the earnings target each chapter. The trial remains ten stages, with the current-run Copper Colossus condition. There is no additional catalogue of unimplemented machines hidden after device #52.
+After R12, first complete Ascension 1, then rebuild to R12 to become eligible for R13–R18. Exact gold, level, earnings and gameplay milestones are listed in the [expansion guide](ASCENSION_GOLD.md#r13r18). Ordinary Rebirth preserves gold and permanent Ascension progress.
 
 ## 11. Prestige skill tree
 
@@ -732,7 +734,7 @@ An online completion is checked before its reward is accepted. Retrying the same
 
 ### Leaderboard
 
-World Leaderboard displays the top 100 verified recyclers. Ordering prioritizes rebirth, then completed recoveries, then lifetime recovered copper; player level is shown as additional information. It displays usernames, rebirths, levels, recoveries, and recovered copper.
+World Leaderboard displays the top 100 verified recyclers. Ordering prioritizes Ascension, rebirth, completed recoveries, then lifetime recovered copper. It displays usernames, Ascensions, rebirths, levels, recoveries, recovered copper and lifetime panned gold.
 
 Buying copper is not a recovery. Imported local backups do not enter the rankings. The page refreshes periodically while open and also offers a manual refresh. The current game has public rankings and a shared economy, but no co-op disassembly session or direct player-to-player trading interface.
 
@@ -753,7 +755,7 @@ The original prototype is also retained at `classic.html` with its own separate 
 | Menu | Purpose |
 | --- | --- |
 | Dashboard | Current copper, wallet, level, rebirth, a featured device, market preview, and next milestones. |
-| Electronics Shop | Browse the 52 electronics; inspect locks, prices, recovery ranges, and stage counts; buy eligible devices. |
+| Electronics Shop | Browse the 87 electronics; inspect locks, prices, recovery ranges, and stage counts; buy eligible devices. |
 | Disassembly Workshop | Select owned electronics, review compulsory stages, and start ordinary or eligible expert recoveries. |
 | Practice Room | Rehearse encountered signatures at a chosen difficulty without consuming devices or earning rewards. |
 | Copper Inventory | Review copper by quality and inspect your resource holdings. |
@@ -787,3 +789,8 @@ There are currently no scrapyard expeditions, route-based exploration, co-op rec
 This guide was checked against the current catalogue, game instructions, workshop state/economy rules, page definitions, and online service implementation. Exact tables are generated from those definitions. It is a player guide, not a claim that new features were added or that a new full end-to-end test run was performed while writing it.
 
 See [backend setup](ONLINE_SETUP.md) for deployment details and [the validation record](VALIDATION.md) for the implementation's recorded tests.
+
+
+## 23. Ascension, Stage Compression and Gold Operation
+
+The [complete expansion guide](ASCENSION_GOLD.md) documents all new devices and controls, the reset confirmation, exact permanent upgrade costs and bonuses, panning, Golden Engineering, R13–R18 milestones and both server-authoritative markets. Gold is stored in integer milligrams and survives both kinds of reset; market purchases never count toward lifetime panning milestones.

@@ -1,3 +1,5 @@
+import {goldView,GOLD_HELP} from './gold-games.js';
+import {expansionView,EXPANSION_HELP} from './expansion-ui.js';
 import {icon} from '../art.js';
 import {colors,meters,waveSimilarity,balanceError,gatesOutput} from './games.js';
 export const HOW_TO=[null,
@@ -54,6 +56,7 @@ export const HOW_TO=[null,
 'Allocate four shared resources among three live systems. Meet each task requirement and allow cooling. Complete eight tasks before three deadlines or an overheat.',
 'Open both input gates and connect the converter route. Each batch consumes 2 A + 1 B. Produce exactly one Y and one Z, respecting capacity, and trigger conversions in the green timing window.'
 ];
+HOW_TO.push(...EXPANSION_HELP);for(let id=101;id<=107;id++)HOW_TO[id]=GOLD_HELP;
 const B=(action,label,i=null,value=null,extra='')=>`<button type="button" class="game-button" data-g="${action}" ${i!==null?`data-i="${i}"`:''} ${value!==null?`data-value="${value}"`:''} ${extra}>${label}</button>`;
 const digit=v=>['○','◇','△','✦','☾','□'][v%6];
 const slot=(action,i,label,extra='')=>`<button class="puzzle-cell" data-g="${action}" data-i="${i}" ${extra}>${label}</button>`;
@@ -66,7 +69,7 @@ function arrows(p,g,start=0,end=p.size*p.size-1){return grid(p.arrows.map((a,i)=
 const progress=(n,total,label='')=>`<div class="game-count"><strong>${n} <small>/ ${total}</small></strong><span>${label}</span></div>`;
 function ring(angle,color='#e49b66',radius=72){return `<circle cx="100" cy="100" r="${radius}" fill="none" stroke="#3c4548" stroke-width="9"/><circle cx="100" cy="${100-radius}" r="6" fill="${color}" transform="rotate(${angle} 100 100)"/>`;}
 function graph(g){const coords=Array.from({length:g.nodes},(_,i)=>({x:55+(i%4)*145,y:55+Math.floor(i/4)*135}));return `<svg viewBox="0 0 550 250" class="network-svg" role="img" aria-label="Energy network">${g.edges.map(([a,b,c],i)=>`<line x1="${coords[a].x}" y1="${coords[a].y}" x2="${coords[b].x}" y2="${coords[b].y}" stroke="${g.chosen.includes(i)?'#ec9a60':'#465150'}" stroke-width="${g.chosen.includes(i)?4:2}"/><text x="${(coords[a].x+coords[b].x)/2}" y="${(coords[a].y+coords[b].y)/2-8}" fill="#9ba7a6" font-size="13">${c}</text>`).join('')}${coords.map((p,i)=>`<circle cx="${p.x}" cy="${p.y}" r="24" fill="${i===0?'#725033':'#303b3d'}" stroke="${g.targets.includes(i)?'#96b5a3':'#64716d'}"/><text x="${p.x}" y="${p.y+5}" fill="#e3e8df" font-size="14" text-anchor="middle">${i}${g.targets.includes(i)?'✦':''}</text>`).join('')}</svg>`;}
-export function gameView(g){let scene='',controls='';const test=(label='Check solution')=>B('test',label);const select=(i,label)=>B('select',label,i,null,`draggable="true" data-drag="${i}" aria-pressed="${g.selected===i}"`);const pool=items=>`<div class="game-tray">${items.join('')}</div>`;
+export function gameView(g){if(g.id>=101&&g.id<=107)return goldView(g);if(g.id>=53&&g.id<=87)return expansionView(g);let scene='',controls='';const test=(label='Check solution')=>B('test',label);const select=(i,label)=>B('select',label,i,null,`draggable="true" data-drag="${i}" aria-pressed="${g.selected===i}"`);const pool=items=>`<div class="game-tray">${items.join('')}</div>`;
  switch(g.id){
  case 1:scene=`${progress(g.hits,g.required,'precision stops')}<div class="large-timing"><div class="precision-zone" style="left:${(g.center-g.width/2)*100}%;width:${g.width*100}%"><span>TARGET</span></div><i style="left:${g.position*100}%"></i></div><div class="ruler">0 ┈┈┈ 25 ┈┈┈ 50 ┈┈┈ 75 ┈┈┈ 100</div>`;controls=B('hit',`${icon('target')} Lock it in <kbd>SPACE</kbd>`);break;
  case 2:scene=`<div class="blade-layout"><div class="fan-hub">●</div>${g.pieces.map((p,i)=>`<button class="blade-slot ${g.placed.includes(i)?'filled':''}" data-g="slot" data-drop="slot" data-i="${i}" style="--a:${i*360/g.pieces.length}deg" aria-label="Blade ${i+1} slot, target angle ${g.targets[i]} degrees"><span style="transform:rotate(${g.targets[i]}deg)">◕</span><small>${i+1} · ${g.targets[i]}°</small></button>`).join('')}</div>${pool(g.pieces.map((p,i)=>select(i,`<span style="display:inline-block;transform:rotate(${p.angle}deg)">◕</span> ${i+1} · ${p.angle}°`)))}`;controls=B('rotate','Rotate selected blade +60°')+progress(g.placed.length,g.pieces.length,'blades fitted');break;
