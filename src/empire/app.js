@@ -3,6 +3,7 @@ import {GOLD_CLAIMS} from './progression.js';
 import * as E from './state.js';
 import {OnlineWorkshop} from '../online/client.js';
 import {OwnerAdminPanel} from '../online/admin-panel.js';
+import {paintQuotes} from '../online/market-ui.js';
 import {accountView,leaderboardView,globalMarketExtras} from '../online/views.js';
 import {music} from '../online/music.js';
 import {CATALOGUE,SIGNATURES,deviceById} from './catalogue.js';
@@ -201,7 +202,7 @@ document.addEventListener('input',event=>{if(event.target.matches('[data-music-v
 let onlinePolling=false,lastCloudPoll=0,lastBoardPoll=0,marketPollTimer;
 
 async function pollOnline(){ownerPanel?.tick();if(document.hidden||onlinePolling||!online.client)return;onlinePolling=true;try{
- const previous=state.market.quote,market=await online.pollMarket(ui.page==='market',ui.page==='gold');Object.assign(state.market,market);if(online.goldMarket)Object.assign(state.goldMarket,online.goldMarket);$('[data-market-price]').forEach(el=>el.textContent=(state.market.quote/10000).toFixed(4));$('[data-gold-price]').forEach(el=>el.textContent=(state.goldMarket.quote/10000).toFixed(4));const sale=$('[data-sale-preview]');if(sale)sale.textContent=money(E.saleValue(state.copper[ui.quality],state.market.quote,ui.quality));if(!attempt){const copperChart=$('.market-full .market-chart')||$('.market-preview .market-chart');if(copperChart)copperChart.outerHTML=chart(state,ui.page==='market');const goldChartHost=$('[data-gold-chart]');if(goldChartHost)syncHTML(goldChartHost,goldChart(state.goldMarket));}
+ const previous=state.market.quote,market=await online.pollMarket(ui.page==='market',ui.page==='gold');Object.assign(state.market,market);if(online.goldMarket)Object.assign(state.goldMarket,online.goldMarket);paintQuotes(document,state.market.quote,state.goldMarket.quote);const sale=$('[data-sale-preview]');if(sale)sale.textContent=money(E.saleValue(state.copper[ui.quality],state.market.quote,ui.quality));if(!attempt){const copperChart=$('.market-full .market-chart')||$('.market-preview .market-chart');if(copperChart)copperChart.outerHTML=chart(state,ui.page==='market');const goldChartHost=$('[data-gold-chart]');if(goldChartHost)syncHTML(goldChartHost,goldChart(state.goldMarket));}
  if(previous<state.market.alert&&market.quote>=state.market.alert&&state.market.upgrades.includes('alerts'))toast('Shared price alert: copper reached '+String.fromCharCode(36)+(market.quote/10000).toFixed(4)+'/g.');
  if(online.active&&!attempt&&!online.busy&&!online.pending&&!ownerPanel?.confirmation&&Date.now()-lastCloudPoll>=20000){const data=await online.command('heartbeat');applyCloud(data);lastCloudPoll=Date.now();}
  if(online.admin?.owner&&ownerPanel?.open&&!online.busy)await online.adminStatus();ownerPanel?.render();if(ui.page==='leaderboards'&&Date.now()-lastBoardPoll>=30000){await online.pollRankings();lastBoardPoll=Date.now();}
