@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import * as E from '../src/empire/state.js';
 import {CATALOGUE} from '../src/empire/catalogue.js';
 import {DOLLAR,TOOLS,BOSSES,rng} from '../src/empire/data.js';
-export function simulate(probability,seed=2026,chapters=13){
+export function simulate(probability,seed=2026,chapters=12){
  const random=rng(seed),s=E.newState(0),report=[];let stages=0,attempts=0,failures=0;
  function attempt(id,options={}){const a=E.begin(s,id,{...options,seed:Math.floor(random()*2**32)});attempts++;const score=random()<(probability===.95?.75:.15)?1:.88;while(a.status!=='complete'){a.status='active';stages++;if(random()>probability){E.stageFail(s,a);failures++;return false;}E.stagePass(a,score);}E.reward(s,a,random);return true;}
  for(let chapter=0;chapter<chapters;chapter++){
