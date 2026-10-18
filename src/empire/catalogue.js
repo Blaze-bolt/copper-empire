@@ -551,7 +551,7 @@ export const SIGNATURES=[
     "id": 5,
     "name": "Vibration Pattern Memory",
     "device": "Phone Vibration Motor",
-    "spec": "Display a sequence of short and long pulses using an animated indicator.\nThe player watches and then reproduces the sequence using a single button.\nShort taps represent short pulses; holding represents long pulses.\nWin: Reproduce the complete pattern within the allowed timing tolerance.\nLose: Enter an incorrect pulse or exceed the timer.\nMake the interaction work without actual device vibration hardware."
+    "spec": "Display a sequence of short and long pulses using an animated indicator.\nThe player watches and then reproduces the sequence using separate SHORT and LONG buttons or S / L keys.\nEach press submits one symbol immediately; holding is unnecessary.\nWin: Reproduce the complete pattern in the correct order.\nLose: Enter an incorrect pulse or exceed the timer.\nMake the interaction work without actual device vibration hardware."
   },
   {
     "id": 6,
