@@ -69,3 +69,7 @@ Background music: “Dreams Become Real” by Kevin MacLeod, licensed CC BY 4.0.
 
 The existing owner's floating copper coin opens two persistent cloud workshops, exact save editors, and independent worldwide copper/gold market administration. See [Owner Admin V2](docs/OWNER_ADMIN.md) for access, backups, competitive safeguards, settings, deployment and UUID provisioning.
 
+
+## Audio, pulse controls and expanded smelting (5.2)
+
+Read the [complete update guide](AUDIO_SMELTING_UPDATE.md) for the five supplied background tracks, four live audio channels, SHORT/LONG pulse controls, geometric capacity ranks 0–12, finite paid batch queues, Furnace Mastery, exact upgrade costs, save compatibility and verification.
