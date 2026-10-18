@@ -58,7 +58,7 @@ export function transition(s,a,command,p={},now=Date.now()){
   if(p.attempt!==a?.id||p.index!==a.index)throw Error('This stage is no longer current.');
   const score=replayStage(a,s,p.events,now);E.stagePass(a,score);
   if(a.status==='complete'){
-   if(a.mode==='furnace'){const job=s.furnace.jobs.find(j=>j.id===a.job);if(job&&now<job.ends)E.furnaceBonus(s,job,now);a.paid=true;result={furnace:true};}
+   if(a.mode==='furnace'){const job=s.furnace.jobs.find(j=>j.id===a.job),saved=E.furnaceBonus(s,job,now);a.paid=true;result={furnace:true,secondsSaved:saved/1000};}
    else result=E.reward(s,a);
   }break;
  }
