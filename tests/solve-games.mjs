@@ -12,7 +12,7 @@ case 1:while(g.status==='active'){while(Math.abs(g.position-g.center)>.015&&g.st
 case 2:for(let i=0;i<g.pieces.length;i++){act(g,'select',i);while(g.pieces[i].angle!==g.targets[i])act(g,'rotate');act(g,'slot',i);}break;
 case 3:for(const m of g.undo){act(g,'cell',m.from);act(g,'cell',m.to);}act(g,'test');break;
 case 4:case 6:case 18:case 48:{const values=g.secret||g.target;values.forEach((v,i)=>act(g,'slider',i,v));if(g.id===6)act(g,'test');else advance(g,3.1);break;}
-case 5:advance(g,g.watchLength+.1);for(const duration of g.sequence){if(recording)advance(g,duration);A(g,'pulse',{duration});}break;
+case 5:advance(g,g.watchLength+.1);for(const duration of g.sequence){A(g,'pulse',{value:duration>.5?1:0});}break;
 case 7:for(let i=0;i<g.puzzle.arrows.length;i++)while(g.puzzle.arrows[i]!==g.puzzle.target[i])act(g,'tile',i);act(g,'test');break;
 case 8:circuit(g,g.puzzle);act(g,'test');break;
 case 9:case 11:for(let t=0;t<10000&&g.status==='active';t++){for(const o of g.objects)if(!o.hit&&!o.miss&&g.elapsed>=o.born&&g.elapsed<o.born+6){if(g.id===9){if(o.kind===g.target)act(g,'target',o.id);}else{act(g,'select',o.id);act(g,'bin',o.kind);}}advance(g,.05);}break;
