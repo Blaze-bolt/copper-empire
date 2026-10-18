@@ -63,6 +63,7 @@ async function action(name,el){try{if(verifying)throw Error('Your challenge is b
  case 'pause':setPaused(true);return;
  case 'resume':setPaused(false);return;
  case 'close':if(game){setPaused(true);return;}close();return;
+ case 'inspect-model':{const d=deviceById(ui.selected);modal(`<div class="result-screen"><div class="modal-eyebrow">PHYSICAL MODEL · CE—${String(d.id).padStart(3,'0')}</div><h2 id="modal-title">${d.name}</h2><div class="enlarged-industrial-model">${illustration(d,'inspection')}</div><p>Fictional salvage equipment. The visible housings, copper windings, supports and cooling machinery belong to this device’s individual model.</p>${backButton()}</div>`,'model-modal');return;}
  case 'abandon':if(attempt){if(!game){attempt.status='active';game={status:'failed',reason:'You left before every required challenge was complete.'};}else{game.status='failed';game.reason='You left before every required challenge was complete.';}checkOutcome();}return;
  case 'retry':{const old=attempt;if(!old)return;if(old.mode==='boss')await start(old.device,{mode:'boss',boss:BOSSES.find(b=>b.id===old.boss)});else await start(old.device,{mode:old.mode,difficulty:old.difficulty});return;}
  case 'compression':E.buyCompression(state,Number(el.dataset.rank));message='Permanent Stage Compression purchased.';break;

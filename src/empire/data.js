@@ -1,10 +1,10 @@
-export const MG={mg:1n,g:1000n,kg:1000000n,t:1000000000n,kt:1000000000000n,Mt:1000000000000000n};
+export const MG={mg:1n,g:1000n,kg:1000000n,t:1000000000n,kt:1000000000000n,Mt:1000000000000000n,Gt:1000000000000000000n};
 export const DOLLAR=1000000000n;
 export function decimal(value,scale){const match=String(value).trim().replaceAll(',','').match(/^(\d+)(?:\.(\d+))?$/);if(!match)throw Error('Enter a positive number.');const frac=match[2]||'';const numerator=BigInt(match[1]+frac)*scale,denominator=10n**BigInt(frac.length);if(numerator%denominator)throw Error('The smallest supported quantity is 1 mg.');return numerator/denominator;}
 export function parseCopper(value,unit='g'){if(!MG[unit])throw Error('Choose a valid copper unit.');return decimal(value,MG[unit]);}
 function scaled(value,scale,places=2){const whole=value/scale;const frac=(value%scale)*10n**BigInt(places)/scale;return whole.toLocaleString()+ (frac?'.'+frac.toString().padStart(places,'0').replace(/0+$/,''):'');}
-export function copper(value){value=BigInt(value);const unit=value<MG.g?'mg':value<MG.kg?'g':value<MG.t?'kg':value<MG.kt?'t':value<MG.Mt?'kt':'Mt';return scaled(value,MG[unit])+' '+unit;}
-export function money(value,compact=false){value=BigInt(value);if(compact&&value>=1000000000000n*DOLLAR)return '$'+scaled(value,1000000000000n*DOLLAR)+'T';if(compact&&value>=1000000000n*DOLLAR)return '$'+scaled(value,1000000000n*DOLLAR)+'b';if(compact&&value>=1000000n*DOLLAR)return '$'+scaled(value,1000000n*DOLLAR)+'m';return '$'+scaled(value,DOLLAR,value>0n&&value<DOLLAR/100n?7:2);}
+export function copper(value){value=BigInt(value);const sign=value<0n?'-':'';if(value<0n)value=-value;const unit=value<MG.g?'mg':value<MG.kg?'g':value<MG.t?'kg':value<MG.kt?'t':value<MG.Mt?'kt':value<MG.Gt?'Mt':'Gt';return sign+scaled(value,MG[unit])+' '+unit;}
+export function money(value,compact=false){value=BigInt(value);const sign=value<0n?'-':'';if(value<0n)value=-value;for(const [threshold,suffix] of compact?[[1000000000000000n,'Q'],[1000000000000n,'T'],[1000000000n,'b'],[1000000n,'m']]:[])if(value>=threshold*DOLLAR)return sign+'$'+scaled(value,threshold*DOLLAR)+suffix;return sign+'$'+scaled(value,DOLLAR,value>0n&&value<DOLLAR/100n?7:2);}
 export const qualityNames=['Standard','Clean','High-Purity','Premium','Ancient','Mythic'];
 export const QUALITY=[100n,125n,150n,200n,300n,500n];
 export const TOOLS=[
