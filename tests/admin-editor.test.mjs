@@ -22,7 +22,7 @@ test('market configuration validates asymmetric caps, directions and exact four-
 });
 test('forged frontend owner flags, usernames, emails, and slot names cannot authorize backend edits',async()=>{
  const db={rpc:async(name,args)=>{if(name==='empire_admin_status')return {owner:false};throw Error('Unexpected privileged RPC '+name);}};
- for(const command of ['admin-save','admin-market','purchase'])await assert.rejects(handleWorkshop(db,'not-owner',{command,slot:'debug',isAdmin:true,username:'copper',email:'marcas.bolt@outlook.com',requestId:crypto.randomUUID(),revision:0,payload:{action:'edit',edit:{kind:'money-set',value:100}}}),/OWNER_ONLY/);
+ for(const command of ['admin-save','admin-market','purchase'])await assert.rejects(handleWorkshop(db,'not-owner',{command,slot:'debug',isAdmin:true,username:'copper',email:'owner@example.invalid',requestId:crypto.randomUUID(),revision:0,payload:{action:'edit',edit:{kind:'money-set',value:100}}}),/OWNER_ONLY/);
  await assert.rejects(handleWorkshop(db,'not-owner',{command:'load',slot:'../main'}),/Unknown save slot/);
 });
 test('client pins every pending command to its original slot and applies revisions only to that response',async()=>{
