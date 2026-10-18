@@ -12,7 +12,7 @@ export function replayStage(attempt,state,events,now=Date.now(),checkpoint=false
  if(attempt?.status!=='active'||!Array.isArray(events)||events.length>60000)throw Error('No active challenge or recording too large.');
  const g=createGame(attempt.stages[attempt.index],attempt.difficulty,attempt.seed+attempt.index*7919,E.bonuses(state));
  if(attempt.checkpoint&&g.id===1&&!g.duration)Object.assign(g,attempt.checkpoint);
- let simulated=g.elapsed,pulses=0;
+ let simulated=g.elapsed;
  for(const event of events){
   if(!Array.isArray(event)||g.status!=='active')throw Error('Invalid challenge recording.');
   if(event[0]==='t'){
@@ -23,7 +23,6 @@ export function replayStage(attempt,state,events,now=Date.now(),checkpoint=false
    if(typeof action!=='string'||action.length>30||!payload||typeof payload!=='object'||JSON.stringify(payload).length>500||Object.values(payload).some(v=>typeof v==='number'&&!Number.isFinite(v)))throw Error('Invalid controls.');
    if(action==='hint'){if(attempt.hints>=E.bonuses(state).hint)throw Error('No hints remaining.');attempt.hints++;}
    if(action==='replay'){if(g.phase!=='input'||attempt.replays>=E.bonuses(state).replay)throw Error('No replay remaining.');attempt.replays++;}
-   if(action==='pulse'){pulses+=payload.duration;if(!Number.isFinite(pulses)||payload.duration<0||pulses>Math.max(0,simulated-(g.watchLength||0))+.12)throw Error('Hold duration exceeds the played time.');}
    gameAction(g,action,payload);
   }else throw Error('Unknown recording event.');
  }
@@ -59,7 +58,7 @@ export function transition(s,a,command,p={},now=Date.now()){
   if(p.attempt!==a?.id||p.index!==a.index)throw Error('This stage is no longer current.');
   const score=replayStage(a,s,p.events,now);E.stagePass(a,score);
   if(a.status==='complete'){
-   if(a.mode==='furnace'){const job=s.furnace.jobs.find(j=>j.id===a.job);if(job&&now<job.ends)job.ends-=Math.max(0,job.ends-now)*.2;a.paid=true;result={furnace:true};}
+   if(a.mode==='furnace'){const job=s.furnace.jobs.find(j=>j.id===a.job);if(job&&now<job.ends)E.furnaceBonus(s,job,now);a.paid=true;result={furnace:true};}
    else result=E.reward(s,a);
   }break;
  }
@@ -91,6 +90,8 @@ export function transition(s,a,command,p={},now=Date.now()){
  case 'equip-aura':case 'equip-and-close':E.equipAura(s,id);break;
  case 'confirm-rebirth':result=E.confirmRebirth(s);break;
  case 'prestige':E.buyPrestige(s,id);break;
+ case 'furnace-queue':E.queueFurnace(s,amount(p.amount),now);break;
+ case 'furnace-cancel':E.cancelFurnaceQueue(s,id);break;
  case 'furnace-start':E.startFurnace(s,amount(p.amount),now);break;
  case 'furnace-collect':result=E.collectFurnace(s,id,now);break;
  case 'furnace-upgrade':E.buyFurnaceUpgrade(s,id);break;
