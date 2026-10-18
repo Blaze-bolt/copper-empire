@@ -47,6 +47,7 @@ export const GOLD_RESEARCH=[
  ['legacy','Golden Legacy',50000,250,1000000000,'recovery','Permanent workshop: +5% timing tolerance and one puzzle hint; requires Master Recycling and laboratory rank 2']
 ].map(([id,name,gold,kg,money,prerequisite,description],i)=>({id,name,gold:BigInt(gold),copper:BigInt(kg)*MG.kg,money:BigInt(money)*DOLLAR,prerequisite,description,component:i>=7?'masterAssembly':i>=4?'precisionPart':null}));
 export function expansionDefaults(s){
+ s.furnace.queue??=[];
  s.compression??=0;s.ascension??={level:0,ce:0,upgrades:{},records:[]};s.pendingAscension??=null;
  s.gold??={unlocked:false,balance:0n,recovered:0n,claims:[0],equipment:{},research:[],attempts:0,completed:0,failed:0,history:[]};
  s.goldMarket??={quote:600000,previous:600000,next:0,history:[],global:false};
@@ -102,7 +103,7 @@ export function confirmAscension(s,blankRun){
  s.ascension.records.push({level:next,ce:reward.ce,at:Date.now(),attempt:p.attempt,rebirth:s.rebirth});
  s.gold.unlocked=true;s.rebirth=0;s.xp=0;s.money=0n;s.copper=Array(6).fill(0n);s.inventory={};s.tools=['basic'];s.legacyBonuses=[];
  s.pp=0;s.prestige={};s.components={parts:0};s.research=[];s.contracts=[];s.run=blankRun();
- s.furnace={jobs:[],upgrades:{},ingots:0,refined:0};s.refining={unlocked:false,research:0};s.automation={purchased:false,stock:false,wire:false,last:Date.now()};
+ s.furnace={jobs:[],queue:[],upgrades:{},ingots:0,refined:0};s.refining={unlocked:false,research:0};s.automation={purchased:false,stock:false,wire:false,last:Date.now()};
  s.market.limit=null;s.pendingRebirth=null;s.pendingAscension=null;s.bossClaims=[];
  s.history.unshift({id:'ascension-'+next,ascension:next,amount:0n,at:Date.now()});s.revision++;return next;
 }

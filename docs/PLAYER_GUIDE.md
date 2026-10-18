@@ -159,7 +159,7 @@ Adjust amplitude, frequency, and phase to overlap the reference wave. Hold at le
 
 #### #5 — Vibration Pattern Memory
 
-Watch the short and long pulses, then repeat with short taps (¼ second) and long holds (¾ second). Use the button or Space.
+Watch the short and long pulses, then repeat their order using SHORT • / LONG — or S / L. Each press submits once immediately. Holding is unnecessary; repeated held keys are ignored.
 
 #### #6 — Frequency Slider Puzzle
 
@@ -618,29 +618,15 @@ Boss chains choose from unlocked signatures and require every stage. They pay th
 
 ## 13. Smelting
 
-The Copper Smelting Facility unlocks at Rebirth 5. It converts already-earned Standard copper into virtual ingots: 1 kg produces one standard ingot. Initially, a processing slot accepts up to 2 kg, takes 30 seconds for a batch, and starts with one slot.
+Unlocks at R5. Each funded whole kilogram of Standard copper produces one ingot. The initial furnace has 2 kg capacity, one slot and a 30-second batch. A finished batch pays once. Upgrades do not rewrite jobs already running.
 
-Batch sizes must be whole kilograms and fit the available capacity. Copper is deducted when a batch starts. When its timer finishes, collect the output once; processing jobs retain their finish times across a reload. The starting sale value is 1.80× the equivalent raw Standard-copper value at the current quote.
+Capacity is floor(2,000,000 × 3^rank / 2^rank) mg, followed by +1 kg per Bigger Batches prestige rank. Capacity and speed now cap at 12; slots at 8; automatic collection at 1; quality/sale at 12; refining at 8. Speed multiplies duration by 0.92 each rank, combining once with prestige and permanent throughput, with a five-second upgrade-duration minimum.
 
-### Optional batch timing challenge
+Thermal Efficiency (8 ranks, R5) adds a real 4% duration reduction per rank without changing the 1 kg recipe. Batch Automation (5 ranks, R7) adds one finite queued batch per rank and deducts copper only when starting. Furnace Mastery (5 ranks, R9) increases the optional one-time timing bonus from 20% to 40% of remaining time. Failure leaves the paid batch intact. There is no unlimited offline production.
 
-An active batch offers one optional timing challenge. Success removes 20% of that batch's remaining processing time. Failure does not destroy the batch: it keeps processing without the bonus. This is an optional speed bonus to an already-funded material conversion; it does not replace mandatory device challenges or generate fresh copper.
+Ordinary ingot sale value starts at 1.80× raw-equivalent value, with additive quality, sale, refining and prestige improvements. Separate Industrial Refined products retain their own formula. Furnace upgrades survive ordinary Rebirth; jobs, queue and ingot inventory follow the existing current-run reset. Ascension resets ordinary facilities as its confirmation explains.
 
-### Furnace upgrades
-
-| Upgrade | First-rank money | First-rank Standard copper | Max ranks | Effect |
-| --- | --- | --- | --- | --- |
-| Processing speed | $2,000 | 1 kg | 5 | 8% shorter base processing time per rank |
-| Batch capacity | $3,500 | 1.5 kg | 6 | +1 kg maximum batch per rank |
-| Processing slots | $10,000 | 3 kg | 3 | +1 processing slot per rank |
-| Automatic collection | $15,000 | 5 kg | 1 | Collect finished batches automatically |
-| Ingot quality | $25,000 | 8 kg | 5 | +0.10× raw-equivalent ingot sale value per rank |
-| Advanced refining | $60,000 | 10 kg | 3 | +0.12× raw-equivalent ingot sale value per rank |
-| Sale bonuses | $35,000 | 5 kg | 5 | +0.05× raw-equivalent ingot sale value per rank |
-
-Both money and Standard copper are required for each upgrade. The table shows first-rank costs; later ranks multiply both costs by the rank being purchased. Furnace upgrades persist through rebirth.
-
-Processing-speed furnace ranks shorten the base duration by 8% each. Quick Processing prestige adds its own speed reduction, with a minimum processing time of eight seconds. Capacity and parallel slots also combine with the corresponding prestige skills. Ingot value improvements add to the raw-equivalent sale multiplier.
+Read the [complete 5.2 audio and smelting guide](../AUDIO_SMELTING_UPDATE.md) for all exact rank costs, capacities, formulas, limits, presets, queue rules, migration and economy checks. The Smelting screen displays exact available copper, capacity, whole-kg limits, inputs/outputs, durations, independent slots, upgrades, queue and auto-collection. Quick choices are 1 kg, 25%, 50%, and maximum affordable.
 
 ## 14. Automation
 
@@ -742,9 +728,9 @@ Buying copper is not a recovery. Imported local backups do not enter the ranking
 
 Settings lets you change workshop sound effects and decorative animations, export the local save, or import a reviewed backup. Decorative motion respects reduced-motion settings; moving targets necessary for gameplay still represent the active challenge.
 
-Music has its own ON/OFF switch and volume slider. These preferences are saved in the browser. Playback waits for the required tap, click, or key press, loops continuously through menu changes, and suspends when the tab is hidden. Muting workshop effects and muting music are separate controls.
+Master, Music, Effects and Interface each have a live volume slider. Mute All, Music On/Off, Effects On/Off, Test Sound and a background-track selector are available in Settings. Choices persist on this device. Music waits for user interaction, loops smoothly without restarting between menus, suspends while hidden and resumes afterwards. Five owner-supplied recordings use their original base filenames as titles, alongside the retained licensed ambient track. See the [5.2 release guide](../AUDIO_SMELTING_UPDATE.md) for levels and controls.
 
-The background track is “Dreams Become Real” by Kevin MacLeod, from [incompetech.com](https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1500027), licensed [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). The game uses an excerpt and a crossfade for its loop. Full credits and adaptation details are also in [the bundled music license](../assets/music/LICENSE.txt) and in Settings.
+The retained ambient track is “Dreams Become Real” by Kevin MacLeod, from [incompetech.com](https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1500027), licensed [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). The game uses an excerpt and a crossfade for its loop. Full credits and adaptation details are also in [the bundled music license](../assets/music/LICENSE.txt) and in Settings.
 
 Local progress saves after meaningful actions and keeps a previous-save backup. The migration system preserves an original supported version-1 save and carries forward recognized resources, devices, upgrades, XP, and journal entries. Different origins, browsers, and profiles have separate browser storage, so use an export/import or private cloud backup to move a local workshop intentionally.
 

@@ -49,3 +49,13 @@ test('deployed handler contract: Debug normal gameplay, reward replay, cloud rel
  assert.equal((await load()).state.money.$int,'0');const reload=E.decode(JSON.stringify(await handleWorkshop(adapter,owner,{command:'load',slot:'debug'},now)));assert.equal(reload.state.money,cloud.state.money);assert.equal(reload.classification,'debug');assert.equal((await rpc('empire_rankings')).find(x=>x.username==='owner_test').completed,0);
  await assert.rejects(handleWorkshop(adapter,other,{command:'admin-market',slot:'debug',revision:0,requestId:crypto.randomUUID(),payload:{asset:'gold',action:'set',value:'60',expectedVersion:0}}),/OWNER_ONLY/);
 });
+
+test('smelting cloud transactions persist queues and funded output, reject forged results and replay collection once',async()=>{
+ const adapter={rpc};let now=Date.now();const fixture=E.newState(now);fixture.rebirth=12;fixture.money=1000000000n*1000000000n;fixture.copper[0]=1000000000n;fixture.furnace.upgrades={capacity:6,slots:1,batch:2,auto:1};let loaded=await load('debug');await adminSave('edit','debug',loaded.revision,pack(fixture),{kind:'qa-smelting'});
+ let cloud=E.decode(JSON.stringify(await handleWorkshop(adapter,owner,{command:'load',slot:'debug'},now)));
+ const command=async(command,payload={})=>{const body={command,payload,slot:'debug',revision:cloud.revision,requestId:crypto.randomUUID()};cloud=E.decode(JSON.stringify(await handleWorkshop(adapter,owner,body,now)));return body;};
+ await command('furnace-queue',{amount:'22000000',output:9999999});const queued=cloud.state.furnace.queue[0].id;const reloaded=E.decode(JSON.stringify(await handleWorkshop(adapter,owner,{command:'load',slot:'debug'},now)));assert.equal(reloaded.state.furnace.queue[0].id,queued);
+ await command('heartbeat');assert.equal(cloud.state.furnace.jobs[0].output,22);assert.equal(cloud.state.copper[0],978000000n);assert.equal(cloud.state.furnace.queue.length,0);
+ const job=cloud.state.furnace.jobs[0];now=job.ends;const receipt=await command('furnace-collect',{id:job.id});assert.equal(cloud.state.furnace.ingots,22);const repeated=E.decode(JSON.stringify(await handleWorkshop(adapter,owner,receipt,now)));assert.equal(repeated.state.furnace.ingots,22);await command('heartbeat');assert.equal(cloud.state.furnace.ingots,22);
+ await assert.rejects(command('furnace-start',{amount:'999999999999999999999999999999999999999',output:1e8}),/capacity|batch/);assert.equal((await load()).state.money.$int,'0');
+});

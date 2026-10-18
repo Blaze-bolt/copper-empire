@@ -25,3 +25,13 @@ The bundled MP3 contains a 90-second excerpt. Playback applies a four-second cro
 Online storage note: the bundled file is a lossless MP3-frame excerpt of approximately 90–180 seconds of the original track, prepared to reduce download size and decoded audio memory on phones. Runtime applies the four-second loop crossfade. This is an adaptation, permitted under CC BY 4.0. The original download hash above records the full source file, not the excerpt. Original source files are excluded from Git and deployment.
 
 Bundled excerpt SHA-256: 88AA229B06B27BA50F9ABC295080AE5237CC2EE6E16A02C35592B3EE7FC5556C
+
+Additional music supplied by the project owner — 18 October 2026
+
+Ocean Dih (Ocean Dih.m4a)
+MugaMillion (MugaMillion.m4a)
+Jazzy Juice (Jazzy Juice.m4a)
+Thats what I like (Thats what I like.m4a)
+Grief (Grief.m4a)
+
+The project owner supplied these files and explicitly confirmed they are copyright-free and cleared for distribution in this public game. No separate attribution requirements were supplied. This record documents the owner's confirmation; it does not relicense third-party work under the Kevin MacLeod license above. Originals remain unchanged. Distribution copies are MP3-encoded, displayed with the original base filenames, level-calibrated during playback and crossfaded for looping.
