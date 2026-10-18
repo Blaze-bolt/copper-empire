@@ -73,3 +73,9 @@ The existing owner's floating copper coin opens two persistent cloud workshops, 
 ## Audio, pulse controls and expanded smelting (5.2)
 
 Read the [complete update guide](AUDIO_SMELTING_UPDATE.md) for the five supplied background tracks, four live audio channels, SHORT/LONG pulse controls, geometric capacity ranks 0–12, finite paid batch queues, Furnace Mastery, exact upgrade costs, save compatibility and verification.
+
+## Industrial Era checkpoint 1 (5.2.1)
+
+The first incremental master-spec checkpoint replaces all 59 R7–R18 device layouts, adds enlarged model inspection and exact Gt/Q display support, and preserves all 87 existing device contracts and minigames. [Actual color/monochrome models and before/after comparisons](docs/model-proof/index.html), [completion and remaining-work record](docs/industrial-era/checkpoint.md), and [backend measurements](docs/industrial-era/backend-usage.md) are included.
+
+The requested factory price rebalance is an [unapproved proposal](docs/industrial-era/rebalance-proposal.md) with [exact five-price results](docs/industrial-era/rebalance.csv). No recipe or export-price changes have been applied. The new A2 era, factories, workers, countries and shipping are not yet implemented by this checkpoint. Automated validation: 260 passing tests.

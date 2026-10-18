@@ -1,5 +1,7 @@
 import {deviceArt} from '../art.js';
+import {industrialIllustration} from './industrial-art.js';
 export function illustration(d,uid='device'){
+ const industrial=industrialIllustration(d,uid);if(industrial)return industrial;
  const legacy={1:'motor',2:'fan',9:'supply',16:'washer',21:'industrial'};if(legacy[d.id])return deviceArt(legacy[d.id],uid);
  const n=d.id,ink='#263b3d',metal=['#738c82','#7c8c94','#a89275','#7c8d7b'][n%4],light=['#b5c9b4','#bccbd0','#d7bf99','#b1c5a9'][n%4],copper='#d8955d';let content='';
  const wheel=(x,y,r,blades=6)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${ink}" stroke="${light}" stroke-width="${r*.1}"/>${Array.from({length:blades},(_,i)=>`<path d="M${x} ${y}q${-r*.9} ${-r*.1} ${-r*.5} ${-r*.75}q${r*.6} ${-r*.3} ${r*.5} ${r*.75}" fill="${metal}" stroke="${light}" stroke-width="1" transform="rotate(${i*360/blades} ${x} ${y})"/>`).join('')}<circle cx="${x}" cy="${y}" r="${r*.18}" fill="${copper}"/>`;

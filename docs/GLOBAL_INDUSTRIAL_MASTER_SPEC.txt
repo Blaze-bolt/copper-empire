@@ -1,0 +1,1056 @@
+COPPER EMPIRE — GLOBAL INDUSTRIAL ERA
+COMPLETE MASTER IMPLEMENTATION SPECIFICATION FOR CODEX
+VERSION: 2026-10-18 / ONE STANDALONE PROMPT / READ THE ENTIRE DOCUMENT
+Repository: https://github.com/Blaze-bolt/copper-empire
+Game: https://blaze-bolt.github.io/copper-empire/
+
+MISSION: Implement a complete, fully functional, save-compatible expansion inside the existing Copper Empire browser game. Do not rebuild it or silently remove mechanics. Most urgently, redesign EVERY electronic from Rebirth 7 (ID 29) to Rebirth 26 (ID 119) into a truly distinct, physically recognizable model. The existing R7–R18 electronic names and IDs must remain exactly as currently authored. Add Ascension 2, 8 new rebirths, 32 electronics and 32 electronic signatures, 25 factory goods and 30 factory minigames, manual mastery and paid labor automation, ten-country international export markets, real timed ships, worldwide news, gigatonnes, smelting/audio improvements and backend efficiency. NO electronic/tool purchase discounts for either Ascension. A2 awards +250 ADDITIONAL CE once. Routine global news should NOT be retained for a month: 48-hour TTL and at most 100 inactive headlines.
+
+IMPLEMENTATION RULES: Inspect current source, catalogue, expansion files, renderer, test suite, existing migrations, Supabase schema and authentication first. This authored prompt is feature intent, not proof the repository currently implements all prerequisites. Keep current names/IDs/prices/rewards/minigames for IDs 1–87. Save a backup and use backward-compatible migrations. Build and test in phases. No fake buttons, fake payouts, placeholder minigames, or generic recolored machines. Keep Global Market source-of-truth on the server and personal currency changes transactional and idempotent. Do not introduce paid infrastructure without approval. If a numerical balancing rule is impossible with existing economy, document issue, simulate scenarios and propose smallest correction; do not silently rewrite owner-specified prices.
+
+
+SECTION 1 — GAME ERAS, REBIRTH AND ASCENSION
+Era 0: R0–R12 and original electronics #1–52 (keep working).
+Era A1: R13–R18 and 35 electronic signatures #53–87 (keep catalogue as is; implement missing prerequisite if necessary).
+Era A2: R19–R26, 32 new signatures #88–119. Each new chapter unlocks 4 items. Players earn A2 by beating A1 endgame, reset R to 0, and later progress to R26. Global Industry blueprint unlocks permanently upon first attaining A2; constructing initial factory requires money and copper but does NOT require returning to R19.
+
+ASCENSION BONUSES — DEFINITIVE (do not stack A1 and A2 tier multipliers):
+                            A1          A2
+Copper earned              x2.5        x5 TOTAL
+XP earned                  x2          x4 TOTAL
+Eligible bosses/contracts  x2          x4 TOTAL
+Electronic/tool discounts  NONE        NONE
+Smelting speed             x1          x2 (half duration subject to floor)
+Factory speed              unavailable x1.5
+Factory production fee     0%          15% discount (fees only, not input copper)
+CE awarded first time      +25         +250 ADDITIONAL
+Never implement a 25%/40% electronics or tools discount from any Ascension. These are TOTAL tier multipliers. Ascension-independent research and legitimate boosts can combine according to defined rules. Preserve spent and unspent CE; first-ever A2 claim adds 250 to unspent pool exactly once. A2 eligibility: A1 attained, R18 reached, level >=45 during qualifying run, electronic #87 successfully recovered during run, 600g cumulative legitimately earned gold (NOT gold spent), pass A2 Trial, explicitly confirm reset. Show progress of each condition.
+
+A2 TRIAL: 12 stages with instruction, success/fail, retries, rewards and server-confirmed completion: (1) timing, (2) short/long pulse memory, (3) circuit match, (4) rotation, (5) pattern transformation, (6) robot routing, (7) allocation, (8) logic, (9) phase synchronization, (10) multi-target reaction, (11) mixed three-part engineering, (12) Ascendant Core finale combining timing+logic+precision. Stage11/12 reuse legitimate existing challenges and generate solvable instances. Maximum three failed-stage retries total per attempt; the player can retry full trial. No electronic or gold consumed on failure. If user confirms A2, reset current-run money/copper/level/XP/rebirth/electronic inventory/current-run tools/contracts using existing Ascension semantics. Preserve account, A2 level, CE, permanent CE upgrades, gold and permanent gold progress, auras, achievements, lifetime statistics, permanent Stage Compression and Practice Room previously encountered signatures. Future resets preserve permanent industrial facilities, owned vessels, product automation licenses, hired worker unlocks and country relationships; ongoing jobs and in-transit shipments must be reconciled exactly once. Do not double-pay or lose cargo. Current-chapter items with >=3 authored stages remain >=3 after Stage Compression, prior-chapter items may reduce to 1; the unique signature always remains. Never reduce to 0.
+
+
+SECTION 2 — GIGATONNES AND PRECISE ECONOMY
+Add Gt to every copper UI: inventory, product input, electronic recovery, tooltips, crafting, smelting, refinery, factory, ships/cargo displays, lifetime records, leaderboards and owner debug resource editor. 1kg=1000g; 1t=1000kg; 1kt=1000t; 1Mt=1000kt; 1Gt=1000Mt=1,000,000,000t=10^18mg. 1,250Mt=1.25Gt; 2,500,000Mt=2,500Gt. Store exact copper as integer mg with BigInt or arbitrary precision; never rely on unsafe JS Numbers. JSON transport decimal strings and PostgreSQL NUMERIC exact types. Money must support quadrillions or more exactly as well. Display formatting never alters saved values. Migrate old saves losslessly. At the illustrative equilibrium $0.60/g, 1Mt copper has opportunity value $600 billion and 1Gt $600 trillion. The actual global copper quote may differ: all factory margin screens must use CURRENT live copper opportunity cost and distinguish cost-basis from current opportunity cost. Never claim a big export payment is pure profit. Enforce bounds to avoid overflow and NaN.
+
+
+SECTION 3 — MODEL DESIGN RULES FOR ALL ELECTRONICS ID 29–119
+There are 24 original R7–R12 items, 35 A1 R13–R18 items, and 32 new A2 R19–R26 items = 91 distinct visual models. Keep actual existing IDs 29–87, their names and game attributes. Every model must have unique silhouette and component arrangement; identical colored shapes are NOT sufficient. Visibly plausible components: steel casing, motor shaft, stator copper windings, ceramic bushings, busbars, electronic boards, transformers, capacitors, fans, cooling radiators, wiring harnesses, rails, conveyor, pipe, computer racks, robotic tools and control screens. Vary height, width, negative space, radial vs rectangular vs gantry vs entire factory. Use unique major shape/part hierarchy per item. Materials can be shared, geometry cannot. Make readable at card thumbnail size and interactive inspection enlargement/rotation where renderer supports it. Support reduced motion and mobile performance. Build contact-sheet gallery comparing silhouettes in monochrome, and before/after for R7–R18. New A2 models get individually articulated description below. No detailed real-world operating instructions are needed for dangerous machinery; models and minigames are fictional abstractions. Animate only functional cues, not constant seizure-like flashing. Make every electronic visually present in shop, dismantling and inventory.
+
+
+VISUAL MODEL #29 — Industrial Power Generator
+Wide horizontal cylindrical power generator with a separate rectangular drive enclosure, steel feet, one exposed output shaft, top terminal box and side window revealing copper stator coils. A fan disc rotates. Unlike #31, fully enclosed main cylinder.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #30 — Factory Recycling Machine
+Short angled input conveyor feeding a box-shaped sorting chamber with overhead sensor bridge, two diverting exit chutes and small copper collection bins. Belt and gate move; clearly not a generator.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #31 — Large Generator Assembly
+Open framed generator in assembly cradle: broad circular exposed stator, centered shaft and rotor between two bearing supports, orange windings and loose heavy terminal leads. Rotor slowly turns; large circular empty spaces are visible.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #32 — Industrial Power Station Module
+Mini electrical station on one foundation with two different-height switchgear cabinets, one transformer tank, three ceramic top bushings and high horizontal copper bus rail. Indicator lamps trace power paths.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #33 — High-Capacity Generator
+Big broad ribbed generator cylinder with symmetrical twin ventilation assemblies, large bolted end flanges, thick axial coupling and top-mounted cable terminal chest. Twin fans spin, no open assembly frame.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #34 — Automated Factory Motor Array
+Steel rack holding SIX individually recognizable small cylindrical motors in two rows of three, each with output shafts and copper winding windows, a common rear power bus and numbered statuses; shafts spin at different speeds.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #35 — Heavy Industrial Power Unit
+Tall heavy upright power-conversion cabinet with stacked removable front modules, visibly cylindrical capacitor bank at left, lower cable entry and copper busbar panel behind protective glazing, unlike motor cylinders.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #36 — Mega Transformer Assembly
+Huge squat transformer unit with three fat copper-wound limbs visible through a side cutaway, five prominent porcelain bushings on top and broad finned radiator wings projecting left and right.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #37 — Giant Industrial Alternator
+Open-frame circular alternator showing central rotor through a large round stator hole, heavy curved support ribs, front coupling disc, copper slots and slim side controller; distinct from boxed generators.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #38 — High-Output Generator Complex
+Wide miniature industrial foundation with TWO differently sized enclosed generators, a shared cooling block, small control cabin and raised copper bridge across them; two rotations and asymmetrical layout.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #39 — Massive Motor Assembly
+One giant long finned electric motor connected to an OFFSET oversized gearbox with circular output at a different axis, reinforced feet and rear circular fan. The offset gearbox defines its silhouette.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #40 — Automated Copper Recovery Plant
+Mini processing factory with tall central sorting tower, at least two conveyors at different levels, two rotating drums, tall hopper and copper storage containers connected by walking bridges.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #41 — Ultra-Industrial Motor
+Extremely wide heavy industrial motor, thick parallel cooling fins and two large side ventilation fans, fat front shaft, raised terminals and four prominent floor mounts; no gearbox.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #42 — Advanced Generator Complex
+THREE individual generator bodies on an L-shaped platform around a raised monitoring tower, overhead busway, different cooling fan housings and branched power conduits.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #43 — Mega Recycling Assembly
+Low broad open conveyor assembly with four successive processing drums, overhead gantry beam, scanning box, multiple output chutes and copper bin; much flatter than #40.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #44 — Titan Generator System
+Two giant cylindrical turbine and generator housings END-TO-END along one exposed coupling shaft, one tall radiator bank, raised cable arches and industrial truss support.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #45 — Experimental Power Module
+Hexagonal lab power unit with a low faceted body, four tall cylinder capacitors on upper face, a clear central inspection window, copper loops and one small touch-screen controller.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #46 — Hyper-Industrial Generator
+VERTICAL cylindrical generator tower with external circular cooling ring high on the body, outward radial steel braces and heavy copper feed terminals; do not make it horizontal.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #47 — Advanced Electromagnetic Array
+Six individual copper-wound electromagnet coils on a rectangular open steel platform, mounted at alternating angles along a center rail with distinct cabling and one end controller.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #48 — Experimental Copper Core
+Exposed suspended multi-layer toroidal copper winding inside THREE larger open metal support rings and four radial sensor pods, with cooling tubes instead of a closed crate.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #49 — Next-Generation Power Generator
+Rectangular high-tech generator chassis with exposed horizontal central rotor sandwiched between TWO tall cooling structures, a digital top bridge and visible thick copper rails.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #50 — Ultra-Dense Motor Assembly
+EIGHT small motor cylinders packed as two rows of four, individual short shafts and tight copper harness to a narrow controller; use far denser small-module texture than #34.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #51 — Hyper-Scale Industrial Core
+Tall octagonal central chamber with EIGHT unequal radially extending electrical equipment modules and visible open gaps, perimeter cooling pipes and status panels.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #52 — Experimental Energy Converter
+R12 final device: three interlocked tilted conversion rings centered on one solid angular electrical converter, SIX exterior copper coils, TWO taller measurement pylons, heavy octagonal base and Copper Empire emblem. Several rings rotate subtly.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #53 — Quantum Drive Motor
+Compact high-speed drive with triangular arrangement of three thick copper coil pods around an exposed central rotor, cooling loops, precise supports and a thin sensor arm.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #54 — Industrial Fusion Controller
+Vertical sophisticated control rack with FOUR individually slotted electronics modules, distinct separate round instrument chamber, insulated thick cable trunk and screens; not a literal open reactor.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #55 — Ultra-Precision Turbine
+ONE exposed turbine wheel with many narrow overlapping metal blades hanging between two bearing arms on a thin low base, sensor arm and copper instrument wiring.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #56 — Mega Power Distribution Array
+BROAD wall-mounted electrical backplane with SIX horizontal copper buses, four breaker/control cabinets, white ceramic standoff towers and cables; panel-like silhouette.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #57 — Titan Electromagnetic Rotor
+Long exposed copper-wound cylinder rotor suspended inside SIX outward electromagnet pods with radial mount brackets and huge side bearings.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #58 — Advanced Recovery Supercomputer
+FOUR very tall server cabinets organized as a U around one central industrial console, independent front rack blades, overhead cooling pipes and screen wall.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #59 — Hypergrid Power Converter
+THREE vertical large converter cabinets aligned on sloping/stepped chassis, visible cylindrical capacitor clusters and oversized copper bus rails bridging top.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #60 — Planetary-Scale Generator Module
+Long gigantic HORIZONTAL generator held inside a much taller ARCHED outer maintenance frame, side cooling blocks, overhead walkway and visible heavy shaft.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #61 — Industrial Magnetic Accelerator
+Open OVAL loop of many individually copper-wound coil modules and one straight feed chamber with monitoring stands; unique oval negative space, fictional.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #62 — Mega Transformer Network
+FOUR transformer tanks in a square around a central open electrical bus, with radiator wings, ceramic upper bushings and an elevated copper grid between them.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #63 — Hyper-Density Motor Cluster
+NINE compact motor cylinders in a THREE-by-THREE upright shelf, nine shafts and a common rear heat exchanger/terminal backplane.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #64 — Colossal Electrical Core
+Massive HEXAGONAL tower with six protruding side converter modules, center copper vertical bus, strong diagonal steel trusses and heavy base terminals.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #65 — Experimental Energy Matrix
+Low broad FOUR-by-FOUR flat electronic module grid on a rectangular motherboard platform, glowing traces separated by copper paths and boundary cooling fans.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #66 — Ultra-Industrial Logic Engine
+Wide computing rack of SIX tall thin removable logic cards under a shared perforated hood, exposed circuit boards, dense ribbon cables and a small upright diagnostic monitor.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #67 — Hyperconductive Power Core
+Short squat toroidal electrical coil with EIGHT separately visible copper-wound lobes, six large terminal blocks, open central circular hole, metallic cooling pipes.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #68 — Autonomous Recycling Megaplant
+Entire wide miniature automated recycling campus with two parallel conveyors, tall sorting tower, THREE separate processing halls, small cranes and copper silos.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #69 — Electromagnetic Titan Engine
+Extremely long motor with a HUGE single circular magnetic coupling ring at one end, visibly wound core midsection, large shaft bearings and structural feet.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #70 — Quantum Recycling Array
+SIX small recycling stations in a RADIAL HEXAGON around one central sorter bowl/hopper, visible mechanical sorting arms and copper collection channels.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #71 — Colossal Generator Matrix
+FOUR colossal complete generator cylinders in a TWO-by-TWO low grid, external cooling manifolds, narrow central crossing copper power rails and nearby controller.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #72 — Hyper-Scale Turbine Engine
+Long engine with TWO dramatically different-size exposed turbines on common axle separated by segmented compressor casing, large cooling ducts and supports.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #73 — Advanced Electromagnetic Grid
+Large RECTANGULAR platform with NINE separate copper electromagnet stations arranged three by three, four tall corner electronic pylons and horizontal copper network.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #74 — Titan Industrial Reactor Module
+Fictional closed cylindrical heavy industrial energy chamber with two side heat-exchanger cabinets, instrument consoles and insulated copper cables, no operational real reactor details.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #75 — Quantum Motor Megastructure
+Terraced three-level power platform with THREE separate huge vertical ring motors stepping upward, steel bridges and distinct copper connectors. No long horizontal generator.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #76 — Imperial Recycling Core
+Central very tall recycling tower, FOUR surrounding sorter housings linked by overhead conveyor bridges and multiple bins. Strong cross-like silhouette.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #77 — Ultra-Dense Generator Array
+TWELVE small generator modules arranged in THREE rows of FOUR, common narrow copper supply spine, individual circular endcaps and a large right-edge control bank.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #78 — Hyperconductive Industrial Nexus
+TRIANGULAR platform holding THREE upright differently sized conversion towers oriented around ONE raised exposed central copper torus, visible open center.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #79 — Experimental Titan Stator
+ONE truly enormous thick hollow ring stator standing VERTICALLY on giant support footings, dozens of radial copper winding slots, clamps and peripheral sensors.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #80 — Quantum Energy Distribution Hub
+HEXAGONAL hub with raised central switchgear block, SIX copper radial power arms leading to SIX short dissimilar terminal pylons and ceramic insulators.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #81 — Advanced Recycling Command Core
+Low broad COCKPIT-like command desk with FOUR tilted screens, two lateral server towers and a distinct miniature copper sorting diagram module.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #82 — Hyper-Industrial Megasystem
+Asymmetric COMBINED plant: one large generator, two different motors, transformer tank, inclined conveyor and central power cabinet on complex joined foundation.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #83 — Titan Quantum Power Engine
+Very tall upright energy motor enclosed by THREE concentric and separated copper coil rings with two side cooling pillars; vertical primary silhouette.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #84 — Colossal Electromagnetic Nexus
+EIGHT large individual copper-wound radial electromagnet pods pointing inward around central cylinder, outer ring and FOUR angular supports; unique radial eight-fold array.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #85 — Experimental Recycling Singularity
+FICTIONAL HEXAGONAL transparent central sorting chamber, SIX radial component-return chutes, overhead robot arm and circumferential instruments; no generic orb.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #86 — Ultimate Industrial Power Matrix
+FOUR tall corner conversion towers on rectangular platform around a shorter wide central copper-bus distribution hub, ceramic standoffs, cooling banks, walkways and monitoring screens. Indicators activate around ring.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+VISUAL MODEL #87 — Copper Empire Ascendant Core
+A1 FINAL: tall OCTAGONAL central control tower with FOUR surrounding different generator modules, TWO lower horizontal turbines, ONE overhead copper power ring, cooling machinery, steel foundation and huge Copper Empire emblem. Ring rotates slowly; NOT same layout as #86 or #119.
+Model acceptance: recognizable as this named device in monochrome, multiple physically separate parts, visible plausible recoverable copper, distinctly arranged relative to nearest catalog neighbors, motion limited to indicators/fan/rotor/conveyor if appropriate. Preserve exact existing ID, name, price, unlock, reward and signature. Inspect existing artwork and make actual renderer changes, not text-only tooltips.
+
+
+SECTION 4 — NEW ASCENSION 2 REBIRTHS AND PRICES
+Create R19–R26, 4 electronics per chapter, #88–119. Each row: ID | R | name | minimum current-run level | price | BASE recovered copper range | XP | authored stages. T=trillion, Q=quadrillion, Gt=gigatonne. No A1 old item edits. Prices and yields are proposed target numbers: keep unless progression simulation reveals impossible economy and obtain clear decision rather than silently alter. Existing shop strings are not authority for physical model shapes. Base reward remains distinct from grade/Ascension bonuses.
+
+
+NEW ELECTRONIC #88 — R19 — Industrial Quantum Processor
+Minimum level 1; purchase price $250T; BASE recovered copper 1.25–2.1 Gt; XP 2100; authored stages 7; signature ID 88.
+MANDATORY MODEL: Flat square green multilayer processor board with silver chip in center, FOUR reddish copper heat spreaders around it, gold edge contact rows and tiny blue test LEDs. Thin and wide, not a box.
+Use geometry distinct from adjacent R19 products and all models #29–87. Unique silhouette, exposed recoverable copper, textured housing, small controlled animation, high-contrast mobile thumbnail, inspection description and renderer-specific parts. See signature #88 below. Do not change IDs after launch.
+
+
+NEW ELECTRONIC #89 — R19 — High-Current Power Distribution Unit
+Minimum level 12; purchase price $330T; BASE recovered copper 1.65–2.75 Gt; XP 2150; authored stages 8; signature ID 89.
+MANDATORY MODEL: Long narrow exposed industrial busbar tray with THREE parallel thick copper bars spanning end-to-end on white ceramic insulators, black front cables and an upper meter bar.
+Use geometry distinct from adjacent R19 products and all models #29–87. Unique silhouette, exposed recoverable copper, textured housing, small controlled animation, high-contrast mobile thumbnail, inspection description and renderer-specific parts. See signature #89 below. Do not change IDs after launch.
+
+
+NEW ELECTRONIC #90 — R19 — Automated Copper Sorting Robot
+Minimum level 25; purchase price $440T; BASE recovered copper 2.2–3.65 Gt; XP 2200; authored stages 8; signature ID 90.
+MANDATORY MODEL: Tall articulated robotic manipulator with a swiveling round base, two bending joints, copper gripper, overhead optical sensor and an INCLINED miniature belt feeding two bins.
+Use geometry distinct from adjacent R19 products and all models #29–87. Unique silhouette, exposed recoverable copper, textured housing, small controlled animation, high-contrast mobile thumbnail, inspection description and renderer-specific parts. See signature #90 below. Do not change IDs after launch.
+
+
+NEW ELECTRONIC #91 — R19 — Industrial AI Server Cabinet
+Minimum level 40; purchase price $580T; BASE recovered copper 2.9–4.85 Gt; XP 2250; authored stages 9; signature ID 91.
+MANDATORY MODEL: Tall narrow black SERVER RACK with FIVE separate removable computing drawers, front grille, visible vertical copper liquid cooling manifold and narrow line of blue status lights.
+Use geometry distinct from adjacent R19 products and all models #29–87. Unique silhouette, exposed recoverable copper, textured housing, small controlled animation, high-contrast mobile thumbnail, inspection description and renderer-specific parts. See signature #91 below. Do not change IDs after launch.
+
+
+NEW ELECTRONIC #92 — R20 — Grid-Scale Synchronous Generator
+Minimum level 1; purchase price $750T; BASE recovered copper 3.75–6.25 Gt; XP 2300; authored stages 7; signature ID 92.
+MANDATORY MODEL: One massive HORIZONTAL cylindrical synchronous generator with bolted endplates, front protruding shaft, top terminal chest, copper stator side cutout and two steel feet.
+Use geometry distinct from adjacent R20 products and all models #29–87. Unique silhouette, exposed recoverable copper, textured housing, small controlled animation, high-contrast mobile thumbnail, inspection description and renderer-specific parts. See signature #92 below. Do not change IDs after launch.
+
+
+NEW ELECTRONIC #93 — R20 — High-Voltage Power Transformer
+Minimum level 14; purchase price $950T; BASE recovered copper 4.75–7.95 Gt; XP 2350; authored stages 8; signature ID 93.
+MANDATORY MODEL: Rectangular tall transformer oil tank with THREE upper tall ceramic bushings, serrated side radiator wings, attached side monitor and copper contacts.
+Use geometry distinct from adjacent R20 products and all models #29–87. Unique silhouette, exposed recoverable copper, textured housing, small controlled animation, high-contrast mobile thumbnail, inspection description and renderer-specific parts. See signature #93 below. Do not change IDs after launch.
+
+
+NEW ELECTRONIC #94 — R20 — CNC Manufacturing Controller
+Minimum level 28; purchase price $1.25Q; BASE recovered copper 6.25–10.5 Gt; XP 2400; authored stages 8; signature ID 94.
+MANDATORY MODEL: Upright WHITE machine-controller enclosure with dark observation window, tilted external control screen, colored status tower, door outline and lower ventilation.
+Use geometry distinct from adjacent R20 products and all models #29–87. Unique silhouette, exposed recoverable copper, textured housing, small controlled animation, high-contrast mobile thumbnail, inspection description and renderer-specific parts. See signature #94 below. Do not change IDs after launch.
+
+
+NEW ELECTRONIC #95 — R20 — Hydroelectric Generator Stator
+Minimum level 42; purchase price $1.65Q; BASE recovered copper 8.25–13.8 Gt; XP 2450; authored stages 9; signature ID 95.
+MANDATORY MODEL: Very big HOLLOW circular copper-stator ring with dozens of radial winding slots, steel exterior bolting, lift brackets and free center opening.
+Use geometry distinct from adjacent R20 products and all models #29–87. Unique silhouette, exposed recoverable copper, textured housing, small controlled animation, high-contrast mobile thumbnail, inspection description and renderer-specific parts. See signature #95 below. Do not change IDs after launch.
+
+
+NEW ELECTRONIC #96 — R21 — Robotic Assembly Control Tower
+Minimum level 1; purchase price $2.1Q; BASE recovered copper 10.5–17.5 Gt; XP 2500; authored stages 7; signature ID 96.
+MANDATORY MODEL: Tall stacked controller tower in middle with THREE open RADIAL mechanical branches, each ending in small autonomous robotic module with copper supply cable.
+Use geometry distinct from adjacent R21 products and all models #29–87. Unique silhouette, exposed recoverable copper, textured housing, small controlled animation, high-contrast mobile thumbnail, inspection description and renderer-specific parts. See signature #96 below. Do not change IDs after launch.
+
+
+NEW ELECTRONIC #97 — R21 — Industrial Servo Drive Cabinet
+Minimum level 15; purchase price $2.7Q; BASE recovered copper 13.5–22.5 Gt; XP 2550; authored stages 8; signature ID 97.
+MANDATORY MODEL: Upright industrial drive CABINET with FOUR separately visible vertical drive modules, big low capacitor cylinders, copper bus connectors, bottom sockets and LCD speed readings.
+Use geometry distinct from adjacent R21 products and all models #29–87. Unique silhouette, exposed recoverable copper, textured housing, small controlled animation, high-contrast mobile thumbnail, inspection description and renderer-specific parts. See signature #97 below. Do not change IDs after launch.
+
+
+NEW ELECTRONIC #98 — R21 — Automated Recycling Conveyor System
+Minimum level 30; purchase price $3.5Q; BASE recovered copper 17.5–29.2 Gt; XP 2600; authored stages 8; signature ID 98.
+MANDATORY MODEL: Tall-to-low SLOPED conveyor roller belt, overhead scanner BRIDGE, two distinct diverting arms, separate collection chutes and side motor.
+Use geometry distinct from adjacent R21 products and all models #29–87. Unique silhouette, exposed recoverable copper, textured housing, small controlled animation, high-contrast mobile thumbnail, inspection description and renderer-specific parts. See signature #98 below. Do not change IDs after launch.
+
+
+NEW ELECTRONIC #99 — R21 — Programmable Logic Control Array
+Minimum level 45; purchase price $4.5Q; BASE recovered copper 22.5–37.5 Gt; XP 2650; authored stages 9; signature ID 99.
+MANDATORY MODEL: Wide shallow WALL MOUNTED PLC backplane with EIGHT ultra-narrow replaceable control cartridges, many tiny lamps, label strips, terminal blocks and open copper power rail.
+Use geometry distinct from adjacent R21 products and all models #29–87. Unique silhouette, exposed recoverable copper, textured housing, small controlled animation, high-contrast mobile thumbnail, inspection description and renderer-specific parts. See signature #99 below. Do not change IDs after launch.
+
+
+NEW ELECTRONIC #100 — R22 — High-Voltage Substation Switchgear
+Minimum level 1; purchase price $5.8Q; BASE recovered copper 29–48.3 Gt; XP 2700; authored stages 7; signature ID 100.
+MANDATORY MODEL: THREE joined tall metal switchgear cubicles with large prominent mechanical breaker handles, upper copper busbars, inspection windows and cable conduits.
+Use geometry distinct from adjacent R22 products and all models #29–87. Unique silhouette, exposed recoverable copper, textured housing, small controlled animation, high-contrast mobile thumbnail, inspection description and renderer-specific parts. See signature #100 below. Do not change IDs after launch.
+
+
+NEW ELECTRONIC #101 — R22 — Three-Phase Transformer Bank
+Minimum level 16; purchase price $7.4Q; BASE recovered copper 37–61.7 Gt; XP 2750; authored stages 8; signature ID 101.
+MANDATORY MODEL: THREE separate massive transformer tanks side-by-side, each with cooling radiator wings and ceramic bushings, common raised copper conductor bridge.
+Use geometry distinct from adjacent R22 products and all models #29–87. Unique silhouette, exposed recoverable copper, textured housing, small controlled animation, high-contrast mobile thumbnail, inspection description and renderer-specific parts. See signature #101 below. Do not change IDs after launch.
+
+
+NEW ELECTRONIC #102 — R22 — Smart Grid Control Console
+Minimum level 32; purchase price $9.5Q; BASE recovered copper 47.5–79.2 Gt; XP 2800; authored stages 8; signature ID 102.
+MANDATORY MODEL: Wide curved operator desk with THREE tilted monitors displaying virtual grid lines, dozens of square keys, a copper cable trunk below and a high-backed mounting bar.
+Use geometry distinct from adjacent R22 products and all models #29–87. Unique silhouette, exposed recoverable copper, textured housing, small controlled animation, high-contrast mobile thumbnail, inspection description and renderer-specific parts. See signature #102 below. Do not change IDs after launch.
+
+
+NEW ELECTRONIC #103 — R22 — Ultra-High-Voltage Converter Station
+Minimum level 47; purchase price $12.2Q; BASE recovered copper 61–101.7 Gt; XP 2850; authored stages 9; signature ID 103.
+MANDATORY MODEL: Miniature full CONVERTER SITE with TWO tall conversion towers, multiple low converter huts, oversized cooling banks, elevated copper transmission bridges and walkways.
+Use geometry distinct from adjacent R22 products and all models #29–87. Unique silhouette, exposed recoverable copper, textured housing, small controlled animation, high-contrast mobile thumbnail, inspection description and renderer-specific parts. See signature #103 below. Do not change IDs after launch.
+
+
+NEW ELECTRONIC #104 — R23 — Experimental Superconducting Stator
+Minimum level 1; purchase price $15.5Q; BASE recovered copper 77.5–129.2 Gt; XP 2900; authored stages 7; signature ID 104.
+MANDATORY MODEL: Hollow TOROIDAL stator with many segmented copper winding surfaces, cryogenic-looking external silver cooling tubes, FOUR clamps and small temperature pods.
+Use geometry distinct from adjacent R23 products and all models #29–87. Unique silhouette, exposed recoverable copper, textured housing, small controlled animation, high-contrast mobile thumbnail, inspection description and renderer-specific parts. See signature #104 below. Do not change IDs after launch.
+
+
+NEW ELECTRONIC #105 — R23 — Cryogenic Computing Cabinet
+Minimum level 17; purchase price $19.5Q; BASE recovered copper 97.5–162.5 Gt; XP 2950; authored stages 8; signature ID 105.
+MANDATORY MODEL: Two-object complex: TALL polished cylindrical cooling vessel standing next to RECTANGULAR computer cabinet, joined via insulated arched tubes and copper thermal contacts.
+Use geometry distinct from adjacent R23 products and all models #29–87. Unique silhouette, exposed recoverable copper, textured housing, small controlled animation, high-contrast mobile thumbnail, inspection description and renderer-specific parts. See signature #105 below. Do not change IDs after launch.
+
+
+NEW ELECTRONIC #106 — R23 — Precision Copper Separation Array
+Minimum level 34; purchase price $24.5Q; BASE recovered copper 122.5–204.2 Gt; XP 3000; authored stages 8; signature ID 106.
+MANDATORY MODEL: TWO-TIER open steel shelf containing SIX HORIZONTAL glass-front process chambers, overhead sensor strips and copper output channels running into separated bins.
+Use geometry distinct from adjacent R23 products and all models #29–87. Unique silhouette, exposed recoverable copper, textured housing, small controlled animation, high-contrast mobile thumbnail, inspection description and renderer-specific parts. See signature #106 below. Do not change IDs after launch.
+
+
+NEW ELECTRONIC #107 — R23 — Advanced Materials Research Chamber
+Minimum level 49; purchase price $31Q; BASE recovered copper 155–258.3 Gt; XP 3050; authored stages 9; signature ID 107.
+MANDATORY MODEL: Broad HEXAGONAL sealed research container with single huge center observation pane, SIX projecting sensor boxes, heavy locking brackets and copper cooling coils.
+Use geometry distinct from adjacent R23 products and all models #29–87. Unique silhouette, exposed recoverable copper, textured housing, small controlled animation, high-contrast mobile thumbnail, inspection description and renderer-specific parts. See signature #107 below. Do not change IDs after launch.
+
+
+NEW ELECTRONIC #108 — R24 — Giant Industrial Induction Motor
+Minimum level 1; purchase price $39Q; BASE recovered copper 195–325 Gt; XP 3100; authored stages 7; signature ID 108.
+MANDATORY MODEL: Very long heavily FINNED horizontal induction motor cylinder, round rear cooling fan cowling, thick fore shaft, top electric box, big foot mounts and copper winding cutaway.
+Use geometry distinct from adjacent R24 products and all models #29–87. Unique silhouette, exposed recoverable copper, textured housing, small controlled animation, high-contrast mobile thumbnail, inspection description and renderer-specific parts. See signature #108 below. Do not change IDs after launch.
+
+
+NEW ELECTRONIC #109 — R24 — High-Density Data Center Cabinet
+Minimum level 18; purchase price $49Q; BASE recovered copper 245–408.3 Gt; XP 3150; authored stages 8; signature ID 109.
+MANDATORY MODEL: TWO adjoining tall black server racks with rows of many slim server blades, copper manifolds vertically alongside racks and overhead cable raceway.
+Use geometry distinct from adjacent R24 products and all models #29–87. Unique silhouette, exposed recoverable copper, textured housing, small controlled animation, high-contrast mobile thumbnail, inspection description and renderer-specific parts. See signature #109 below. Do not change IDs after launch.
+
+
+NEW ELECTRONIC #110 — R24 — Automated Production Control Gantry
+Minimum level 36; purchase price $62Q; BASE recovered copper 310–516.7 Gt; XP 3200; authored stages 8; signature ID 110.
+MANDATORY MODEL: U-shaped tall rectangular overhead GANTRY: two vertical side columns, crossbeam movable mechanical carriage, downward tool head, workbed and freestanding control podium.
+Use geometry distinct from adjacent R24 products and all models #29–87. Unique silhouette, exposed recoverable copper, textured housing, small controlled animation, high-contrast mobile thumbnail, inspection description and renderer-specific parts. See signature #110 below. Do not change IDs after launch.
+
+
+NEW ELECTRONIC #111 — R24 — Quantum Motor Test Platform
+Minimum level 52; purchase price $78Q; BASE recovered copper 390–650 Gt; XP 3250; authored stages 9; signature ID 111.
+MANDATORY MODEL: FLAT broad rectangular test platform with ONE circular central experimental motor and FOUR distinct CORNER SENSOR TOWERS, inward-pointed arms, copper leads and side monitor.
+Use geometry distinct from adjacent R24 products and all models #29–87. Unique silhouette, exposed recoverable copper, textured housing, small controlled animation, high-contrast mobile thumbnail, inspection description and renderer-specific parts. See signature #111 below. Do not change IDs after launch.
+
+
+NEW ELECTRONIC #112 — R25 — Ultra-High-Capacity Power Converter
+Minimum level 1; purchase price $98Q; BASE recovered copper 490–816.7 Gt; XP 3300; authored stages 7; signature ID 112.
+MANDATORY MODEL: FOUR giant parallel power-converter MODULES in steel rack, connected by huge thick copper bus rails, capacitor banks, tall cooling fins and black plug terminals.
+Use geometry distinct from adjacent R25 products and all models #29–87. Unique silhouette, exposed recoverable copper, textured housing, small controlled animation, high-contrast mobile thumbnail, inspection description and renderer-specific parts. See signature #112 below. Do not change IDs after launch.
+
+
+NEW ELECTRONIC #113 — R25 — Gigawatt Turbine Generator
+Minimum level 19; purchase price $125Q; BASE recovered copper 625–1,041.7 Gt; XP 3350; authored stages 8; signature ID 113.
+MANDATORY MODEL: TWO different-diameter horizontal industrial turbine/generator CYLINDERS arranged on SAME long shaft with conspicuous coupling and huge ventilation ducts.
+Use geometry distinct from adjacent R25 products and all models #29–87. Unique silhouette, exposed recoverable copper, textured housing, small controlled animation, high-contrast mobile thumbnail, inspection description and renderer-specific parts. See signature #113 below. Do not change IDs after launch.
+
+
+NEW ELECTRONIC #114 — R25 — Experimental Industrial Supercomputer
+Minimum level 38; purchase price $158Q; BASE recovered copper 790–1,316.7 Gt; XP 3400; authored stages 8; signature ID 114.
+MANDATORY MODEL: SIX very tall computing towers positioned in semicircle around one central round COOLING PILLAR, overhead arched cable bridges and front multiple chip trays.
+Use geometry distinct from adjacent R25 products and all models #29–87. Unique silhouette, exposed recoverable copper, textured housing, small controlled animation, high-contrast mobile thumbnail, inspection description and renderer-specific parts. See signature #114 below. Do not change IDs after launch.
+
+
+NEW ELECTRONIC #115 — R25 — Integrated Industrial Command Center
+Minimum level 54; purchase price $200Q; BASE recovered copper 1,000–1,666.7 Gt; XP 3450; authored stages 9; signature ID 115.
+MANDATORY MODEL: Huge OCTAGONAL operator control table with FOUR tall perimeter displays and several surrounding automation racks under a suspended illuminated circular status ring.
+Use geometry distinct from adjacent R25 products and all models #29–87. Unique silhouette, exposed recoverable copper, textured housing, small controlled animation, high-contrast mobile thumbnail, inspection description and renderer-specific parts. See signature #115 below. Do not change IDs after launch.
+
+
+NEW ELECTRONIC #116 — R26 — Extra-High-Voltage Generator Array
+Minimum level 1; purchase price $250Q; BASE recovered copper 1,250–2,083.3 Gt; XP 3500; authored stages 7; signature ID 116.
+MANDATORY MODEL: One long PLATFORM carrying THREE differently sized huge horizontal generator cylinders, elevated copper busways, several cooling banks, overhead gantry walkways and central signal tower.
+Use geometry distinct from adjacent R26 products and all models #29–87. Unique silhouette, exposed recoverable copper, textured housing, small controlled animation, high-contrast mobile thumbnail, inspection description and renderer-specific parts. See signature #116 below. Do not change IDs after launch.
+
+
+NEW ELECTRONIC #117 — R26 — Experimental Fusion Control Cabinet
+Minimum level 20; purchase price $315Q; BASE recovered copper 1,575–2,625 Gt; XP 3550; authored stages 8; signature ID 117.
+MANDATORY MODEL: FICTIONAL futuristic instrumentation only: SEMICIRCLE of tall industrial control cabinets facing one central sealed cylindrical measurement instrument with suspended sensor ring, copper cables and cooling loops.
+Use geometry distinct from adjacent R26 products and all models #29–87. Unique silhouette, exposed recoverable copper, textured housing, small controlled animation, high-contrast mobile thumbnail, inspection description and renderer-specific parts. See signature #117 below. Do not change IDs after launch.
+
+
+NEW ELECTRONIC #118 — R26 — Copper Recycling Megafactory
+Minimum level 40; purchase price $400Q; BASE recovered copper 2,000–3,333.3 Gt; XP 3600; authored stages 9; signature ID 118.
+MANDATORY MODEL: Miniature factory CAMPUS with several different-height buildings, THREE conveyors, tall sorter tower, TWO rotating processing drums, storage containers, gantry crane and raised walkways.
+Use geometry distinct from adjacent R26 products and all models #29–87. Unique silhouette, exposed recoverable copper, textured housing, small controlled animation, high-contrast mobile thumbnail, inspection description and renderer-specific parts. See signature #118 below. Do not change IDs after launch.
+
+
+NEW ELECTRONIC #119 — R26 — Copper Empire Central Power Complex
+Minimum level 58; purchase price $500Q; BASE recovered copper 2,500–4,166.7 Gt; XP 3650; authored stages 10; signature ID 119.
+MANDATORY MODEL: Final spectacular multi-building ELECTRICAL COMPLEX: giant cylindrical central generator hall, FOUR distinct surrounding generators, raised COPPER DISTRIBUTION RING, TWO transformer towers, cooling structures, management buildings, reinforced foundation and massive Copper Empire emblem; moving shafts and limited status lighting.
+Use geometry distinct from adjacent R26 products and all models #29–87. Unique silhouette, exposed recoverable copper, textured housing, small controlled animation, high-contrast mobile thumbnail, inspection description and renderer-specific parts. See signature #119 below. Do not change IDs after launch.
+
+
+SECTION 5 — 32 NEW ELECTRONIC SIGNATURE MINIGAMES (ONE TO ONE ID 88–119)
+Implement all independently, not a single generic minigame shell with name-swapped labels. Every game must have a distinct mechanic, clear visual and plain-language tutorial, deterministic seeded solvable puzzle generator, mouse/touch input and keyboard accessibility where feasible, pause/retry behavior, server-verified result limits, and grades S/A/B/C with grade based on action efficiency, misses and time (never impossible S grade). Game state must remain independent of render framerate and resist double taps. Challenge feedback must not disappear behind overlays. Practice Room may reuse these but never award progression or copper. User's stage-compression rule keeps signature mandatory.
+
+
+SIGNATURE #88 — Quantum Logic Grid
+RULES / OBJECTIVE: 5x5 cells, separate target array. Clicking a cell toggles itself and existing diagonal neighbors. Scramble from target with at most 10 legal toggles; offer 14 clicks. Win iff all 25 states match. Fail when move budget spent with mismatch.
+SUCCESS, FAILURE, GRADES: Implement the stated thresholds exactly. Use S for efficient near-perfect completion; A for small inefficiency; B for more recoverable errors; C for barely passing. Explain thresholds in help UI. Preserve signature identity after retries and stage compression. Allow touch and keyboard equivalents; never make audio mandatory.
+
+
+SIGNATURE #89 — Five-Channel Calibration
+RULES / OBJECTIVE: Five independent movable markers and slowly moving colored goal intervals; sliders or arrow focus. Keep ALL within bands simultaneously for 3 continuous seconds; misalignment fills instability gauge; fail at 100%.
+SUCCESS, FAILURE, GRADES: Implement the stated thresholds exactly. Use S for efficient near-perfect completion; A for small inefficiency; B for more recoverable errors; C for barely passing. Explain thresholds in help UI. Preserve signature identity after retries and stage compression. Allow touch and keyboard equivalents; never make audio mandatory.
+
+
+SIGNATURE #90 — Robotic Recovery Routing
+RULES / OBJECTIVE: 8x8 tile board with three robots, color-coded targets and walls. Issue single shared Up/Down/Left/Right/Stay per turn; prohibit wall entry, overlapping and position-swaps. Win all matching destinations <=18 turns; generate using verified solution search.
+SUCCESS, FAILURE, GRADES: Implement the stated thresholds exactly. Use S for efficient near-perfect completion; A for small inefficiency; B for more recoverable errors; C for barely passing. Explain thresholds in help UI. Preserve signature identity after retries and stage compression. Allow touch and keyboard equivalents; never make audio mandatory.
+
+
+SIGNATURE #91 — Titan Sequence Reconstruction
+RULES / OBJECTIVE: Show six distinct symbols for four seconds. Reveal explicit rule Reverse/Rotate Left/Rotate Right/Swap Neighbor Pairs and four candidate output sequences. Four correct rounds required; fail on second mistake.
+SUCCESS, FAILURE, GRADES: Implement the stated thresholds exactly. Use S for efficient near-perfect completion; A for small inefficiency; B for more recoverable errors; C for barely passing. Explain thresholds in help UI. Preserve signature identity after retries and stage compression. Allow touch and keyboard equivalents; never make audio mandatory.
+
+
+SIGNATURE #92 — Grid Synchronization
+RULES / OBJECTIVE: Six spinning phase discs each with a visible target wedge. Click each to lock within wedge; two mistimed locks allowed. Win all locked. Make rotating patterns colorblind-friendly.
+SUCCESS, FAILURE, GRADES: Implement the stated thresholds exactly. Use S for efficient near-perfect completion; A for small inefficiency; B for more recoverable errors; C for barely passing. Explain thresholds in help UI. Preserve signature identity after retries and stage compression. Allow touch and keyboard equivalents; never make audio mandatory.
+
+
+SIGNATURE #93 — Transformer Flow Balance
+RULES / OBJECTIVE: Two sources and six sinks with finite capacities and edge maxima. Player sets integer edge flows. Validate conservation, all demands and capacities; three wrong submissions fail. Generate underlying feasible flow first.
+SUCCESS, FAILURE, GRADES: Implement the stated thresholds exactly. Use S for efficient near-perfect completion; A for small inefficiency; B for more recoverable errors; C for barely passing. Explain thresholds in help UI. Preserve signature identity after retries and stage compression. Allow touch and keyboard equivalents; never make audio mandatory.
+
+
+SIGNATURE #94 — CNC Command Programming
+RULES / OBJECTIVE: 7x7 robot grid with three pickups and three matching drop-off squares. Program using Move/Turn/Pick/Drop/Repeat Twice; <=14 instruction slots; simulate and permit 3 failed executions. Only solvable instances.
+SUCCESS, FAILURE, GRADES: Implement the stated thresholds exactly. Use S for efficient near-perfect completion; A for small inefficiency; B for more recoverable errors; C for barely passing. Explain thresholds in help UI. Preserve signature identity after retries and stage compression. Allow touch and keyboard equivalents; never make audio mandatory.
+
+
+SIGNATURE #95 — Stator Ring Assembly
+RULES / OBJECTIVE: Eight interchangeable circular sectors, select swap of adjacent sectors and 45-degree rotations. Match reference in <=16 legal actions, initial board generated from <=12 inverse-scramble moves.
+SUCCESS, FAILURE, GRADES: Implement the stated thresholds exactly. Use S for efficient near-perfect completion; A for small inefficiency; B for more recoverable errors; C for barely passing. Explain thresholds in help UI. Preserve signature identity after retries and stage compression. Allow touch and keyboard equivalents; never make audio mandatory.
+
+
+SIGNATURE #96 — Automation Scheduler
+RULES / OBJECTIVE: Drag eight task bars to four permitted machine lanes with task durations; zero overlaps and all tasks done by virtual time 12. Generator constructs feasible schedule before scrambling.
+SUCCESS, FAILURE, GRADES: Implement the stated thresholds exactly. Use S for efficient near-perfect completion; A for small inefficiency; B for more recoverable errors; C for barely passing. Explain thresholds in help UI. Preserve signature identity after retries and stage compression. Allow touch and keyboard equivalents; never make audio mandatory.
+
+
+SIGNATURE #97 — Servo Wave Matching
+RULES / OBJECTIVE: Show four target curves, four editable signal curves with frequency/phase/amplitude controls. Within tolerance on all curves for 2s wins; five incorrect locks fail. Controls not frame-rate dependent.
+SUCCESS, FAILURE, GRADES: Implement the stated thresholds exactly. Use S for efficient near-perfect completion; A for small inefficiency; B for more recoverable errors; C for barely passing. Explain thresholds in help UI. Preserve signature identity after retries and stage compression. Allow touch and keyboard equivalents; never make audio mandatory.
+
+
+SIGNATURE #98 — Conveyor Sorting
+RULES / OBJECTIVE: Twenty advancing colored/symbol-marked abstract tokens, choose three outlet gates via touch or keys 1/2/3. <=2 wrong routes allowed; third error loses. Allow reasonable preview time.
+SUCCESS, FAILURE, GRADES: Implement the stated thresholds exactly. Use S for efficient near-perfect completion; A for small inefficiency; B for more recoverable errors; C for barely passing. Explain thresholds in help UI. Preserve signature identity after retries and stage compression. Allow touch and keyboard equivalents; never make audio mandatory.
+
+
+SIGNATURE #99 — PLC Logic Puzzle
+RULES / OBJECTIVE: A purely fictional 6-socket AND/OR/NOT gate circuit board. Drag logic modules to make four displayed input/output test cases pass. At most three wrong validation attempts; generate from known valid wiring, not real-world programmable controller instructions.
+SUCCESS, FAILURE, GRADES: Implement the stated thresholds exactly. Use S for efficient near-perfect completion; A for small inefficiency; B for more recoverable errors; C for barely passing. Explain thresholds in help UI. Preserve signature identity after retries and stage compression. Allow touch and keyboard equivalents; never make audio mandatory.
+
+
+SIGNATURE #100 — Breaker Dependency Puzzle
+RULES / OBJECTIVE: Eight abstract toggle nodes with directed prerequisites in a visible DAG. Click an enabled node to lock it. Win with all activated; 2 errors allowed. Generate acyclic graph and valid ordering.
+SUCCESS, FAILURE, GRADES: Implement the stated thresholds exactly. Use S for efficient near-perfect completion; A for small inefficiency; B for more recoverable errors; C for barely passing. Explain thresholds in help UI. Preserve signature identity after retries and stage compression. Allow touch and keyboard equivalents; never make audio mandatory.
+
+
+SIGNATURE #101 — Three-Phase Balance
+RULES / OBJECTIVE: Allocate twelve discrete fictional energy tokens among three meters according to shown targets and ceilings. Achieve deviation <=1 each while meeting sum 12; three invalid submissions fail.
+SUCCESS, FAILURE, GRADES: Implement the stated thresholds exactly. Use S for efficient near-perfect completion; A for small inefficiency; B for more recoverable errors; C for barely passing. Explain thresholds in help UI. Preserve signature identity after retries and stage compression. Allow touch and keyboard equivalents; never make audio mandatory.
+
+
+SIGNATURE #102 — Grid Route Optimizer
+RULES / OBJECTIVE: 7x7 board with five labeled station nodes and blocked cells. Place <=20 segments to connect all stations without entering walls. Precompute feasible spanning paths.
+SUCCESS, FAILURE, GRADES: Implement the stated thresholds exactly. Use S for efficient near-perfect completion; A for small inefficiency; B for more recoverable errors; C for barely passing. Explain thresholds in help UI. Preserve signature identity after retries and stage compression. Allow touch and keyboard equivalents; never make audio mandatory.
+
+
+SIGNATURE #103 — Converter Synchronization
+RULES / OBJECTIVE: Two horizontal-traveling and one vertical-traveling markers with highlighted target windows. Press single SYNC during common overlap; up to three tries. Generator guarantees intervals overlap.
+SUCCESS, FAILURE, GRADES: Implement the stated thresholds exactly. Use S for efficient near-perfect completion; A for small inefficiency; B for more recoverable errors; C for barely passing. Explain thresholds in help UI. Preserve signature identity after retries and stage compression. Allow touch and keyboard equivalents; never make audio mandatory.
+
+
+SIGNATURE #104 — Superconducting Ring Calibration
+RULES / OBJECTIVE: Twelve ring positions have one of three states. Clicking one advances it plus adjacent positions modulo 3. Given visible goal; win in <=20 actions. Scramble via legal moves from goal.
+SUCCESS, FAILURE, GRADES: Implement the stated thresholds exactly. Use S for efficient near-perfect completion; A for small inefficiency; B for more recoverable errors; C for barely passing. Explain thresholds in help UI. Preserve signature identity after retries and stage compression. Allow touch and keyboard equivalents; never make audio mandatory.
+
+
+SIGNATURE #105 — Cryogenic Stability
+RULES / OBJECTIVE: Allocate ten cooling points among three abstract temperature channels; channels drift within bounds. Sustain all three inside their bands four seconds. Instability 100% fails. Clear visual cues.
+SUCCESS, FAILURE, GRADES: Implement the stated thresholds exactly. Use S for efficient near-perfect completion; A for small inefficiency; B for more recoverable errors; C for barely passing. Explain thresholds in help UI. Preserve signature identity after retries and stage compression. Allow touch and keyboard equivalents; never make audio mandatory.
+
+
+SIGNATURE #106 — Copper Separation Sorting
+RULES / OBJECTIVE: Route 24 tokens with three non-color-only symbols to three matching bins via labeled buttons. Third sorting error loses. Maintain fair speed for touch.
+SUCCESS, FAILURE, GRADES: Implement the stated thresholds exactly. Use S for efficient near-perfect completion; A for small inefficiency; B for more recoverable errors; C for barely passing. Explain thresholds in help UI. Preserve signature identity after retries and stage compression. Allow touch and keyboard equivalents; never make audio mandatory.
+
+
+SIGNATURE #107 — Research Instrument Alignment
+RULES / OBJECTIVE: Six hexagonal arms rotate in 60-degree steps; clicking arm also rotates clockwise neighbor. Match six orientations in <=18 legal moves from generated solvable scramble.
+SUCCESS, FAILURE, GRADES: Implement the stated thresholds exactly. Use S for efficient near-perfect completion; A for small inefficiency; B for more recoverable errors; C for barely passing. Explain thresholds in help UI. Preserve signature identity after retries and stage compression. Allow touch and keyboard equivalents; never make audio mandatory.
+
+
+SIGNATURE #108 — Rotor Balance
+RULES / OBJECTIVE: Place four +1 and four -1 virtual balance blocks in eight evenly spaced positions on circle so shown horizontal and vertical integer vector sums equal zero. Present resulting vectors. Build solution and shuffle.
+SUCCESS, FAILURE, GRADES: Implement the stated thresholds exactly. Use S for efficient near-perfect completion; A for small inefficiency; B for more recoverable errors; C for barely passing. Explain thresholds in help UI. Preserve signature identity after retries and stage compression. Allow touch and keyboard equivalents; never make audio mandatory.
+
+
+SIGNATURE #109 — Data Center Cooling Network
+RULES / OBJECTIVE: Rotate directional pipe tiles on 6x6 grid linking cold source to three rack inputs; no open/leaking ends permitted at finish. Generate solvable networks, judge path and leak consistency.
+SUCCESS, FAILURE, GRADES: Implement the stated thresholds exactly. Use S for efficient near-perfect completion; A for small inefficiency; B for more recoverable errors; C for barely passing. Explain thresholds in help UI. Preserve signature identity after retries and stage compression. Allow touch and keyboard equivalents; never make audio mandatory.
+
+
+SIGNATURE #110 — Gantry Path Programming
+RULES / OBJECTIVE: 8x5 obstructed grid; choose up to six waypoints for virtual gantry to visit four stations in displayed order then dock within <=22 grid moves. Generate a feasible route first.
+SUCCESS, FAILURE, GRADES: Implement the stated thresholds exactly. Use S for efficient near-perfect completion; A for small inefficiency; B for more recoverable errors; C for barely passing. Explain thresholds in help UI. Preserve signature identity after retries and stage compression. Allow touch and keyboard equivalents; never make audio mandatory.
+
+
+SIGNATURE #111 — Motor Vibration Analyzer
+RULES / OBJECTIVE: Three slider-controlled waveforms combine into displayed target envelope. Visually show error magnitude. Hold error below threshold 3s wins; instability full loses.
+SUCCESS, FAILURE, GRADES: Implement the stated thresholds exactly. Use S for efficient near-perfect completion; A for small inefficiency; B for more recoverable errors; C for barely passing. Explain thresholds in help UI. Preserve signature identity after retries and stage compression. Allow touch and keyboard equivalents; never make audio mandatory.
+
+
+SIGNATURE #112 — Converter Module Network
+RULES / OBJECTIVE: Four uniquely shaped fictional converters with oriented port sockets. Rotate/connect to build one path from source to every output module in <=15 actions. Solve before scrambling.
+SUCCESS, FAILURE, GRADES: Implement the stated thresholds exactly. Use S for efficient near-perfect completion; A for small inefficiency; B for more recoverable errors; C for barely passing. Explain thresholds in help UI. Preserve signature identity after retries and stage compression. Allow touch and keyboard equivalents; never make audio mandatory.
+
+
+SIGNATURE #113 — Turbine Synchronization
+RULES / OBJECTIVE: Two animated rotors with independent speed and phase adjustment buttons. Bring speed difference <3% and phase difference <12 degrees for 2s; 3 failed LOCK checks end game.
+SUCCESS, FAILURE, GRADES: Implement the stated thresholds exactly. Use S for efficient near-perfect completion; A for small inefficiency; B for more recoverable errors; C for barely passing. Explain thresholds in help UI. Preserve signature identity after retries and stage compression. Allow touch and keyboard equivalents; never make audio mandatory.
+
+
+SIGNATURE #114 — Supercomputer Packet Routing
+RULES / OBJECTIVE: Ten-node graph with colored packets, edge capacity per round and blocked paths. Player chooses packet routes over <=8 rounds; all packets reach correct destinations. Verify solvability.
+SUCCESS, FAILURE, GRADES: Implement the stated thresholds exactly. Use S for efficient near-perfect completion; A for small inefficiency; B for more recoverable errors; C for barely passing. Explain thresholds in help UI. Preserve signature identity after retries and stage compression. Allow touch and keyboard equivalents; never make audio mandatory.
+
+
+SIGNATURE #115 — Industrial Command Priorities
+RULES / OBJECTIVE: Six virtual task requests, each with deadlines and one of three priorities, must fit into ten turn slots; critical requests always before deadlines. Generate valid scheduling solution, player chooses order.
+SUCCESS, FAILURE, GRADES: Implement the stated thresholds exactly. Use S for efficient near-perfect completion; A for small inefficiency; B for more recoverable errors; C for barely passing. Explain thresholds in help UI. Preserve signature identity after retries and stage compression. Allow touch and keyboard equivalents; never make audio mandatory.
+
+
+SIGNATURE #116 — Generator Array Balancing
+RULES / OBJECTIVE: Three generators with sliders 0–cap. Match target total within 1% while difference between largest and smallest output stays within shown allowed band; hold 3s.
+SUCCESS, FAILURE, GRADES: Implement the stated thresholds exactly. Use S for efficient near-perfect completion; A for small inefficiency; B for more recoverable errors; C for barely passing. Explain thresholds in help UI. Preserve signature identity after retries and stage compression. Allow touch and keyboard equivalents; never make audio mandatory.
+
+
+SIGNATURE #117 — Experimental Control Matrix
+RULES / OBJECTIVE: 5x5 Latin square puzzle: five distinct symbols must each appear exactly once per row/column. Prefill clue cells from generated valid Latin square; correct completed board wins.
+SUCCESS, FAILURE, GRADES: Implement the stated thresholds exactly. Use S for efficient near-perfect completion; A for small inefficiency; B for more recoverable errors; C for barely passing. Explain thresholds in help UI. Preserve signature identity after retries and stage compression. Allow touch and keyboard equivalents; never make audio mandatory.
+
+
+SIGNATURE #118 — Megafactory Logistics
+RULES / OBJECTIVE: Tile-based factory puzzle: place directional arrows/routes for three different material packets from entries to distinct destinations. Simulate <=20 ticks, avoid conflicting route occupancy; generate feasible map.
+SUCCESS, FAILURE, GRADES: Implement the stated thresholds exactly. Use S for efficient near-perfect completion; A for small inefficiency; B for more recoverable errors; C for barely passing. Explain thresholds in help UI. Preserve signature identity after retries and stage compression. Allow touch and keyboard equivalents; never make audio mandatory.
+
+
+SIGNATURE #119 — Central Power Complex Finale
+RULES / OBJECTIVE: Three-phase finale: A rotate/connect six virtual power modules into one network; B distribute fixed fictional resource pool to four destinations within min/max demand; C synchronize two circular phase discs and one linear marker. Shared three-error budget, clear checkpoints, victory cinematic.
+SUCCESS, FAILURE, GRADES: Implement the stated thresholds exactly. Use S for efficient near-perfect completion; A for small inefficiency; B for more recoverable errors; C for barely passing. Explain thresholds in help UI. Preserve signature identity after retries and stage compression. Allow touch and keyboard equivalents; never make audio mandatory.
+
+
+SECTION 6 — FACTORY UNLOCK AND BALANCE
+Global Industry blueprint unlocks at first successful A2, independent of ordinary R19 progression. First factory building costs $1T + 5Mt Standard copper, is permanent and includes 1 manual production line, 20 cargo-volume warehouse storage, F01–F05 recipes and NO workers or ships. It is distinct from the original Automated Recycling Workshop and Smelting Facility. Production loop: choose unlocked recipe and quantity; reserve copper and fee atomically; complete product-specific manual signature if no licensed automation; start timed production; collect finished goods into limited warehouse; purchase vessel; load cargo; choose country; pay freight; lock export quote; travel; deliver; settle exactly once; return voyage. Production batch N scales resource inputs and fees per unit, with equipment-supported throughput. Failed minigames retry SAME funded batch with a modest time penalty, never charge entire inputs a second time. Factory UI must show real machines and inventory rather than just Sell buttons. Production goods cannot be sold instantly internationally. Raw copper remains important. Don't grant free copper through worker action.
+
+
+SECTION 7 — ALL 25 PRODUCT RECIPES AND UNIQUE 25 PRODUCT MODELS
+Per SINGLE factory output unit. B=billion T=trillion Q=quadrillion game $. Inputs are Standard copper only, plus fee. A2 grants 15% discount to production FEE, not input. Apply quality/export bonus only after caps. Reference export price is not guaranteed net profit. Production timers are server-authoritative timestamp jobs with minimum duration floor after speed upgrades. All products have unique inventory icon and detailed model, not one recolored ingot. Use explicit product IDs stable in saves. Definition includes UNIQUE appearance:
+
+
+F01 — Copper Wire Bundle
+Recipe INPUT: .5 Mt Standard copper + $70B production fee. One output item. Base production time 45 seconds. GLOBAL reference export price $450B (before country, event, reputation, quality, freight).
+MANDATORY UNIQUE PRODUCT MODEL: One stout wooden/steel spool packed with bright copper strands and wide side flanges. Use different silhouette from the electronics catalogue and from adjacent factory products.
+
+
+F02 — Industrial Copper Cable
+Recipe INPUT: 1 Mt Standard copper + $150B production fee. One output item. Base production time 60 seconds. GLOBAL reference export price $950B (before country, event, reputation, quality, freight).
+MANDATORY UNIQUE PRODUCT MODEL: Coiled thick black insulated cable with two visible bundles of copper conductors at cut ends. Use different silhouette from the electronics catalogue and from adjacent factory products.
+
+
+F03 — Copper Plumbing Pipe Set
+Recipe INPUT: 1.5 Mt Standard copper + $230B production fee. One output item. Base production time 75 seconds. GLOBAL reference export price $1.45T (before country, event, reputation, quality, freight).
+MANDATORY UNIQUE PRODUCT MODEL: Bundle of straight rose-copper plumbing pipes plus two elbows, steel straps and pallet. Use different silhouette from the electronics catalogue and from adjacent factory products.
+
+
+F04 — Copper Sheet Pallet
+Recipe INPUT: 2 Mt Standard copper + $320B production fee. One output item. Base production time 90 seconds. GLOBAL reference export price $2T (before country, event, reputation, quality, freight).
+MANDATORY UNIQUE PRODUCT MODEL: Layered stack of flat reddish shiny copper sheets on square industrial pallet with retaining straps. Use different silhouette from the electronics catalogue and from adjacent factory products.
+
+
+F05 — Copper Cooling Tube Assembly
+Recipe INPUT: 3 Mt Standard copper + $500B production fee. One output item. Base production time 105 seconds. GLOBAL reference export price $3.1T (before country, event, reputation, quality, freight).
+MANDATORY UNIQUE PRODUCT MODEL: Radiator-like slim metal rectangular frame holding curving parallel copper serpentine tubes. Use different silhouette from the electronics catalogue and from adjacent factory products.
+
+
+F06 — Electric Motor Winding Set
+Recipe INPUT: 4 Mt Standard copper + $700B production fee. One output item. Base production time 120 seconds. GLOBAL reference export price $4.2T (before country, event, reputation, quality, freight).
+MANDATORY UNIQUE PRODUCT MODEL: Circular steel motor stator with tightly repeated copper coil slots, open center and exposed copper wire. Use different silhouette from the electronics catalogue and from adjacent factory products.
+
+
+F07 — Transformer Coil Assembly
+Recipe INPUT: 5 Mt Standard copper + $900B production fee. One output item. Base production time 140 seconds. GLOBAL reference export price $5.3T (before country, event, reputation, quality, freight).
+MANDATORY UNIQUE PRODUCT MODEL: Large rectangular insulated core encircled by several thick flat winding layers of reddish copper. Use different silhouette from the electronics catalogue and from adjacent factory products.
+
+
+F08 — Industrial Wiring Harness
+Recipe INPUT: 7 Mt Standard copper + $1.3T production fee. One output item. Base production time 160 seconds. GLOBAL reference export price $7.5T (before country, event, reputation, quality, freight).
+MANDATORY UNIQUE PRODUCT MODEL: Organized multi-color insulated wire bundle splitting into five different plastic terminal connectors. Use different silhouette from the electronics catalogue and from adjacent factory products.
+
+
+F09 — Generator Stator Winding
+Recipe INPUT: 10 Mt Standard copper + $1.9T production fee. One output item. Base production time 180 seconds. GLOBAL reference export price $10.8T (before country, event, reputation, quality, freight).
+MANDATORY UNIQUE PRODUCT MODEL: Huge hollow circular generator stator with evenly separated radial copper coil teeth and steel exterior. Use different silhouette from the electronics catalogue and from adjacent factory products.
+
+
+F10 — Copper Heat Exchanger
+Recipe INPUT: 15 Mt Standard copper + $3T production fee. One output item. Base production time 210 seconds. GLOBAL reference export price $16.5T (before country, event, reputation, quality, freight).
+MANDATORY UNIQUE PRODUCT MODEL: Compact rectangular heat exchanger with many parallel bent copper pipes and silver cooling fins. Use different silhouette from the electronics catalogue and from adjacent factory products.
+
+
+F11 — Precision Copper Connector Kit
+Recipe INPUT: 20 Mt Standard copper + $4T production fee. One output item. Base production time 240 seconds. GLOBAL reference export price $22T (before country, event, reputation, quality, freight).
+MANDATORY UNIQUE PRODUCT MODEL: Shallow compartment tray full of differently shaped copper connector pins, sockets and terminal blocks. Use different silhouette from the electronics catalogue and from adjacent factory products.
+
+
+F12 — Power Distribution Busbar Set
+Recipe INPUT: 30 Mt Standard copper + $6T production fee. One output item. Base production time 270 seconds. GLOBAL reference export price $33T (before country, event, reputation, quality, freight).
+MANDATORY UNIQUE PRODUCT MODEL: Four flat thick copper conductor rails featuring equally spaced bolt holes and white standoffs. Use different silhouette from the electronics catalogue and from adjacent factory products.
+
+
+F13 — Industrial Cooling Module
+Recipe INPUT: 50 Mt Standard copper + $10T production fee. One output item. Base production time 300 seconds. GLOBAL reference export price $56T (before country, event, reputation, quality, freight).
+MANDATORY UNIQUE PRODUCT MODEL: Metal square ventilation chassis with two visible round fans and winding copper coolant pipes. Use different silhouette from the electronics catalogue and from adjacent factory products.
+
+
+F14 — High-Voltage Cable Assembly
+Recipe INPUT: 75 Mt Standard copper + $16T production fee. One output item. Base production time 330 seconds. GLOBAL reference export price $86T (before country, event, reputation, quality, freight).
+MANDATORY UNIQUE PRODUCT MODEL: Very large industrial black cable on massive steel-framed transport reel with exposed copper ends. Use different silhouette from the electronics catalogue and from adjacent factory products.
+
+
+F15 — Industrial Generator Module
+Recipe INPUT: 100 Mt Standard copper + $22T production fee. One output item. Base production time 360 seconds. GLOBAL reference export price $115T (before country, event, reputation, quality, freight).
+MANDATORY UNIQUE PRODUCT MODEL: Self-contained cylindrical generator subassembly on pallet with short steel shaft and copper side cutaway. Use different silhouette from the electronics catalogue and from adjacent factory products.
+
+
+F16 — Heavy Transformer Assembly
+Recipe INPUT: 150 Mt Standard copper + $35T production fee. One output item. Base production time 420 seconds. GLOBAL reference export price $175T (before country, event, reputation, quality, freight).
+MANDATORY UNIQUE PRODUCT MODEL: Full transformer steel tank with upright porcelain bushings, left/right radiator fins and copper terminals. Use different silhouette from the electronics catalogue and from adjacent factory products.
+
+
+F17 — Advanced Power Grid Module
+Recipe INPUT: 250 Mt Standard copper + $60T production fee. One output item. Base production time 480 seconds. GLOBAL reference export price $295T (before country, event, reputation, quality, freight).
+MANDATORY UNIQUE PRODUCT MODEL: Tall modern electrical switchgear cabinet housing panels, breaker units and an upper copper busbar. Use different silhouette from the electronics catalogue and from adjacent factory products.
+
+
+F18 — Industrial Motor System
+Recipe INPUT: 400 Mt Standard copper + $100T production fee. One output item. Base production time 540 seconds. GLOBAL reference export price $480T (before country, event, reputation, quality, freight).
+MANDATORY UNIQUE PRODUCT MODEL: Large ribbed industrial motor mechanically coupled to gearbox on common rigid base, separate controller. Use different silhouette from the electronics catalogue and from adjacent factory products.
+
+
+F19 — Gigawatt Electrical Converter
+Recipe INPUT: 650 Mt Standard copper + $170T production fee. One output item. Base production time 600 seconds. GLOBAL reference export price $800T (before country, event, reputation, quality, freight).
+MANDATORY UNIQUE PRODUCT MODEL: Three industrial inverter/converter cabinets side by side with oversize top copper busbars and cooling fins. Use different silhouette from the electronics catalogue and from adjacent factory products.
+
+
+F20 — Integrated Power Distribution Station
+Recipe INPUT: 1 Gt Standard copper + $270T production fee. One output item. Base production time 660 seconds. GLOBAL reference export price $1.25Q (before country, event, reputation, quality, freight).
+MANDATORY UNIQUE PRODUCT MODEL: Miniature substation with high ceramic terminals, transformer tanks, copper rails and multiple switchgear buildings. Use different silhouette from the electronics catalogue and from adjacent factory products.
+
+
+F21 — Modular Generator Complex
+Recipe INPUT: 2 Gt Standard copper + $550T production fee. One output item. Base production time 720 seconds. GLOBAL reference export price $2.55Q (before country, event, reputation, quality, freight).
+MANDATORY UNIQUE PRODUCT MODEL: Multi-generator campus built of several different cylindrical units, cooling hut and conductor bridge. Use different silhouette from the electronics catalogue and from adjacent factory products.
+
+
+F22 — Continental Power Grid Assembly
+Recipe INPUT: 4 Gt Standard copper + $1.1Q production fee. One output item. Base production time 780 seconds. GLOBAL reference export price $5.2Q (before country, event, reputation, quality, freight).
+MANDATORY UNIQUE PRODUCT MODEL: Miniature power-grid module with electrical substation nodes, transmission pylons and lines. Use different silhouette from the electronics catalogue and from adjacent factory products.
+
+
+F23 — Automated Industrial Megaplant
+Recipe INPUT: 8 Gt Standard copper + $2.3Q production fee. One output item. Base production time 840 seconds. GLOBAL reference export price $10.6Q (before country, event, reputation, quality, freight).
+MANDATORY UNIQUE PRODUCT MODEL: Factory campus with many machine buildings, overhead gantry crane, conveyors and tall chimney-shaped vents. Use different silhouette from the electronics catalogue and from adjacent factory products.
+
+
+F24 — Global Copper Infrastructure System
+Recipe INPUT: 15 Gt Standard copper + $4.5Q production fee. One output item. Base production time 900 seconds. GLOBAL reference export price $20.5Q (before country, event, reputation, quality, freight).
+MANDATORY UNIQUE PRODUCT MODEL: Wide interconnected industrial power infrastructure of transformers, converters, elevated conduits and generators. Use different silhouette from the electronics catalogue and from adjacent factory products.
+
+
+F25 — Copper Empire Industrial Power Complex
+Recipe INPUT: 30 Gt Standard copper + $9Q production fee. One output item. Base production time 1020 seconds. GLOBAL reference export price $42Q (before country, event, reputation, quality, freight).
+MANDATORY UNIQUE PRODUCT MODEL: Monumental many-building power station with copper distribution ring, generator halls, cooling towers and emblem. Use different silhouette from the electronics catalogue and from adjacent factory products.
+
+
+PRODUCT RESEARCH: F01–05 unlocked by initial building. Tier2 F06–10 requires $2T + 10 F03 + 5 F05. Tier3 F11–15 requires $25T + 10 F07 + 5 F09. Tier4 F16–20 requires R20 reached at least once while at A2 + $250T + 10 F12 + 5 F15 + 10g lifetime legitimately earned gold (milestone NOT spent). Tier5 F21–25 requires R23 milestone + $5Q + 10 F18 + 5 F20 + 50g lifetime gold milestone. The required product units ARE consumed once transactionally. Research permanently unlocked. BALANCE WARNING: At copper price $0.60/g, F01 copper opportunity cost $300B plus $70B fee => $370B versus $450B reference gross, margin $80B BEFORE freight/labor. Some later rows have extremely thin/negative margins at equilibrium; run simulation for all 25 products at copper $0.30/$0.60/$2.00 per g, including wages/shipping, and report any structurally unprofitable tiers, with proposed rebalancing changes. Do not claim all tiers are profitable by fiat or silently modify price catalog. Export profit = actual sale − market value of consumed copper − paid fees − allocated wages − freight/other applicable costs. Track historical cost basis separately if needed.
+
+
+SECTION 8 — 30 FUNCTIONAL FACTORY MINIGAMES, EXACTLY ONE PRIMARY M01–M25 MATCHED TO F01–F25, PLUS M26–M30 OPTIONAL
+All manually completed production jobs must contain an actual minigame; a generic loading bar does not count as a challenge. Define on-screen objective, controls, fail/retry, grade, win, meaningful feedback, practice-only variant. For failure, preserve already-funded job and allow another challenge at modest time penalty; never charge entire recipe twice. Games should be virtual abstractions, not real hazardous manufacturing operating instructions. Puzzle generator must guarantee feasibility. Keep inputs responsive to touch and keyboard and prevent double submissions.
+
+
+M01 — Wire Winding
+OBJECTIVE/INPUT/FAIL CONDITION: An indicator circles a spool. Press WIND as pointer enters target window SIX times out of NINE attempts; moving window narrows slowly.
+Show instructions, interaction hints, timer/move counter, win/failure/retry, and S/A/B/C grade with transparent thresholds. Touch and keyboard supported. M01–M25 count manual mastery ONLY when linked to legitimate funded and completed product jobs; M26–M30 are optional research/skill challenges and must never bypass automation gating.
+
+
+M02 — Cable Insulation Alignment
+OBJECTIVE/INPUT/FAIL CONDITION: Drag THREE colored/shape-coded layers onto matching concentric cable cross-section zones within 30 seconds; 3 wrong placements lose.
+Show instructions, interaction hints, timer/move counter, win/failure/retry, and S/A/B/C grade with transparent thresholds. Touch and keyboard supported. M01–M25 count manual mastery ONLY when linked to legitimate funded and completed product jobs; M26–M30 are optional research/skill challenges and must never bypass automation gating.
+
+
+M03 — Pipe Bending Pattern
+OBJECTIVE/INPUT/FAIL CONDITION: Rearrange and rotate FOUR virtual pipe curves to reproduce highlighted reference route within 12 allowed actions.
+Show instructions, interaction hints, timer/move counter, win/failure/retry, and S/A/B/C grade with transparent thresholds. Touch and keyboard supported. M01–M25 count manual mastery ONLY when linked to legitimate funded and completed product jobs; M26–M30 are optional research/skill challenges and must never bypass automation gating.
+
+
+M04 — Copper Sheet Pressing
+OBJECTIVE/INPUT/FAIL CONDITION: Move fictional thickness slider to match FIVE consecutive displayed target bands and confirm each; 2 bad presses allowed.
+Show instructions, interaction hints, timer/move counter, win/failure/retry, and S/A/B/C grade with transparent thresholds. Touch and keyboard supported. M01–M25 count manual mastery ONLY when linked to legitimate funded and completed product jobs; M26–M30 are optional research/skill challenges and must never bypass automation gating.
+
+
+M05 — Cooling Tube Routing
+OBJECTIVE/INPUT/FAIL CONDITION: Rotate path tiles on 5x5 board to connect IN and OUT without unmatched pipe holes/leaks; solvable generated puzzle.
+Show instructions, interaction hints, timer/move counter, win/failure/retry, and S/A/B/C grade with transparent thresholds. Touch and keyboard supported. M01–M25 count manual mastery ONLY when linked to legitimate funded and completed product jobs; M26–M30 are optional research/skill challenges and must never bypass automation gating.
+
+
+M06 — Motor Coil Winding
+OBJECTIVE/INPUT/FAIL CONDITION: Memorize SIX lit slots from eight copper coil locations, then repeat order; 2 sequence mistakes tolerated.
+Show instructions, interaction hints, timer/move counter, win/failure/retry, and S/A/B/C grade with transparent thresholds. Touch and keyboard supported. M01–M25 count manual mastery ONLY when linked to legitimate funded and completed product jobs; M26–M30 are optional research/skill challenges and must never bypass automation gating.
+
+
+M07 — Transformer Coil Matching
+OBJECTIVE/INPUT/FAIL CONDITION: Divide 15 coil tokens among three transformer coils to meet shown target winding quantities EXACTLY.
+Show instructions, interaction hints, timer/move counter, win/failure/retry, and S/A/B/C grade with transparent thresholds. Touch and keyboard supported. M01–M25 count manual mastery ONLY when linked to legitimate funded and completed product jobs; M26–M30 are optional research/skill challenges and must never bypass automation gating.
+
+
+M08 — Wiring Harness Assembly
+OBJECTIVE/INPUT/FAIL CONDITION: Drag FIVE separately labeled wires to matching terminal targets; 2 wrong matches tolerated.
+Show instructions, interaction hints, timer/move counter, win/failure/retry, and S/A/B/C grade with transparent thresholds. Touch and keyboard supported. M01–M25 count manual mastery ONLY when linked to legitimate funded and completed product jobs; M26–M30 are optional research/skill challenges and must never bypass automation gating.
+
+
+M09 — Stator Segment Alignment
+OBJECTIVE/INPUT/FAIL CONDITION: Swap adjacent and rotate SIX stator ring sectors to match reference within <=12 moves; generate legal scramble.
+Show instructions, interaction hints, timer/move counter, win/failure/retry, and S/A/B/C grade with transparent thresholds. Touch and keyboard supported. M01–M25 count manual mastery ONLY when linked to legitimate funded and completed product jobs; M26–M30 are optional research/skill challenges and must never bypass automation gating.
+
+
+M10 — Heat Exchanger Flow
+OBJECTIVE/INPUT/FAIL CONDITION: 6x4 path tile puzzle; create TWO disjoint inlet-to-outlet pipe routes without leaks or crossings.
+Show instructions, interaction hints, timer/move counter, win/failure/retry, and S/A/B/C grade with transparent thresholds. Touch and keyboard supported. M01–M25 count manual mastery ONLY when linked to legitimate funded and completed product jobs; M26–M30 are optional research/skill challenges and must never bypass automation gating.
+
+
+M11 — Precision Connector Inspection
+OBJECTIVE/INPUT/FAIL CONDITION: Compare TWELVE connector drawings against reference; identify THREE with a visually indicated manufacturing difference, <=1 wrong selection.
+Show instructions, interaction hints, timer/move counter, win/failure/retry, and S/A/B/C grade with transparent thresholds. Touch and keyboard supported. M01–M25 count manual mastery ONLY when linked to legitimate funded and completed product jobs; M26–M30 are optional research/skill challenges and must never bypass automation gating.
+
+
+M12 — Busbar Placement
+OBJECTIVE/INPUT/FAIL CONDITION: Position FOUR bars of different length onto grid connecting all designated terminal pairs without overlap, <=10 placement actions.
+Show instructions, interaction hints, timer/move counter, win/failure/retry, and S/A/B/C grade with transparent thresholds. Touch and keyboard supported. M01–M25 count manual mastery ONLY when linked to legitimate funded and completed product jobs; M26–M30 are optional research/skill challenges and must never bypass automation gating.
+
+
+M13 — Cooling Module Calibration
+OBJECTIVE/INPUT/FAIL CONDITION: Adjust THREE fan speed sliders to maintain values inside moving target bands for THREE seconds without full instability.
+Show instructions, interaction hints, timer/move counter, win/failure/retry, and S/A/B/C grade with transparent thresholds. Touch and keyboard supported. M01–M25 count manual mastery ONLY when linked to legitimate funded and completed product jobs; M26–M30 are optional research/skill challenges and must never bypass automation gating.
+
+
+M14 — Cable Network Sequencing
+OBJECTIVE/INPUT/FAIL CONDITION: Choose connection order of SIX virtual cable segments satisfying dependency arrows; at most two violations.
+Show instructions, interaction hints, timer/move counter, win/failure/retry, and S/A/B/C grade with transparent thresholds. Touch and keyboard supported. M01–M25 count manual mastery ONLY when linked to legitimate funded and completed product jobs; M26–M30 are optional research/skill challenges and must never bypass automation gating.
+
+
+M15 — Generator Phase Lock
+OBJECTIVE/INPUT/FAIL CONDITION: Tap STOP separately on THREE rotating indicators when each pointer is inside target sector; 2 bad locks tolerated.
+Show instructions, interaction hints, timer/move counter, win/failure/retry, and S/A/B/C grade with transparent thresholds. Touch and keyboard supported. M01–M25 count manual mastery ONLY when linked to legitimate funded and completed product jobs; M26–M30 are optional research/skill challenges and must never bypass automation gating.
+
+
+M16 — Transformer Core Assembly
+OBJECTIVE/INPUT/FAIL CONDITION: Rotate and place SIX abstract magnetic-core polyomino pieces into outline in <=15 actions.
+Show instructions, interaction hints, timer/move counter, win/failure/retry, and S/A/B/C grade with transparent thresholds. Touch and keyboard supported. M01–M25 count manual mastery ONLY when linked to legitimate funded and completed product jobs; M26–M30 are optional research/skill challenges and must never bypass automation gating.
+
+
+M17 — Grid Distribution Puzzle
+OBJECTIVE/INPUT/FAIL CONDITION: Allocate finite virtual power among FOUR load branches satisfying minima and maxima. Validate conservation; at most 3 wrong submits.
+Show instructions, interaction hints, timer/move counter, win/failure/retry, and S/A/B/C grade with transparent thresholds. Touch and keyboard supported. M01–M25 count manual mastery ONLY when linked to legitimate funded and completed product jobs; M26–M30 are optional research/skill challenges and must never bypass automation gating.
+
+
+M18 — Motor Shaft Alignment
+OBJECTIVE/INPUT/FAIL CONDITION: Adjust horizontal/vertical offsets of TWO virtual shafts; both alignment errors must remain inside target tolerance for 2 seconds.
+Show instructions, interaction hints, timer/move counter, win/failure/retry, and S/A/B/C grade with transparent thresholds. Touch and keyboard supported. M01–M25 count manual mastery ONLY when linked to legitimate funded and completed product jobs; M26–M30 are optional research/skill challenges and must never bypass automation gating.
+
+
+M19 — Converter Frequency Control
+OBJECTIVE/INPUT/FAIL CONDITION: Move TWO frequency sliders and ONE phase slider to match reference wave gauges within tolerance; 3 failed LOCK checks.
+Show instructions, interaction hints, timer/move counter, win/failure/retry, and S/A/B/C grade with transparent thresholds. Touch and keyboard supported. M01–M25 count manual mastery ONLY when linked to legitimate funded and completed product jobs; M26–M30 are optional research/skill challenges and must never bypass automation gating.
+
+
+M20 — Substation Routing
+OBJECTIVE/INPUT/FAIL CONDITION: Connect FOUR grid nodes across blocked 8x8 path board using <=16 cable tiles. Verify graph connectivity.
+Show instructions, interaction hints, timer/move counter, win/failure/retry, and S/A/B/C grade with transparent thresholds. Touch and keyboard supported. M01–M25 count manual mastery ONLY when linked to legitimate funded and completed product jobs; M26–M30 are optional research/skill challenges and must never bypass automation gating.
+
+
+M21 — Generator Module Sequencing
+OBJECTIVE/INPUT/FAIL CONDITION: Activate SIX virtual modules following a displayed DAG dependency schedule; two invalid activations tolerated.
+Show instructions, interaction hints, timer/move counter, win/failure/retry, and S/A/B/C grade with transparent thresholds. Touch and keyboard supported. M01–M25 count manual mastery ONLY when linked to legitimate funded and completed product jobs; M26–M30 are optional research/skill challenges and must never bypass automation gating.
+
+
+M22 — Continental Grid Planning
+OBJECTIVE/INPUT/FAIL CONDITION: Choose SIX of TEN potential electrical links to connect all demand substations while fitting a displayed price budget; generate a feasible instance.
+Show instructions, interaction hints, timer/move counter, win/failure/retry, and S/A/B/C grade with transparent thresholds. Touch and keyboard supported. M01–M25 count manual mastery ONLY when linked to legitimate funded and completed product jobs; M26–M30 are optional research/skill challenges and must never bypass automation gating.
+
+
+M23 — Megaplant Conveyor Management
+OBJECTIVE/INPUT/FAIL CONDITION: Sort TWENTY-FIVE symbols into THREE chutes with buttons, third wrong dispatch fails.
+Show instructions, interaction hints, timer/move counter, win/failure/retry, and S/A/B/C grade with transparent thresholds. Touch and keyboard supported. M01–M25 count manual mastery ONLY when linked to legitimate funded and completed product jobs; M26–M30 are optional research/skill challenges and must never bypass automation gating.
+
+
+M24 — Infrastructure Assembly Planner
+OBJECTIVE/INPUT/FAIL CONDITION: Fit SIX differently shaped schematic components into a 4x4 grid satisfying designated adjacency constraints and no overlaps.
+Show instructions, interaction hints, timer/move counter, win/failure/retry, and S/A/B/C grade with transparent thresholds. Touch and keyboard supported. M01–M25 count manual mastery ONLY when linked to legitimate funded and completed product jobs; M26–M30 are optional research/skill challenges and must never bypass automation gating.
+
+
+M25 — Industrial Power Complex Finale
+OBJECTIVE/INPUT/FAIL CONDITION: A build six-module connected abstract circuit, B allocate virtual energy for four facilities, C three-marker timing synchronisation; 3 shared mistakes allowed.
+Show instructions, interaction hints, timer/move counter, win/failure/retry, and S/A/B/C grade with transparent thresholds. Touch and keyboard supported. M01–M25 count manual mastery ONLY when linked to legitimate funded and completed product jobs; M26–M30 are optional research/skill challenges and must never bypass automation gating.
+
+
+M26 — Precision Quality Scan
+OBJECTIVE/INPUT/FAIL CONDITION: TEN products shown one at a time with reference drawing; classify pass/rework; at least NINE correct.
+Show instructions, interaction hints, timer/move counter, win/failure/retry, and S/A/B/C grade with transparent thresholds. Touch and keyboard supported. M01–M25 count manual mastery ONLY when linked to legitimate funded and completed product jobs; M26–M30 are optional research/skill challenges and must never bypass automation gating.
+
+
+M27 — Production Optimization
+OBJECTIVE/INPUT/FAIL CONDITION: Drag EIGHT abstract jobs onto THREE machine timelines meeting fixed completion deadline and per-job eligibility.
+Show instructions, interaction hints, timer/move counter, win/failure/retry, and S/A/B/C grade with transparent thresholds. Touch and keyboard supported. M01–M25 count manual mastery ONLY when linked to legitimate funded and completed product jobs; M26–M30 are optional research/skill challenges and must never bypass automation gating.
+
+
+M28 — Freight Container Packing
+OBJECTIVE/INPUT/FAIL CONDITION: Rotate and fit TEN cargo polyomino shapes inside a rectangular packing grid without overlap or out-of-bounds.
+Show instructions, interaction hints, timer/move counter, win/failure/retry, and S/A/B/C grade with transparent thresholds. Touch and keyboard supported. M01–M25 count manual mastery ONLY when linked to legitimate funded and completed product jobs; M26–M30 are optional research/skill challenges and must never bypass automation gating.
+
+
+M29 — Supply Chain Synchronization
+OBJECTIVE/INPUT/FAIL CONDITION: Adjust start offsets for FIVE linked virtual stations so output arrives within each receiving window; all maintained simultaneously 3 seconds.
+Show instructions, interaction hints, timer/move counter, win/failure/retry, and S/A/B/C grade with transparent thresholds. Touch and keyboard supported. M01–M25 count manual mastery ONLY when linked to legitimate funded and completed product jobs; M26–M30 are optional research/skill challenges and must never bypass automation gating.
+
+
+M30 — Master Industrial Certification
+OBJECTIVE/INPUT/FAIL CONDITION: Complete THREE separate randomized SHORT challenges: one precision, one logic, one logistics from already implemented accessible games; success in all 3 wins, impossible cases filtered.
+Show instructions, interaction hints, timer/move counter, win/failure/retry, and S/A/B/C grade with transparent thresholds. Touch and keyboard supported. M01–M25 count manual mastery ONLY when linked to legitimate funded and completed product jobs; M26–M30 are optional research/skill challenges and must never bypass automation gating.
+
+
+SECTION 9 — WORKERS REQUIRE PLAYER MANUAL EXPERIENCE AND PURCHASE
+Per PRODUCT, first complete valid funded job plus its PRIMARY game manually several times. Not practice and not automated. Counts persist permanently. Requirements: F01–F05 FIVE successes each; F06–F10 EIGHT; F11–F15 TWELVE; F16–F20 SIXTEEN; F21–F25 TWENTY. Example F07 requires eight real M07 successes before its production license is available. Then pay an AUTOMATION LICENSE PER PRODUCT: F01–05 $50B EACH; F06–10 $250B; F11–15 $1T; F16–20 $10T; F21–25 $100T. These licenses persist through rebirth/A2.
+Paid workers: Factory Operator hire $50B, wage $1B per paid production job, operates licensed recipes; Material Handler $100B hire and $2B wage, prepares ingredients for approved queues; Quality Inspector $250B hire and $5B/job, limited quality bonus; Production Supervisor $1T hire and $20B/job, throughput; Logistics Manager $2T hire and $40B/job, manages approved shipping preparation; Industrial Factory Manager $5T hire and $100B/job, supervises multiple approved lines. Higher recipe tiers may need a Supervisor (F11–20) or Factory Manager (F21–25), but do not charge an extra worker hire for every product if shared staff assigned properly. UI hiring, dismissing, assigning, reassigning, pausing, priority queue and wages. Start a worker job ONLY when automation license, product research, copper, production fee, wage and factory capacity are valid. Atomically reserve/deduct materials and payment. Insufficient resources must PAUSE, never go into unlimited wage debt. Completed worker jobs add finished products at timestamps; no every-second DB writes. Maximum offline catch-up bounded and authoritatively computed. No free resources, no infinite backfill, no double collect. Ensure workers actually execute tasks, not decorative display.
+
+
+SECTION 10 — FACTORY BUILDINGS, WAREHOUSE, UPGRADES AND JOB TIMING
+Initial factory $1T+5Mt copper: one line, 20 cargo-volume warehouse, one item/batch. Additional facilities are optional permanent investments: second factory $10T+25Mt copper, third $100T+250Mt copper, Industrial Megafactory $1Q+2Gt copper, if supported by progression tests. Each has its own separate capacity and queues; don't duplicate recipes unexpectedly. Upgrades (persistent) and MAX rank: Production Speed x1.05 per rank (15), Batch Capacity x1.5 per rank (12), Production Lines +1 (10), Warehouse x1.5 volume (12), Worker Efficiency +5% throughput (10), Quality Control +1% capped eligible quality value (10), Export Logistics -3% base freight per rank (10, never negative), Industrial Automation queue depth (8). Initial cost of rank1 respectively $100B, $250B, $500B, $150B, $300B, $400B, $200B, $750B, increasing ~x2.5 subsequent rank plus scaling copper cost. Determine exact int storage/rounding and display preview. Production duration should depend on N units, lines and throughput: effectiveDuration=max(10s, ceil(N*baseProductTime/effectiveThroughput)); effectiveThroughput includes permanent A2 x1.5 plus upgrade/authorized worker benefits without double counting. Finite concurrent lines, storage capacity and no negative processing. Warehouse full blocks collection gracefully rather than deleting goods. Show progress locally derived from server job start/end. Atomic state machine: draft -> reserved -> manual challenge -> producing -> completed -> collected; abandonment/refund rules clear, never double charge or pay.
+
+
+SECTION 11 — THE TEN MAJOR COUNTRIES AND IMPORT DEMAND
+Exactly these ten major country destinations: China, United States, India, Germany, Japan, Australia, United Kingdom, South Korea, Canada, Brazil. Country specialization and initial percentage demand adders to matching tagged product categories only (fictional game profiles, not accurate descriptions of current economies): China cables/motors/industrial factory equipment +8%; US generators/advanced power modules +12%; India power-grid/transformers +10%; Germany precision connectors/motors/cooling +14%; Japan precision electronics/cooling +13%; Australia electrical wiring/infrastructure +7%; UK power systems/controls +9%; South Korea electronics and advanced cables +11%; Canada heavy electrical machines/generators +8%; Brazil motors/transformers/distribution +10%. Other products neutral. Assign category tags to F01–F25 and make matching explicit. Countries need flag, ID, demand, all 25 global quotes, relationship, contract offers, port, freight fee, route duration and fictional news effects. No small random country fillers. Update ten-country roster only with explicit product owner approval.
+
+
+SECTION 12 — SERVER-AUTHORITATIVE WORLDWIDE 250-QUOTE EXPORT MARKET
+Every combination 25 products x 10 countries = 250 CURRENT globally shared export quotes. Same pair + same global market version must yield exactly same BASE quote for all players (before personal bonuses). Update once per 60 minutes, NOT every 10 seconds. One shared coordinated market task updates all 250 logical quotes atomically/idempotently; never spawn 250 jobs. Base quote = product reference price x country specialization factor x global supply/demand factor x active fictional event factor x bounded market movement and mean-reversion. Typical normal hourly move within +/-3%; news can drive +/-8% (use sensible caps). Robust bounded long-term price indices; no permanent runaway multiplication. Each quote has current/previous price, signed change, updatedAt, nextTickAt, marketVersion and relevant event references. Client may display countdown locally. No per-user quote creation. Use fixed-point/NUMERIC and provide deterministic seeded market update test. Keep only last ~24 hourly detailed price snapshots if desired; aggregate any longer chart intervals and avoid storing full snapshots indefinitely. Market updates must not be recalculated simply when a viewer reloads. Existing raw-copper worldwide market continues 10-second ticker and is separate.
+
+
+SECTION 13 — WORLD NEWS EVENTS, CLEANUP, AND ECONOMIC EFFECTS
+Generate globally shared FICTIONAL economic news every 20 minutes (3/hour): examples China infrastructure projects raise electrical cable demand, US generator procurement boom, India power-grid build, Germany precision industrial orders, Japan cooling demand, Australia construction slowdown, UK power modernization, South Korea electronics surge, Canada heavy equipment demand, Brazil transformer import interest, worldwide copper cable glut, international freight congestion, global port delays, shipping recovery, manufacturing recession, generator backlog, copper wiring shortage. These are game fiction, never assert they are actual real world news. Each event has ID, short headline, human-friendly explanation, active start/end timestamps, affected countries and F-product tags, modifier percentage and type (price/freight/travel time), and market version/event application audit. Typically lasts one to three hourly price cycles. Effect must alter REAL prices or freight/travel calculations, not a cosmetic headline. Don't accidentally apply same event multiple times per price tick. Event expiry does not retroactively change a ship's contractually locked payout.
+
+**VERY IMPORTANT SHORT RETENTION:** Do NOT keep routine global news for one month. Keep up to 48 hours AND no more than 100 routine inactive/recent events, whichever limit hits first; protected active event rows remain until safely expired, and necessary compact pricing snapshots for in-transit price locks remain until settlement. At 3 per hour, 100 headlines represent 33h20m, so max 100 typically hits sooner than 48h. Cleanup on safe interval, with DB retention and indexes, keeping audit/security and settled finance records separate from deleted fictional headline text. Don't schedule one deletion job per headline. Avoid huge client-side news payloads. News feed shows most recent 15–30 with load-more within retention. Localized countdown and clear fictional badge.
+
+
+SECTION 14 — PERSONAL COUNTRY RELATIONSHIPS AND CONTRACTS
+Every authenticated player has per-country reputation 0..100. Level 0–19 Unknown 0%; 20–39 Recognized +2%; 40–59 Trading Partner +5%; 60–79 Preferred +9%; 80–100 Strategic Partner +15% PLAYER-SPECIFIC payout modifier. This must never change global shared base quotes. Earn through verified delivered shipments and successfully completed accepted contracts; diminishing returns or caps for trivial repeated routes. Fail accepted timed contract -> small reputation loss only; no punishment for simply being offline. At 40 reputation, buy Trade Agreement; proposed initial $500B/country and scale appropriately. At 80, Strategic Agreement costs appropriately in trillions for +3% extra, capped total personal bonuses and clearly displayed. Contracts must specify country, exact product(s), quantity, fixed or price-derived rate, deadline, reward and conditions. Accepting creates immutable contract snapshot, delivering eligible cargo counts once, deadline processing safe and fair, no unlimited contract farming, no counterfeit progress. International contract fulfillment uses actual shipping/warehouse transactions.
+
+
+SECTION 15 — REAL CARGO SHIPS, PORTS, TIMED EXPORT, LOCKED PAYMENT
+NO instant selling of factory goods internationally. Ships are paid assets. Ship classes: Coastal Cargo Ship $100B/5 cargo slots/x1 speed; General Cargo Freighter $750B/20/x1.3; Container Ship $5T/75/x1.6; Ultra-Large Container Vessel $30T/250/x2; Industrial Megacarrier $200T/1000/x2.5. Slot volume per product: F01–05=1; F06–10=2; F11–15=3; F16–20=5; F21–25=10. These are explicitly abstract game-volume slots, not realistic tonnes, due to huge recipe weights. Ships have permanent unique ID, authenticated owner UUID, class, current port, state (AVAILABLE/LOADING/OUTBOUND/DELIVERED/RETURNING), cargo, departure, ETA, locked quote and historical performance.
+
+Fictional export hub route gameplay travel times before speed: Australia (Melbourne) 15m; China (Shanghai) 35m; Japan (Yokohama) 40m; South Korea (Busan) 38m; India (Mumbai) 45m; United States (Los Angeles) 55m; Canada (Vancouver) 60m; Germany (Hamburg) 75m; United Kingdom (Felixstowe) 80m; Brazil (Santos) 90m. Travel = baseTime/speed; min 5m; optional active shipping news modifies ETA according to locked event rules, never changes silently each reload. These are compressed game times, NOT real-world journeys. On arrival pay once, start RETURN trip of comparable duration, then Available again. No magical instant ship teleport, no two concurrent trips with same ID. Optional port upgrades loading crane, staging warehouse, shipping office, freight efficiency, automation and fleet management each up to 10 ranks with visible effect and real money/copper cost.
+
+Shipment protocol: player picks warehouse goods and quantity, country, AVAILABLE owned ship, optionally fulfills a contract; server validates possession, storage, route, slot capacity, funds and quotes; SHOW complete breakdown; dispatch transaction permanently deducts/escrows cargo and freight once; store immutable departure price lock/quality/reputation/contract terms; server-validated timestamps; local client renders movement count-down, no constant DB writes; on ETA settlement task credits legitimate payout EXACTLY ONCE, marks delivery and reputation, starts return time. Price lock means hourly market changes during transit do NOT alter that shipment's agreed payout. Include cancellation and in-progress recovery rules that prevent fraud. Use unique shipment UUID and idempotency key. Separate global quoted gross revenue from per-user payouts. Verify freight and profit figures via exact decimal math.
+
+
+SECTION 16 — POLISHED GLOBAL TRADE TERMINAL DESIGN
+Make functional dark industrial copper/orange high-quality visual dashboard: left country navigation and world-map-inspired route view, mobile tab interface, price columns, % changes, hourly tick countdown, persistent user currencies, filtering by product/country, highlighted net-profit comparisons (not only gross), current active news and stock, selected relationship tier and reputation meter, country flag, manufacturing queue, active ships and contract opportunities. Required real tabs: WORLD MARKET (all 250 quote pairs accessible, filter/sort); FACTORY PRODUCTION (25 recipes/models, copper fee, timer, manual vs worker state); MY WAREHOUSE; EXPORT SHIPPING (choose goods, qty, vessel, port, show slot and freight, locked quote and approval); FLEET (buy/upgrade ships, status, ETA, return); GLOBAL NEWS (fictional 20m feed); COUNTRY RELATIONS/AGREEMENTS; CONTRACTS; ANALYTICS. Dispatch summary must show gross revenue, source copper opportunity cost CURRENT quote, fee, wages, shipping, quality, country personal bonus, estimated net margin and arrival time. Ship progress representation may be illustrative map routes; no need for actual precise geotracking. Loading, transit and unloading phases must be visually distinguishable and have REAL server status. Use responsive, accessible controls, colorblind symbols and reduced motion.
+
+
+SECTION 17 — SUPABASE FREE PLAN EFFICIENCY AND SECURITY
+Previous project check (historical, not live guarantee): Copper Empire free plan, ~13 MB DB, 500 MB quota. Do not assume usage still the same. NEVER upgrade or create paid resources without approval. Reuse existing tables/services and appropriate scheduled functionality; check availability and free-plan budget before scheduling. Avoid 250 independent triggers. Store only current price set + bounded ~24h detailed hourly snapshots, optional aggregated history. News 48h TTL + max 100 routine records. Avoid excessive indexing or unbounded per-tick DB logs. Worker/ship progress locally based on stored timestamps; don't write progress once per second. Avoid 250 quote broadcast per subscriber where a cheap market-version notification and fetch works. Audit existing 10-second global copper market for Realtime multiplication as users connect. Estimate bandwidth/realtime messages/DB growth/Edge calls for 10/50/100/500 simultaneous users. Secure financial operations server-side; RLS validates owner; never use public client as final authority to grant money or submit direct currency delta. Distinguish Supabase Auth UUID from mutable profile names. Use NUMERIC or string exact quantities. For every purchase, upgrade, manufacturing start/collect, worker event, license purchase, ship dispatch, contract and delivery, implement server validation, atomic transactions, idempotence, bounded catch-up and conflict tests. Owner-only admin panel authorized by exact owner Auth UUID, not handle/email. Preserve independent Debug Workshop save; debug resources/trades must never affect verified leaderboard/global demand or real balances. Real owner-controlled worldwide market changes require separate authenticated audited server action; no exposing service role credentials. Periodic cleanup uses server time and preserves records needed for unsettled shipments, user purchases and security reviews.
+
+
+SECTION 18 — AUDIO, MORSE AND SMELTING REPAIRS
+Audio: Audit global volume path, Web Audio nodes, source volumes and browser autoplay. Defaults Master 70%, Music 45%, SFX 80%, UI 65%. Persistent volume sliders, mute and test button. Add non-intrusive original/licensed sound cues to meaningful shop purchases, minigame presses, success/failure, copper recovery, crafting, rebirth, A1/A2 trial, production, worker hiring, shipping, dispatch, delivery, country contracts, achievement and smelting. No clipping, duplicated music, audio leak, or mandatory audio for playing.
+Morse/pulse existing minigame: REPLACE short-tap/long-hold gesture with TWO explicit buttons SHORT (•) and LONG (—), S and L keyboard, touch and mouse. Each click submits exactly one symbolic token immediately; dedupe pointer/click events. Long/short cue may have different sound duration, but game correctness NEVER depends on press duration. Disable input while demonstration plays. Preserve current scoring/reward.
+Smelting: Existing base batch capacity 2kg, make rank capacity ×1.5 each of rank0–12, not old flat +1kg; `capacityMg=floor(2_000_000*(3/2)^rank)` using integer rational arithmetic for exactness. Rank0 2kg, rank1 3kg, rank2 4.5kg, rank3 6.75kg, rank12 ~259.492675kg (real cap exact in mg). Input ingots still need whole kg per ingot. Speed rank12: base 30s *0.92^rank, A2 x2 speed means 0.5 duration, floor 5 seconds. Slots max rank8 (+8 beyond base slot), auto collection rank1, ingot quality12, refining8, sale bonus12, thermal efficiency8, batch automation5, furnace mastery5. Optional furnace timing challenge bonus decreases remaining time 20% initial ->40% at mastery rank5, never free copper on failed attempt. Queue auto-start on available slot if materials genuinely paid. Upgrade costs scale from previous proposed progression with $3500+1.5kg for capacity rank1, $10k+4kg r2, $30k+10kg r3, $90k+25kg r4, $270k+60kg r5, $810k+150kg r6, $2.43m+375kg r7, $7.29m+900kg r8, $21.87m+2.25t r9, $65.61m+5.5t r10, $196.83m+14t r11, $590.49m+35t r12. If existing game has different upgrade prices, preserve completed upgrades and adapt migration, don't reset. Prevent duplicate claims and render capacity labels correctly.
+
+
+SECTION 19 — ACHIEVEMENTS, PROGRESSION AND STATS
+Track first A2, R19, R26, first recovered 1Gt/1000Gt, completion of all 32 A2 signature minigames, construction of factory, first manual factory product, per-product manual mastery, first worker, all 25 automation licenses, first ship, first successful country export, exports to all 10 countries, one/all 100 reputation, 100 shipments, manufacturing F25, M30 master certificate, cumulative verified net export profit $1Q. Show sensible claim/award statuses with timestamps. Lifetime analytics cover production units, manual wins, workers, net/gross export, wages, fees, fleet time and vessel utilization. Exclude Debug Workshop and admin-edited progress from verified global ranks or clearly mark it. No fake achievements granted from opening screens.
+
+
+SECTION 20 — TESTING, MIGRATION, COMPLETION CONTRACT
+Implement in phases: (A) inspect repo + precision + Gt + migration + corrected A1/A2; (B) redesign all R7–R18 IDs 29–87 with model registry and 59-item contact sheet, preserving gameplay; (C) A2 R19–R26, IDs 88–119, 32 distinct models and all 32 minigames; (D) factory recipes 25 products/models and 30 challenges; (E) mastery/licenses/workers/queues; (F) ten countries, 250 prices, hourly ticks, global news short cleanup; (G) fleets, cargo, shipping, locked sale and delayed settlement; (H) audio, Morse, smelting, UI, accessibility, performance and regressions. Commit milestones or maintain clear checkpoints. Do not call phase complete until corresponding behavior actually works. If an implementation is too big for one Codex run, implement safe incremental tasks without claiming incomplete sections were finished.
+
+REQUIRED ACCEPTANCE TESTS:
+- All 91 IDs 29–119 have individually distinguishable model geometries, not a single recolored template; create grouped actual rendered contact sheet and compare monochrome silhouettes. All 59 existing IDs unchanged and all their signatures still work.
+- R19–R26 exactly four devices each, 32 devices ID 88–119 with assigned level, price, base Gt reward, XP, stage counts; 32 playable signatures each distinct with solvability tests and mobile/keyboard behavior.
+- Ascension 1 discounts NONE and Ascension 2 discounts NONE; total tier copper x2.5/x5, XP x2/x4, eligible money x2/x4, A2 CE +250 only once, A2 eligibility and trial verified, normal reset preserves CE/gold and permanent progress.
+- Correct Gt unit and exact huge currency math, pre-existing quantities untouched.
+- 25 product definitions, 25 unique product models, all costs and 30 playable factory games; research unlocks, job timers, manual mastery per product, license gating and workers performing real jobs at real material/wage costs.
+- 10 trade countries x25 globally authoritative quote set, hourly synchronized updates with idempotency and bounded movements; news every 20 minutes with actual economic effect and 48h/100-record cleanup, no month-long headlines.
+- Ship purchase, cargo inventory, capacity, dispatch and freight deductions, timestamp transit, once-only payout after arrival and return journey; no instant trade, no reuse while busy, no double settlement.
+- RLS, Auth UUID, no public client currency self-grant, transaction rollback tests, Debug Workshop segregation and leaderboards fairness.
+- Audio audible and respecting preferences; Morse two-button fix; smelting rank12 x1.5 growth; original copper market still working.
+- Full browser mobile/desktop responsive testing, progressive page performance, no unbounded database history, plausible Free plan usage projection.
+
+FINAL DELIVERABLE: A factual completion report with completed and incomplete features, files modified, migrations, tests, actual model contact sheet, economy balance simulations (including copper price changes), measurements/estimates of Supabase usage and anything requiring owner approval. Never represent a design document or frontend shell as a finished game.
+
+NON-NEGOTIABLE FINAL PURPOSE: Copper Empire progresses from copper recovery to distinct visually recognizable real-inspired industrial components; Ascension 2 opens significantly faster growth and 8 new chapters; players personally learn 25 factory production skills before paying to automate them, make manufactured goods from expensive actual copper, invest in real ships and export to a world economy with ten competing country markets. Every piece must be playable, financially coherent, secure and faithful to the existing game.
+

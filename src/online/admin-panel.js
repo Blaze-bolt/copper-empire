@@ -9,7 +9,7 @@ const exactMoney=n=>{const whole=n/DOLLAR,frac=(n%DOLLAR).toString().padStart(9,
 const button=(action,label,extra='')=>`<button type="button" data-owner="${action}" ${extra}>${label}</button>`;
 const input=(id,label,value='',type='text',extra='')=>`<label>${label}<input id="owner-${id}" type="${type}" value="${esc(value)}" ${extra}></label>`;
 const select=(id,label,options,value)=>`<label>${label}<select id="owner-${id}">${options.map(([key,name])=>`<option value="${esc(key)}" ${String(key)===String(value)?'selected':''}>${esc(name)}</option>`).join('')}</select></label>`;
-const units=id=>select(id,'Unit',['mg','g','kg','t','kt','Mt'].map(x=>[x,x]),'g');
+const units=id=>select(id,'Unit',['mg','g','kg','t','kt','Mt','Gt'].map(x=>[x,x]),'g');
 const editButton=(kind,label,value)=>button('edit',label,`data-kind="${kind}" ${value!==undefined?`data-value="${value}"`:''}`);
 const events=[['shortage','Copper Shortage · 3 min · upward pressure'],['demand','Industrial Demand Surge · 4 min · upward pressure'],['manufacturing','Manufacturing Boom · 5 min · gradual growth'],['glut','Supply Glut · 3 min · downward pressure'],['recycling','Recycling Boom · 4 min · downward pressure'],['panic','Market Panic · 90 sec · selling pressure'],['recovery','Market Recovery · 4 min · stronger equilibrium recovery']];
 export class OwnerAdminPanel {
