@@ -1,30 +1,49 @@
-# Global Industrial Era — checkpoint 1 (5.2.1)
+# Global Industrial Era — release 6.0.0
 
-This is a tested incremental release, **not completion of the full master expansion**. The full owner specification is retained in `docs/GLOBAL_INDUSTRIAL_MASTER_SPEC.txt`. The subsequent owner instruction requests a five-price rebalance proposal and prohibits applying recipe or export-price changes before approval.
+The owner-approved expansion is implemented in the existing vanilla JavaScript project. The specification remains in ../GLOBAL_INDUSTRIAL_MASTER_SPEC.txt. No new repository or frontend framework was introduced.
 
-## Functional in this checkpoint
+## Checkpoint 1 — preserved
 
-- 59 individually authored SVG layouts replace the previous shared models for existing IDs 29–87. A registry supplies real part geometry, different silhouettes, specified module counts, visible copper, cabinets, conveyors, rotors, cooling and supports. Shops, the workshop, owned-device cards and recovery animation use the same renderer.
-- Workshop inspection descriptions and an enlarged model dialog. Fans animate only in the featured/enlarged model; reduced motion disables animation.
-- Exact Gt parsing, shared formatting across existing copper screens and the owner editor; quadrillion-dollar formatting and signed analytical values. Quantities remain BigInt milligrams and money remains BigInt billionths of a dollar. Existing serialized balances are unchanged.
-- Actual renderer contact sheets in color and monochrome and a comparison for every changed model: [model review](../model-proof/index.html).
-- Original and proposed economic analysis for all 25 authored factory recipes at five copper prices, including A2 fee discount, minimum wages and an explicit proposed freight formula: [proposal](rebalance-proposal.md), [exact net amounts and margins](rebalance.csv). These files are analysis only; the game does not import proposed prices.
+The 59 completed electronic model layouts (IDs 29–87) and the original 87 catalogue contracts and signature engines remain in place. The drawing primitives are exported for the additions. Exact Gt/BigInt currency support and the original model comparison remain available.
 
-## Preservation and verification
+## Checkpoint 2 — A2 and R19–R26
 
-- A new baseline fixture protects ID/name/unlock/price/reward/XP/stage/difficulty/signature contracts for **all 87 existing devices**. No minigame source, progression/reset rule, recipe or global market rule changed in this checkpoint.
-- Existing source baseline archived locally; cloud Main/Debug snapshots saved in ignored local output before edits. No backups, authentication data or privileged credentials are included in this release.
-- Both live Main save revisions and hashes matched the pre-change baseline at the read-only check. No live player balance was edited for this work.
-- 260 automated tests pass (254 existing + 6 new), including existing game success witnesses, server replay checks, PostgreSQL transactions, RLS, Debug isolation, bounded market retention and large exact quantities. Production build passes.
-- Desktop and 390px mobile inspection tested in the actual browser; no horizontal page overflow in the mobile workshop. All 59 models rendered in the contact sheets; color and silhouette groups visually inspected. Proofs saved in ignored `output/proof/`.
+Implemented the definitive A1/A2 total bonuses, no inherent Ascension purchase discount, exact A2 requirements, 12-stage trial with three shared stage retries, separate reset confirmation and once-only +250 CE. Legacy earned A2 grants are migration-safe. Added all 32 exact catalogue rows, unique models and signature games; R26 is the final chapter. Gold attempts use a separate namespace with old-client compatibility. Existing Main saves retain version 4 and gain defaults without replacement.
 
-## Still incomplete — not exposed as finished features
+Tests independently compare every new numerical catalogue row with the master. All 32 engines have seeded success witnesses, failure checks and authoritative recording replay. A2 eligibility, retry limit, reset, retained progress and duplicate CE claims are tested.
 
-- Phase A remainder: definitive A1/A2 bonuses, removal of Ascension-origin discounts, legacy higher-Ascension migration, A2 once-only +250 CE claim, exact eligibility and 12-stage retry-limited A2 trial. Existing five-Ascension implementation predates this specification; it must be reconciled safely with the new two-era rules before enabling the expanded reset path.
-- Phase C: R19–R26, 32 new electronics/models and all 32 new playable signatures. Existing gold signatures currently use 101–107, overlapping the requested new device IDs; assign a separate internal namespace with old-attempt compatibility before adding the new games.
-- Phase D: actual factory, all 25 product models, 30 playable manufacturing challenges, product research, funded job state machine and storage. Parsing recipes for a simulation does not implement these features.
-- Phase E: permanent manual mastery, paid automation licenses, workers, staffing and finite authoritative queues.
-- Phases F/G: ten countries, 250 hourly shared export quotes, real economic news with 48h/100-row cleanup, relations, contracts, fleets, delayed locked-price shipping and exactly-once settlement.
-- Phase H remainder: new industry sound cues, new achievements/analytics, full expansion mobile/security/performance acceptance. Existing pulse controls, music and geometric smelting remain covered by regression tests; A2 smelting speed awaits the progression change.
+## Checkpoint 3 — approved economy and factories
 
-No new SQL schema, scheduled jobs, paid resources or subscriptions were created in this checkpoint. The authenticated API bundle only needs the updated shared units for the owner’s Gt editor; existing permission boundaries remain unchanged. Future financial migrations require their own transaction and security tests before publication.
+All 25 approved export references are frozen in runtime and SQL; original recipes, fees and base times are unchanged. Freight uses the approved exact formula. Production and shipment approvals include current copper opportunity, discounted fees, wages and loss consent. Paid terms and dispatched prices cannot silently change.
+
+All 25 products have distinct models and primary games; all 30 factory games are playable. Buildings, research, warehouses, upgrades, funded lines, product-specific manual mastery, licenses, six paid worker roles, assignments and finite persistent queues work. Five actual server-replayed manual batches unlock the tested product license before a funded waged queue can start. Warehouse consolidation and partial exports preserve every exact cost residue.
+
+## Checkpoint 4 — worldwide trade and fleets
+
+Ten countries, 250 shared prices, hourly price versions, 20-minute fictional news with economic effects, relationships, agreements, export contracts and five vessel classes are implemented. Loading, outbound transit, once-only arrival payment, return transit, fleet upgrades and saved loading plans use persistent timestamps. Cargo and freight are reserved once. News never reprices an already dispatched shipment.
+
+A PostgreSQL test environment runs the actual migrations and command handler: RLS/role denials, Main/Debug separation, stale approvals, receipt retries, rollback/conflict checks, eight concurrent same-revision requests (one winner), concurrent world readers, 24-snapshot and 48-hour/100-news retention, and once-only voyage settlement.
+
+## Checkpoint 5 — presentation and regression
+
+Industry audio cues, persistent audio controls, explicit SHORT/LONG pulse input, expanded smelting, achievements/timestamps, analytics, keyboard controls, pointer/tap placement, reduced motion and inactive-tab timing are retained or extended. New memory replays and useful-tile scanners consume the existing attempt-wide upgrade allowance.
+
+**371 automated tests pass, zero failures.** Production build and authenticated backend bundle succeed. Browser QA includes 390px phone layout without page-wide overflow, all 250 quote rows/filtering, keyboard sequence transformation, actual cable-layer manual production and collection, license gating, warehouse removal and one real 12m30s round-trip voyage with delayed once-only payout. The 32 new models, 25 products and monochrome contact sheets use the actual renderer. No 500-user load test or physical touchscreen hardware test is claimed.
+
+## Live backend acceptance — October 19, 2026
+
+The additive migration 20261019051421_global_industry_era.sql is installed and recorded. The connector migration operation returned an expired-request error, so the exact tested file and migration-history entry were applied transactionally through the signed-in Supabase SQL dashboard. empire-api version 10 is ACTIVE with its explicit import map and fresh verified-user authentication inside the function.
+
+Live public HTTP checks return 250 pairs; unchanged polls omit the price array. Export history/news and both original metal quotes respond. Direct anonymous financial commits are denied; missing/invalid API tokens receive HTTP 401. The migration itself left the owner Main revision/hash unchanged (37). Subsequent normal account access can advance workshop revisions; no player resources were edited for deployment. All browser financial QA before publication used the disposable localhost:3003 origin.
+
+Performance advisors report no findings. Security advisors identify the intentionally restricted private RLS tables, deliberately public fictional market/ranking reads and own-JWT revision read, plus the pre-existing disabled leaked-password check. Details and remediation links are in backend-usage.md. No paid infrastructure was enabled.
+
+Publication status and final owner Debug browser verification are recorded in the GitHub release PR; do not infer a live UI deployment from this backend check alone.
+
+## Review artifacts
+
+- [Implementation, numerical defaults and setup](IMPLEMENTATION.md)
+- [Approved comparison at five copper prices](rebalance.csv)
+- [Original proposal, retained for audit](rebalance-proposal.md)
+- [Actual models and silhouettes](../model-proof/industrial-era.html)
+- [Backend measurements and projections](backend-usage.md)

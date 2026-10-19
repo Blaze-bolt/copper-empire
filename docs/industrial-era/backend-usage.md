@@ -1,30 +1,38 @@
-# Backend measurement and scaling projection — October 18, 2026
+# Backend usage and security — October 19, 2026
 
-Read-only live inspection confirmed the existing Sydney project is healthy and its organization remains on **Free**. No paid resource or additional scheduler has been created.
+The existing Sydney project remains on Free. No paid resources were enabled. Before/after the additive industry migration, database size was 13,522,611 / 13,948,595 bytes (roughly 14 MB; maintenance changes it). Copper and gold history each had 360 points; their one-hour maximum remains 361. Accounts, saves and necessary financial receipts are separate from chart retention.
 
-Measured at inspection:
+## Storage and schedules
 
-- Database: 13,416,115 bytes (about 13.4 MB; fluctuates with database maintenance).
-- Two confirmed Auth accounts; existing Main save JSON sizes 1,385 and 1,718 bytes. Their revisions and hashes matched the baseline.
-- One shared 10-second scheduled clock; both copper and gold history had 360 rows. Current quote polling payload: 518 bytes for both metals. One full copper history response: 13,760 bytes. History is bounded to the latest hour, not player saves.
-- No Realtime channels in the game client. Quotes use RPC polling once per 10-second tick, incremental chart history only on the relevant market page. Hidden tabs stop polling.
-- Existing authenticated background heartbeat remains approximately once per 20 seconds when visible and outside challenges, saving actual job/automation transitions through the server. Unchanged heartbeat state avoids a database commit. Gameplay commands add requests beyond these baseline estimates.
+One existing 10-second metal clock remains. One new 20-minute industrial clock coordinates the news and hourly export versions; there are no 250 per-pair jobs. Current export storage is 250 prices plus at most 24 full hourly snapshots. News expires after 48 hours and is capped at 100 total while active event effects are protected. Dispatches store their compact locked economic effects independently. Short cron execution logs are pruned by each job. Player transport/jobs advance from stored timestamps; no per-second server writes.
 
-## Existing worst-case visible idle polling (per hour)
+Measured initial world JSON was 38,344 bytes as PostgreSQL text; compact public HTTP unchanged-world response was 157 bytes (172 as SQL text). Both-metal quote response previously measured 518 bytes and full one-hour copper chart 13,760 bytes. Payloads vary with news and numbers. Full prices are returned only when their hourly version changes. News is returned only when its 20-minute version changes; older retained headlines are paged on demand. There are **no Realtime subscriptions or broadcast messages**.
 
-Assumes every player is online continuously, no inactive tabs, current small saves, about 2 KB returned per heartbeat. Decimal MB; HTTP overhead, auth lookups, gameplay recordings, retries, rankings and initial chart fetches excluded. These are estimates, not a load test.
+## Polling and invocation budget
 
-| Simultaneous players | Quote RPC requests | Quote payload MB | Heartbeat Edge calls | Heartbeat payload MB | Realtime messages |
-|---:|---:|---:|---:|---:|---:|
-| 10 | 3,600 | 1.86 | 1,800 | 3.60 | 0 |
-| 50 | 18,000 | 9.32 | 9,000 | 18.00 | 0 |
-| 100 | 36,000 | 18.65 | 18,000 | 36.00 | 0 |
-| 500 | 180,000 | 93.24 | 90,000 | 180.00 | 0 |
+Visible dashboard/market/industry pages read metal quotes every 10 seconds; other pages every 60 seconds. Hidden tabs stop polling. Industry version metadata is checked every 60 seconds while that terminal is visible. Idle signed-in workshops read a small owner-scoped revision every 60 seconds. Edge heartbeats occur only for real due jobs, arrivals/returns, finite queues, expiry, funded legacy automation or a once-only legacy A2 grant. They do not run every 20 seconds for an empty idle workshop. Active game commands and initial cloud load still invoke the Edge API.
 
-The existing pattern is **not a promise that 500 continuous players fit the Free plan**. For example, 90,000 heartbeats/hour would consume 500,000 calls in about 5.6 hours before gameplay. The historical Free limits used for illustration (500 MB database, 500,000 Edge calls/month, 5 GB egress) must be rechecked against the current dashboard before launch; no quota assumption authorizes a paid upgrade. Large future saves and recordings raise bandwidth substantially.
+The following deliberately assumes every player continuously watches the busiest market/industry page. Per player/hour: 360 metal polls ×518 B, 60 revision polls ×50 B (estimate), 60 world checks ×157 B, one 38,344 B world set and two additional 10 KB news responses (estimate) = about 257 KB. Initial history, authentication, gameplay recordings, UI overhead, TLS/HTTP, rankings and retries are excluded. No actual 500-user load test was run.
 
-## Required design for the unfinished industry backend
+| Concurrent visible players | Approx read requests/hour | Approx payload MB/hour | Empty idle Edge heartbeats/hour | Realtime messages |
+|---:|---:|---:|---:|---:|
+| 10 | 4,800 | 2.57 | 0 | 0 |
+| 50 | 24,000 | 12.87 | 0 | 0 |
+| 100 | 48,000 | 25.73 | 0 | 0 |
+| 500 | 240,000 | 128.67 | 0 | 0 |
 
-Use one coordinated hourly market update and a shared version, not 250 schedulers or per-user quote rows. Derive job, voyage and return progress locally from authoritative timestamps. Read a compact market version before fetching the full shared set, cache it, settle lazily/idempotently, and pause unused work. Keep no more than about 24 detailed hourly quote snapshots; news inactive rows expire at 48h or count 100, active rows and necessary unsettled locks are protected. These are requirements for the next implementation, **not deployed features**.
+An illustrative 30 actual gameplay API commands/player/hour adds 300 / 1,500 / 3,000 / 15,000 Edge invocations for those player counts. The request bodies and growing saves can exceed the idle payload by a large amount. Five hundred people active all month do not fit a small Free budget merely because each global table is bounded. Measure active hours and real command/save sizes before scaling.
 
-Before claiming a larger-player budget is supported, measure realistic save/recording sizes, active-play command rates, monthly active hours and peak concurrency; run concurrent transaction tests; optimize idle heartbeats without delaying actual automation or cross-device synchronization. Financial receipts and security audit retention must be bounded separately from short-lived chart/news data.
+Current official Free allowances include 500 MB database, 500,000 Edge invocations/month and 5 GB uncached egress, with cached egress tracked separately. See [billing](https://supabase.com/docs/guides/platform/billing-on-supabase), [Edge invocations](https://supabase.com/docs/guides/platform/manage-your-usage/edge-function-invocations) and [egress](https://supabase.com/docs/guides/platform/manage-your-usage/egress). These are a budget, not authorization to purchase upgrades or a performance guarantee.
+
+## Transaction and advisory review
+
+Financial actions derive outcomes on the server, authenticate fresh verified-email users, lock rows in a consistent order and use request receipts plus expected revisions. Shared price/news versions are checked again inside SQL commit. Exact numbers use BigInt/string/NUMERIC. The browser cannot commit arbitrary balances. Debug commits require the bound owner Auth UUID and never affect Main, demand or verified ranking.
+
+The live performance advisor reports no findings. Security notices are reviewed rather than hidden:
+
+- Six private export tables have RLS with no client policies and no browser grants: intentional deny-by-default. Safe market read functions expose only fictional shared data. [RLS notice](https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy).
+- Public SECURITY DEFINER notices apply to the deliberately public metal/export prices, bounded news/history and published rankings. The revision function instead requires auth.uid() and returns only that caller's slot revision; financial commits are service-only. Search paths are fixed. [Public function notice](https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable), [authenticated function notice](https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable).
+- The existing Auth leaked-password check is disabled. This expansion did not weaken or change authentication settings. [Password protection guidance](https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection).
+
+Tests use actual SQL migrations with a controlled clock for 24h/48h cleanup and concurrency, not production time manipulation. Live checks verify initial shared state, public reads, denied commits, authenticated API failures and the installed schedules. They do not claim hours of production wall-clock observation.
