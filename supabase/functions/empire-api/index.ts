@@ -1,5 +1,5 @@
 import {createClient} from 'https://esm.sh/@supabase/supabase-js@2.118.0';
-import {handleWorkshop} from '../admin-service.js';
+import {handleClientWorkshop} from '../client-compat.js';
 const cors={'Access-Control-Allow-Origin':'*','Access-Control-Allow-Headers':'authorization,apikey,content-type,x-client-info','Access-Control-Allow-Methods':'POST,OPTIONS','Content-Type':'application/json'};
 const send=(data,status=200)=>new Response(JSON.stringify(data),{status,headers:cors});
 Deno.serve(async req=>{
@@ -17,6 +17,6 @@ Deno.serve(async req=>{
   const raw=await req.text();if(raw.length>3000000)return send({error:'Request too large'},413);
   const body=JSON.parse(raw);
   const db={rpc:async(name:string,args:unknown)=>{const r=await client.rpc(name,args);if(r.error)throw Error(r.error.message);return r.data;}};
-  return send(await handleWorkshop(db,user.id,body));
+  return send(await handleClientWorkshop(db,user.id,body));
  }catch(error){return send({error:error.message||'Request failed'},400);}
 });
