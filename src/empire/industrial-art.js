@@ -95,3 +95,4 @@ export function industrialIllustration(d,uid='device'){
  const draw=INDUSTRIAL_MODELS[d.id];if(!draw)return null;
  return `<svg class="device-art empire-device industrial-model device-${d.id}" viewBox="0 0 480 350" role="img" aria-label="Illustration of ${d.name}" data-model="${d.id}"><title>${d.name}</title><g class="device-shell">${draw()}</g><text x="390" y="325" fill="#9aa88e" font-size="10" font-family="monospace">CE—${String(d.id).padStart(3,'0')}</text></svg>`;
 }
+export const MACHINE_PARTS={C,many,part,at,line,rect,box,vessel,capacitor,foot,base,wire,screen,coil,ring,fan,radiator,bushing,motor,generator,cabinet,transformer,belt,bin,tower,robot,turbine,radial,emblem,tiltedRing};

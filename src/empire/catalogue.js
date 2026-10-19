@@ -1,4 +1,5 @@
 import {EXPANSION_CATALOGUE,EXPANSION_SIGNATURES} from './expansion-catalogue.js';
+import {ERA2_CATALOGUE,ERA2_SIGNATURES} from './era2-catalogue.js';
 // Exact catalogue and signature descriptions from the supplied v4.0 specification.
 const rows=[
   {
@@ -837,7 +838,9 @@ export const SIGNATURES=[
   }
 ];
 SIGNATURES.push(...EXPANSION_SIGNATURES);
+SIGNATURES.push(...ERA2_SIGNATURES);
 export const TIERS=['Beginner','Easy','Normal','Hard','Expert','Master','Extreme'];
 export const CATALOGUE=rows.map(d=>({...d,price:BigInt(d.price),min:BigInt(d.min),max:BigInt(d.max),xp:30+d.rebirth*90+((d.id-1)%4)*25,difficulty:Math.min(6,Math.floor((d.id-1)/8)),tier:TIERS[Math.min(6,Math.floor((d.id-1)/8))],category:['Beginner devices','Compact electronics','Home electronics','Household machinery','Heavy domestic equipment','Industrial foundations','Large machinery','Factory-scale systems','Advanced industrial systems','Massive electrical systems','Gigantic recycling technology','Experimental technology','Next-generation technology'][d.rebirth],stageCount:d.id<=4?(d.id<=2?1:2):d.id<=8?(d.id<=6?2:3):d.id<=16?(d.id<=12?3:4):d.id<=24?(d.id<=20?4:5):d.id<=32?(d.id<=28?5:6):d.id<=40?6+Math.floor((d.id-33)/3):8+Math.floor((d.id-41)/4)}));
 CATALOGUE.push(...EXPANSION_CATALOGUE);
+CATALOGUE.push(...ERA2_CATALOGUE);
 export const deviceById=id=>CATALOGUE.find(d=>d.id===Number(id));

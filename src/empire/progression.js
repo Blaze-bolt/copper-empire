@@ -1,7 +1,17 @@
 // Permanent expansion progression. All quantities of metal are integer milligrams.
 import {DOLLAR,MG} from './data.js';
+import {industryDefaults} from './industry-state.js';
+import {tradeDefaults} from './trade-state.js';
 export const COMPRESSION_COSTS=[100n*MG.g,10n*MG.kg,MG.t,100n*MG.t,10n*MG.kt,MG.Mt,100n*MG.Mt];
-export const ASCENSIONS=[null,{ce:25,recovery:250},{ce:40,recovery:300},{ce:60,recovery:350},{ce:85,recovery:400},{ce:115,recovery:450}];
+export const ASCENSIONS=[null,{ce:25,recovery:250},{ce:250,recovery:500},{ce:60,recovery:500},{ce:85,recovery:500},{ce:115,recovery:500}];
+export const A2_TRIAL=[1,5,8,2,54,75,59,73,53,46,82,87];
+export const ERA2_REBIRTHS=[
+ [46,750000000000000n,87],[48,2250000000000000n,91],[50,6300000000000000n,95],[52,17400000000000000n,99],
+ [54,46500000000000000n,103],[56,117000000000000000n,107],[58,294000000000000000n,111],[60,750000000000000000n,115]
+];
+// A legacy earned A2 keeps all previously spent/unspent CE and receives the new grant once.
+// Called inside the authoritative transition, never as a side effect of a read-only cloud load.
+export function claimLegacyIndustrial(s){const a=s.ascension;if(a?.level>=2&&!a.industrialClaimed&&a.records?.some(r=>r.level===2)){a.ce+=250;a.industrialClaimed=true;a.industrialUnlocked=true;a.records.push({level:2,ce:250,industrialMigration:true,at:Date.now()});s.revision++;return true;}return false;}
 export const ESSENCE_UPGRADES=[
  ['extraction','Essence Extraction',5,5,'+10% copper recovery per rank'],
  ['learning','Accelerated Learning',5,5,'+10% earned XP per rank'],
@@ -47,7 +57,9 @@ export const GOLD_RESEARCH=[
  ['legacy','Golden Legacy',50000,250,1000000000,'recovery','Permanent workshop: +5% timing tolerance and one puzzle hint; requires Master Recycling and laboratory rank 2']
 ].map(([id,name,gold,kg,money,prerequisite,description],i)=>({id,name,gold:BigInt(gold),copper:BigInt(kg)*MG.kg,money:BigInt(money)*DOLLAR,prerequisite,description,component:i>=7?'masterAssembly':i>=4?'precisionPart':null}));
 export function expansionDefaults(s){
- s.furnace.queue??=[];
+ industryDefaults(s);
+ tradeDefaults(s);
+ s.furnace.queue??=[];s.era2??={highestRebirth:0,signatures:[],milestones:{}};
  s.compression??=0;s.ascension??={level:0,ce:0,upgrades:{},records:[]};s.pendingAscension??=null;
  s.gold??={unlocked:false,balance:0n,recovered:0n,claims:[0],equipment:{},research:[],attempts:0,completed:0,failed:0,history:[]};
  s.goldMarket??={quote:600000,previous:600000,next:0,history:[],global:false};
@@ -78,18 +90,18 @@ export function refundEssence(s){
 export function permanentBonuses(s){
  const a=s.ascension||{level:0,upgrades:{}},u=a.upgrades,r=s.gold?.research||[],e=s.gold?.equipment||{};
  return {recovery:(ASCENSIONS[a.level]?.recovery||100)*(100+(u.extraction||0)*10+(r.includes('contacts')?10:0)+(r.includes('recovery')?20:0))/100,
- xp:(a.level?2:1)*(100+(u.learning||0)*10),electronicXP:r.includes('conductive')?10:0,
- money:(a.level?2:1)*(100+(u.momentum||0)*10),contract:r.includes('funding')?10:0,
+ xp:(a.level>=2?4:a.level?2:1)*(100+(u.learning||0)*10),electronicXP:r.includes('conductive')?10:0,
+ money:(a.level>=2?4:a.level?2:1)*(100+(u.momentum||0)*10),contract:r.includes('funding')?10:0,
  width:(u.precision||0)*.05+(r.includes('alloying')?.05:0)+(r.includes('legacy')?.05:0),hint:r.includes('legacy')?1:0,
- shopDiscount:(a.level?25:0)+(r.includes('logistics')?10:0),toolDiscount:(a.level?25:0)+(u.efficiency||0)*3,
- upgradeDiscount:(u.efficiency||0)*3,smelting:1+(u.heritage||0)*.1+(r.includes('processing')?.15:0),refining:1+(u.heritage||0)*.1+(r.includes('metallurgy')?.15:0),
+ shopDiscount:r.includes('logistics')?10:0,toolDiscount:(u.efficiency||0)*3,
+ upgradeDiscount:(u.efficiency||0)*3,smelting:(a.level>=2?2:1)*(1+(u.heritage||0)*.1+(r.includes('processing')?.15:0)),refining:1+(u.heritage||0)*.1+(r.includes('metallurgy')?.15:0),factorySpeed:a.level>=2?1.5:0,factoryFeeDiscount:a.level>=2?15:0,
  gold:100+(u.gold||0)*10+(e.filter||0)*10+(e.tray||0)*8+(e.concentrator||0)*15+(e.vault||0)*10+(e.washer||0)*20+(e.lab||0)*15};
 }
 export function ascensionRequirement(s){
  const next=(s.ascension?.level||0)+1;
  if(next>5)return {next,capped:true,rebirth:18,level:0,earned:0n,gold:0n,device:87,stages:0};
- return {next,capped:false,rebirth:next===1?12:18,level:next===1?28:46+(next-2)*4,device:next===1?52:87,
- earned:next===1?0n:10000000000000n*DOLLAR*2n**BigInt(next-2),gold:next===1?0n:1000000n*2n**BigInt(next-2),stages:12+(next-1)*2};
+ return {next,capped:false,rebirth:next===1?12:18,level:next===1?28:next===2?45:46+(next-2)*4,device:next===1?52:87,
+ earned:next<=2?0n:10000000000000n*DOLLAR*2n**BigInt(next-2),gold:next===1?0n:next===2?600000n:1000000n*2n**BigInt(next-2),stages:next<=2?12:12+(next-1)*2};
 }
 export function ascensionReady(s){const r=ascensionRequirement(s);return !r.capped&&s.rebirth>=r.rebirth&&1+Math.floor(Math.sqrt(s.xp/20))>=r.level&&s.run.devices.includes(r.device)&&s.run.earned>=r.earned&&(s.gold?.recovered||0n)>=r.gold;}
 export function prepareAscension(s,a){
@@ -99,7 +111,8 @@ export function prepareAscension(s,a){
 export function confirmAscension(s,blankRun){
  expansionDefaults(s);const p=s.pendingAscension;
  if(!p||p.level!==s.ascension.level||p.next!==p.level+1||!ascensionReady(s))throw Error('Complete and review the current Ascension Trial first.');
- const next=p.next,reward=ASCENSIONS[next];s.ascension.level=next;s.ascension.ce+=reward.ce;
+ const next=p.next,reward=ASCENSIONS[next];if(next===2&&s.ascension.industrialClaimed)throw Error('The A2 grant has already been claimed.');s.ascension.level=next;s.ascension.ce+=reward.ce;
+ if(next===2){s.ascension.industrialClaimed=true;s.ascension.industrialUnlocked=true;}
  s.ascension.records.push({level:next,ce:reward.ce,at:Date.now(),attempt:p.attempt,rebirth:s.rebirth});
  s.gold.unlocked=true;s.rebirth=0;s.xp=0;s.money=0n;s.copper=Array(6).fill(0n);s.inventory={};s.tools=['basic'];s.legacyBonuses=[];
  s.pp=0;s.prestige={};s.components={parts:0};s.research=[];s.contracts=[];s.run=blankRun();

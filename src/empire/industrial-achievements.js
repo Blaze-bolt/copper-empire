@@ -1,0 +1,17 @@
+import {PRODUCTS} from './industry-data.js';
+import {DOLLAR,MG} from './data.js';
+export const INDUSTRIAL_ACHIEVEMENTS=[
+ ['industrial-a2','A New Industrial Era','Earn Ascension 2.'],['industrial-r19','Beyond the Old Horizon','Reach R19 after A2.'],['industrial-r26','Global Industrial Empire','Reach R26.'],['industrial-gt','A Gigatonne Recovered','Recover 1 Gt lifetime copper through completed disassemblies.'],['industrial-1000gt','A Thousand Gigatonnes','Recover 1,000 Gt lifetime copper.'],['industrial-signatures','Thirty-Two New Skills','Successfully recover every A2 electronic #88–119.'],['industrial-factory','Made by Hand','Construct your first permanent factory.'],['industrial-manual','Your First Finished Product','Collect a funded manually approved factory batch.'],['industrial-worker','The First Shift','Hire your first paid factory worker.'],['industrial-licenses','Master of Twenty-Five','Earn and purchase all 25 product automation licenses.'],['industrial-ship','Ready for Sea','Buy your first cargo ship.'],['industrial-export','First International Delivery','Complete one paid export voyage.'],['industrial-countries','A Worldwide Workshop','Deliver products to all ten countries.'],['industrial-reputation','A Trusted Name','Earn 100 reputation with one country.'],['industrial-all-reputation','Ten Trusted Partnerships','Earn 100 reputation with every country.'],['industrial-100ships','A Hundred Voyages','Deliver 100 export shipments.'],['industrial-f25','Powering the Industrial World','Collect an Industrial Power Complex, F25.'],['industrial-certificate','Certified Industrial Master','Complete all three parts of M30.'],['industrial-profit','The Profitable Empire','Earn $1Q cumulative net export opportunity profit after input copper, fees, wages and freight.'],
+ ...PRODUCTS.map(p=>['mastery-'+p.id,p.name+' Mastery',`Collect ${p.manualRequired} funded manual ${p.id} batches using its primary minigame.`])
+];
+export function checkIndustrialAchievements(s,now=Date.now()){
+ const i=s.industry,t=s.trade;if(!i||!t)return;s.achievementTimes??={};
+ const tests={
+ 'industrial-a2':s.ascension.level>=2,'industrial-r19':s.era2.highestRebirth>=19||s.ascension.level>=2&&s.rebirth>=19,'industrial-r26':s.era2.highestRebirth>=26||s.ascension.level>=2&&s.rebirth>=26,
+ 'industrial-gt':s.stats.copperCollected>=MG.Gt,'industrial-1000gt':s.stats.copperCollected>=1000n*MG.Gt,'industrial-signatures':Array.from({length:32},(_,i)=>88+i).every(id=>s.era2.signatures.includes(id)),
+ 'industrial-factory':i.facilities.length>0,'industrial-manual':i.stats.manual>0,'industrial-worker':Object.keys(i.workers).length>0,'industrial-licenses':PRODUCTS.every(p=>i.licenses.includes(p.id)),
+ 'industrial-ship':t.ships.length>0,'industrial-export':t.stats.delivered>0,'industrial-countries':t.stats.ports.length===10,'industrial-reputation':Object.values(t.relationships).some(n=>n>=100),'industrial-all-reputation':Object.values(t.relationships).filter(n=>n>=100).length===10,'industrial-100ships':t.stats.delivered>=100,'industrial-f25':(i.mastery.F25||0)>0,'industrial-certificate':i.optional.includes(2030),'industrial-profit':t.stats.net>=1000000000000000n*DOLLAR
+ };
+ for(const p of PRODUCTS)tests['mastery-'+p.id]=(i.mastery[p.id]||0)>=p.manualRequired;
+ for(const[id,earned]of Object.entries(tests))if(earned&&!s.achievements.includes(id)){s.achievements.push(id);s.achievementTimes[id]=now;}
+}

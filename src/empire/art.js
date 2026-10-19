@@ -1,6 +1,8 @@
 import {deviceArt} from '../art.js';
 import {industrialIllustration} from './industrial-art.js';
+import {era2Illustration} from './era2-art.js';
 export function illustration(d,uid='device'){
+ const era2=era2Illustration(d);if(era2)return era2;
  const industrial=industrialIllustration(d,uid);if(industrial)return industrial;
  const legacy={1:'motor',2:'fan',9:'supply',16:'washer',21:'industrial'};if(legacy[d.id])return deviceArt(legacy[d.id],uid);
  const n=d.id,ink='#263b3d',metal=['#738c82','#7c8c94','#a89275','#7c8d7b'][n%4],light=['#b5c9b4','#bccbd0','#d7bf99','#b1c5a9'][n%4],copper='#d8955d';let content='';
