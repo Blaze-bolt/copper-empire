@@ -28,7 +28,7 @@ A PostgreSQL test environment runs the actual migrations and command handler: RL
 
 Industry audio cues, persistent audio controls, explicit SHORT/LONG pulse input, expanded smelting, achievements/timestamps, analytics, keyboard controls, pointer/tap placement, reduced motion and inactive-tab timing are retained or extended. New memory replays and useful-tile scanners consume the existing attempt-wide upgrade allowance.
 
-**371 automated tests pass, zero failures.** Production build and authenticated backend bundle succeed. Browser QA includes 390px phone layout without page-wide overflow, all 250 quote rows/filtering, keyboard sequence transformation, actual cable-layer manual production and collection, license gating, warehouse removal and one real 12m30s round-trip voyage with delayed once-only payout. The 32 new models, 25 products and monochrome contact sheets use the actual renderer. No 500-user load test or physical touchscreen hardware test is claimed.
+**372 automated tests pass, zero failures.** Production build and authenticated backend bundle succeed. Browser QA includes 390px phone layout without page-wide overflow, all 250 quote rows/filtering, keyboard sequence transformation, actual cable-layer manual production and collection, license gating, warehouse removal and one real 12m30s round-trip voyage with delayed once-only payout. The 32 new models, 25 products and monochrome contact sheets use the actual renderer. No 500-user load test or physical touchscreen hardware test is claimed.
 
 ## Live backend acceptance — October 19, 2026
 
@@ -38,7 +38,13 @@ Live public HTTP checks return 250 pairs; unchanged polls omit the price array. 
 
 Performance advisors report no findings. Security advisors identify the intentionally restricted private RLS tables, deliberately public fictional market/ranking reads and own-JWT revision read, plus the pre-existing disabled leaked-password check. Details and remediation links are in backend-usage.md. No paid infrastructure was enabled.
 
-Publication status and final owner Debug browser verification are recorded in the GitHub release PR; do not infer a live UI deployment from this backend check alone.
+The owner authorized a separate temporary test account instead of ending the active Main #83 attempt. The account had no admin privileges and was excluded from rankings. Authenticated browser/API testing completed six manual cable batches, one paid worker batch, the five-win license gate, exact A2 fees, free funded failure/retry with its time penalty, duplicate collection, and cross-session conflict protection. The new #101 signature passed live keyboard validation with zero practice rewards.
+
+A real 11m18s server-timed export completed loading, outbound travel, exactly one locked arrival payment and the return journey. Its vessel returned AVAILABLE, history became COMPLETE, and repeated settlement paid nothing extra. A new 20-minute news version appeared during transit without repricing the locked cargo. Gross was $1,296,119,000,000; opportunity net $561,946,652,125; freight $9,472,347,875. These are fictional game quantities.
+
+The live test exposed and fixed a client transition bug that tried to reopen a completed challenge after collecting its product. The added regression covers completed attempt responses on collection, hiring and licensing while preserving explicit new challenge launches. The repaired collection was then retested against the live service.
+
+The temporary account was signed out and deleted. Auth user, identity, sessions, refresh tokens, profile, workshop, receipts, ranking and admin-binding counts are all zero for that exact QA identity. Its old token receives HTTP 401 and local temporary credentials were removed. Owner Main revision 38 and its state hash matched before/after the QA work; its active attempt remains intact. Publication and deployment status are recorded in the GitHub release PR.
 
 ## Review artifacts
 
