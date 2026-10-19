@@ -1,11 +1,14 @@
 import * as E from '../../src/empire/state.js';
+import * as I from '../../src/empire/industry-state.js';
+import * as T from '../../src/empire/trade-state.js';
+import {countryById} from '../../src/empire/trade-data.js';
 import {createGame,gameAction,tickGame} from '../../src/empire/games.js';
 import {deviceById} from '../../src/empire/catalogue.js';
 import {BOSSES,QUALITY,DOLLAR} from '../../src/empire/data.js';
 export const pack=x=>JSON.parse(E.encode(x));
 export function storedState(s){const copy=pack(s);copy.goldMarket={global:true};copy.market={global:true,upgrades:copy.market.upgrades,alert:copy.market.alert,limit:copy.market.limit,refreshAt:copy.market.refreshAt};return copy;}
 export const unpack=x=>E.decode(JSON.stringify(x));
-const integer=(n,min=0,max=87)=>{if(!Number.isInteger(n)||n<min||n>max)throw Error('Invalid selection.');return n;};
+const integer=(n,min=0,max=119)=>{if(!Number.isInteger(n)||n<min||n>max)throw Error('Invalid selection.');return n;};
 const amount=x=>{if(typeof x!=='string'||!/^\d{1,110}$/.test(x)||BigInt(x)<=0n)throw Error('Enter a positive, exact copper amount.');return BigInt(x);};
 const seed=()=>crypto.getRandomValues(new Uint32Array(1))[0];
 export function replayStage(attempt,state,events,now=Date.now(),checkpoint=false){
@@ -31,12 +34,42 @@ export function replayStage(attempt,state,events,now=Date.now(),checkpoint=false
  const timeScore=g.duration?1-Math.max(0,g.elapsed/g.duration-.45)*.7:1;
  return Math.max(.45,Math.min(g.score,timeScore)-(attempt.replays?.06:0)-g.errors*.02);
 }
-export function transition(s,a,command,p={},now=Date.now()){
- E.expansionDefaults(s);let result=null,trade=null;
+export function transition(s,a,command,p={},now=Date.now(),context={}){
+ E.expansionDefaults(s);E.claimLegacyIndustrial(s);E.migrateAttempt(a);let result=null,trade=null,worldGate=null;
+ const world=context.world,owner=context.user||'local';
+ const gateWorld=()=>{if(!world||p.version!==world.version||p.newsVersion!==world.newsVersion)throw Error('EXPORT_QUOTE_CHANGED: Refresh and review current worldwide prices.');worldGate={version:world.version,newsVersion:world.newsVersion};};
+ const exportInfo=()=>{gateWorld();const country=countryById(p.country||'AU'),row=world.prices.find(x=>x.country===country?.id&&x.product===p.product);if(!country||!row)throw Error('Unknown export route.');return {unitPrice:row.price,minutes:country.minutes,personalBps:T.personalBps(s,country.id)};};
  const id=String(p.id??'');
  if(a&&['active','briefing'].includes(a.status)&&!['launch','stage','checkpoint','fail','begin','heartbeat'].includes(command))throw Error('Finish or leave your current attempt first.');
  switch(command){
- case 'heartbeat':if(!a||!['active','briefing'].includes(a.status))E.background(s,now);break;
+ case 'factory-build':I.buildFactory(s,Number(p.factory));break;
+ case 'factory-upgrade':I.upgradeFactory(s,Number(p.factory),id,p.rank);break;
+ case 'worker-hire':I.hireWorker(s,id);break;
+ case 'worker-assign':I.assignWorker(s,id,Number(p.factory));break;
+ case 'factory-license':I.automationLicense(s,id);break;
+ case 'factory-research':I.researchIndustry(s,Number(id));break;
+ case 'factory-reserve':result=I.reserveProduction(s,p,now,exportInfo());trade={quote:s.market.quote,volume:0n};break;
+ case 'factory-collect':result=I.collectProduction(s,id,now);break;
+ case 'factory-queue':I.queueProduction(s,p,exportInfo());trade={quote:s.market.quote,volume:0n};break;
+ case 'factory-queue-manage':I.manageQueue(s,p.factory,p.action,id);break;
+ case 'factory-begin':{
+  if(a&&['active','briefing'].includes(a.status))throw Error('Finish or leave this attempt before starting production.');
+  a=I.beginProduction(s,id,seed(),now);break;
+ }
+ case 'factory-practice':{
+  if(s.ascension.level<2||!s.industry.facilities.length)throw Error('Construct your first A2 factory before practicing production.');
+  a={id:crypto.randomUUID(),mode:'factory-practice',device:1,stages:[integer(p.game,2001,2030)],index:0,scores:[],status:'briefing',seed:seed(),difficulty:6,hints:0,replays:0,paid:false};break;
+ }
+ case 'ship-buy':result=T.buyShip(s,id,owner);break;
+ case 'port-upgrade':T.portUpgrade(s,id,p.rank);break;
+ case 'trade-agreement':T.buyAgreement(s,p.country,!!p.strategic);break;
+ case 'export-accept':gateWorld();result=T.acceptExportContract(s,p,world,now);break;
+ case 'ship-dispatch':gateWorld();result=T.dispatchShipment(s,p,world,owner,now);trade={quote:s.market.quote,volume:0n};break;
+ case 'ship-cancel':result=T.cancelShipment(s,id,now);break;
+ case 'loading-plan':T.saveLoadingPlan(s,p);break;
+ case 'loading-plan-delete':T.deleteLoadingPlan(s,id);break;
+ case 'trade-refresh':I.industryBackground(s,now,context.world);T.tradeBackground(s,now);break;
+ case 'heartbeat':if(!a||!['active','briefing'].includes(a.status))E.background(s,now,context.world);break;
  case 'begin':{
   const n=integer(p.device,1),mode=p.mode||'device';if(!['device','practice','trial','boss','furnace','ascension','gold'].includes(mode))throw Error('Unknown attempt.');
   if(mode==='device'&&n===1&&!s.inventory[1])E.purchaseDevice(s,1);
@@ -46,23 +79,26 @@ export function transition(s,a,command,p={},now=Date.now()){
   if(mode==='ascension'||mode==='gold')difficulty=6;if(mode==='trial')difficulty=Math.min(6,Math.floor(s.rebirth/2));
   if(mode==='boss'){if(!boss)throw Error('Unknown boss.');difficulty=boss.difficulty;}
   if(p.expert){if(s.rebirth<4)throw Error('Expert unlocks at Rebirth 4.');difficulty=Math.max(4,difficulty);}
-  if(a&&['active','briefing'].includes(a.status)){a.status='active';E.stageFail(s,a);}
+  if(a&&['active','briefing'].includes(a.status)){if(a.mode==='factory')I.failProduction(s,a);a.status='active';E.stageFail(s,a);}
   if(mode==='furnace'){
    const job=s.furnace.jobs.find(j=>j.id===id);if(!job||job.bonusUsed||now>=job.ends)throw Error('Bonus unavailable.');job.bonusUsed=true;
    a={id:crypto.randomUUID(),mode,job:id,device:1,stages:[1],index:0,scores:[],status:'briefing',seed:seed(),difficulty:1,hints:0,replays:0,paid:false};
   }else a=E.begin(s,n,{mode,difficulty,seed:seed(),boss});break;
  }
- case 'launch':if(a?.status!=='briefing')throw Error('No challenge to launch.');a.status='active';a.launchedAt=now;delete a.checkpoint;{const n=a.stages[a.index];if(n<=87&&!s.encountered.includes(n))s.encountered.push(n);}break;
+ case 'launch':if(a?.status!=='briefing')throw Error('No challenge to launch.');a.status='active';a.launchedAt=now;delete a.checkpoint;{const n=a.stages[a.index];if(n<=119&&!s.encountered.includes(n))s.encountered.push(n);}break;
  case 'checkpoint':if(p.attempt!==a?.id||p.index!==a.index)throw Error('This stage is no longer current.');replayStage(a,s,p.events,now,true);break;
  case 'stage':{
   if(p.attempt!==a?.id||p.index!==a.index)throw Error('This stage is no longer current.');
   const score=replayStage(a,s,p.events,now);E.stagePass(a,score);
   if(a.status==='complete'){
    if(a.mode==='furnace'){const job=s.furnace.jobs.find(j=>j.id===a.job),saved=E.furnaceBonus(s,job,now);a.paid=true;result={furnace:true,secondsSaved:saved/1000};}
+   else if(a.mode==='factory')result=I.finishProductionChallenge(s,a,E.performanceGrade(a.scores),now);
+   else if(a.mode==='factory-practice'){a.paid=true;if(a.stages[0]>=2026&&!s.industry.optional.includes(a.stages[0]))s.industry.optional.push(a.stages[0]);result={practice:true,grade:E.performanceGrade(a.scores),amount:0n,xp:0};}
    else result=E.reward(s,a);
   }break;
  }
- case 'fail':if(a&&['active','briefing'].includes(a.status)){a.status='active';E.stageFail(s,a);}break;
+ case 'retry-trial-stage':E.retryAscensionStage(s,a);break;
+ case 'fail':if(a&&['active','briefing'].includes(a.status)){if(a.mode==='factory')I.failProduction(s,a);a.status='active';E.stageFail(s,a);}break;
  case 'refund-essence':result={refunded:E.refundEssence(s)};break;
  case 'compression':E.buyCompression(s,integer(p.rank,1,7));break;
  case 'essence':E.buyEssence(s,id,integer(p.rank,1,5));break;
@@ -110,7 +146,8 @@ export function transition(s,a,command,p={},now=Date.now()){
  if(command==='heartbeat'&&!a?.status?.match(/active|briefing/)&&s.market.limit&&s.market.upgrades.includes('terminal')){
   const order=s.market.limit;if(s.market.quote>=order.quote&&s.copper[order.quality]>=order.amount){result={proceeds:E.sell(s,order.amount,order.quality),limit:true};trade={quote:s.market.quote,volume:-order.amount};s.market.limit=null;}
  }
- E.checkAchievements(s);return {state:s,attempt:a,result,trade};
+ if(context.world&&context.feesBefore!==undefined&&s.industry.stats.fees!==context.feesBefore){worldGate={version:context.world.version,newsVersion:context.world.newsVersion};trade??={quote:s.market.quote,volume:0n};}
+ E.checkAchievements(s);return {state:s,attempt:a,result,trade,worldGate};
 }
 export async function handleCommand(db,user,body,now=Date.now()){
  if(!/^[0-9a-f-]{36}$/i.test(body.requestId||'')||!Number.isSafeInteger(body.revision))throw Error('Invalid request identity.');
@@ -119,7 +156,10 @@ export async function handleCommand(db,user,body,now=Date.now()){
  const loaded=await db.rpc('empire_load',{p_user:user,p_initial:storedState(initial)});
  if(loaded.revision!==body.revision)throw Error('SAVE_CONFLICT: Another device changed your workshop. Refresh before continuing.');
  const s=E.expansionDefaults(unpack(loaded.state)),a=unpack(loaded.attempt);const quotes=await db.rpc('empire_quotes',{});Object.assign(s.market,quotes.copper);s.market.history=[];Object.assign(s.goldMarket,quotes.gold);s.goldMarket.history=[];
- const before=E.encode(s);const t=transition(s,a,body.command,body.payload,now);
+ const context={user,feesBefore:s.industry.stats.fees};if((['heartbeat','trade-refresh'].includes(body.command)&&s.industry.facilities.some(f=>f.queue.length))||['factory-reserve','factory-queue','ship-dispatch','export-accept'].includes(body.command))context.world=unpack(await db.rpc('empire_export_world',{}));
+ const before=E.encode(s);const t=transition(s,a,body.command,body.payload,now,context);
  if(body.command==='heartbeat'&&before===E.encode(t.state))return {state:pack(t.state),attempt:pack(t.attempt),revision:loaded.revision,result:null,classification:loaded.classification};
- const committed=await db.rpc('empire_commit_asset',{p_user:user,p_request:body.requestId,p_expected:body.revision,p_state:storedState(t.state),p_attempt:pack(t.attempt),p_result:pack(t.result),p_quote:t.trade?.quote??null,p_volume:t.trade?.volume.toString()??'0',p_asset:t.trade?.asset||'copper'});Object.assign(committed.state.market,quotes.copper);Object.assign(committed.state.goldMarket,quotes.gold);return committed;
+ const args={p_user:user,p_request:body.requestId,p_expected:body.revision,p_state:storedState(t.state),p_attempt:pack(t.attempt),p_result:pack(t.result),p_quote:t.trade?.quote??null,p_volume:t.trade?.volume.toString()??'0',p_asset:t.trade?.asset||'copper'};
+ if(t.worldGate)Object.assign(args,{p_world_epoch:t.worldGate.version,p_news_epoch:t.worldGate.newsVersion,p_slot:body.slot||'main'});
+ const committed=await db.rpc(t.worldGate?'empire_commit_industry':'empire_commit_asset',args);Object.assign(committed.state.market,quotes.copper);Object.assign(committed.state.goldMarket,quotes.gold);return committed;
 }

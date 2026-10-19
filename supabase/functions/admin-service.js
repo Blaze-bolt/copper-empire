@@ -3,7 +3,7 @@ import {handleCommand,pack,storedState} from './service.js';
 import {editSave,validateMarketConfig,marketDefaults,priceInteger,MARKET_EVENTS} from './admin-editor.js';
 const slotOf=body=>{const slot=body.slot??'main';if(!['main','debug'].includes(slot))throw Error('Unknown save slot.');return slot;};
 const identity=body=>{if(!/^[0-9a-f-]{36}$/i.test(body.requestId||'')||!Number.isSafeInteger(body.revision)||body.revision<0)throw Error('Invalid request identity.');};
-export async function loadSlot(db,user,slot){const data=await db.rpc('empire_slot_load',{p_user:user,p_slot:slot,p_initial:storedState(E.newState())});data.state=pack(E.expansionDefaults(E.decode(JSON.stringify(data.state))));const quotes=await db.rpc('empire_quotes',{});Object.assign(data.state.market,quotes.copper);Object.assign(data.state.goldMarket,quotes.gold);return data;}
+export async function loadSlot(db,user,slot){const data=await db.rpc('empire_slot_load',{p_user:user,p_slot:slot,p_initial:storedState(E.newState())});E.migrateAttempt(data.attempt);data.state=pack(E.expansionDefaults(E.decode(JSON.stringify(data.state))));const quotes=await db.rpc('empire_quotes',{});Object.assign(data.state.market,quotes.copper);Object.assign(data.state.goldMarket,quotes.gold);return data;}
 export async function handleWorkshop(db,user,body,now=Date.now()){
  const slot=slotOf(body);
  if(body.command==='admin-status')return db.rpc('empire_admin_status',{p_user:user});
