@@ -1,10 +1,12 @@
 # Copper Empire — Recycling Tycoon
 
-A browser game with 87 electronics, 87 compulsory signature minigames, an exact copper/gold economy, 18 Rebirth chapters, and five Ascension levels.
+A browser game with 119 electronics, 119 compulsory signature minigames, an exact copper/gold economy, 26 Rebirth chapters, and five Ascension levels.
 
 Read the [Ascension and Gold expansion guide](docs/ASCENSION_GOLD.md) for all new costs, bonuses, milestone/reset rules, device values and controls.
 
 Read the [complete player guide](docs/PLAYER_GUIDE.md) for every electronic and signature challenge, exact costs and recovery ranges, progression, workshop systems, accounts, and saves.
+
+Read the [Global Industrial Era guide](docs/industrial-era/IMPLEMENTATION.md) for A2, R19–R26, the approved economy, factories, workers, shipping, compatibility, and backend setup. See the [release checkpoint](docs/industrial-era/checkpoint.md), [model gallery](docs/model-proof/industrial-era.html), and [backend budget](docs/industrial-era/backend-usage.md).
 
 ## Play
 
@@ -16,7 +18,7 @@ Progress saves in the browser. Use Settings to export/import a backup. Localhost
 
 ## Systems
 
-- 87 illustrated electronics and signature challenges, with compulsory stages and skill-based rewards.
+- 119 illustrated electronics and signature challenges, with compulsory stages and skill-based rewards.
 - Exact integer milligrams and nanodollars; six copper qualities and a fictional bounded copper market.
 - 15 tools, crafting, research, aura collection, prestige, contracts, six bosses, and achievements.
 - Virtual smelting at Rebirth 5, automation at Rebirth 8, refining at Rebirth 10, and refining research at Rebirth 11.
@@ -52,13 +54,13 @@ The repository contains only Copper Empire's game source, tests, build tools, an
 
 ## Validation
 
-Automated checks cover all 87 signatures and seven panning claims, seeded solvability at beginner/expert/extreme settings, failure resets, duplicate rewards, exact transactions, migration, tools, progression, bosses, refining, and browser rendering templates. Economic simulations at 70% and 95% independent per-stage success reach the R12 Ascension entry. They demonstrate reachability, not human playtime; long stage chains require practice.
+Automated checks cover all 119 signatures, all 30 factory challenges and seven panning claims, seeded solvability at beginner/expert/extreme settings, failure resets, duplicate rewards, exact transactions, migration, tools, progression, bosses, refining, and browser rendering templates. Economic simulations at 70% and 95% independent per-stage success reach the R12 Ascension entry. They demonstrate reachability, not human playtime; long stage chains require practice.
 
 The original game remains available at `classic.html` with a separate save. Original shared circuit logic, illustrations, and layout are retained in `src/engine.js`, `src/art.js`, and `styles.css`.
 
 ## Online upgrade
 
-Optional accounts add unique usernames, private cloud backups, a verified online workshop, worldwide rankings, and a shared copper market that ticks every 10 seconds. Only the latest hour of chart prices is retained. All 52 original games and the original local workshop remain available. The expansion adds 35 exact signatures, permanent Stage Compression, A1–A5, CE skills, gold equipment and Golden Engineering. Existing local progress is preserved separately from verified online balances.
+Optional accounts add unique usernames, private cloud backups, a verified online workshop, worldwide rankings, and a shared copper market that ticks every 10 seconds. Only the latest hour of chart prices is retained. All 52 original games and the original local workshop remain available. The expansions add 67 exact electronic signatures, permanent Stage Compression, Ascension, CE skills, gold equipment and Golden Engineering. Ascension 2 opens 25 manufactured products, paid workers and production queues, ten-country hourly export prices, worldwide fictional news, contracts, and five cargo-ship classes with delayed arrival payments. Existing local progress is preserved separately from verified online balances.
 
 Run `npm ci` before testing or building. Node 22+ is recommended. The production build bundles the official Supabase client and copies the licensed music; the development server serves its generated SDK from `dist/vendor`. Run `npm run build` once before `npm start`.
 

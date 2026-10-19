@@ -28,11 +28,11 @@ export function editSave(source,p){
  case 'money-add':s.money+=exact(p.value,DOLLAR);break;case 'money-set':s.money=exact(p.value,DOLLAR);break;case 'money-multiply':s.money=multiply(s.money,[2,5,10]);break;
  case 'copper-add':case 'copper-set':case 'copper-multiply':{const q=safe(p.quality,0,5);if(p.kind==='copper-multiply')s.copper[q]=multiply(s.copper[q],[2,5,10]);else{if(!MG[p.unit])throw Error('Choose a valid metal unit.');const n=exact(p.value,MG[p.unit]);s.copper[q]=p.kind==='copper-add'?s.copper[q]+n:n;}break;}
  case 'gold-add':case 'gold-set':case 'gold-multiply':if(p.kind==='gold-multiply')s.gold.balance=multiply(s.gold.balance,[2,10]);else{if(!MG[p.unit])throw Error('Choose a valid gold unit.');const n=exact(p.value,MG[p.unit]);s.gold.balance=p.kind==='gold-add'?s.gold.balance+n:n;}break;
- case 'rebirth-set':s.rebirth=safe(p.value,0,18);s.pendingRebirth=null;s.pendingAscension=null;break;
+ case 'rebirth-set':s.rebirth=safe(p.value,0,26);s.pendingRebirth=null;s.pendingAscension=null;break;
  case 'level-set':s.xp=E.levelXP(safe(p.value,1,1000000));break;
  case 'xp-set':s.xp=safe(p.value,0,100000000000000);break;case 'xp-add':s.xp=safe(s.xp+safe(p.value,0,100000000000000),0,100000000000000);break;
- case 'electronic':{const id=safe(p.id,1,87),n=safe(p.value,1,1000000);if(!deviceById(id))throw Error('Unknown electronic.');s.inventory[id]=safe((s.inventory[id]||0)+n,0,1000000000);break;}
- case 'practice':{const id=safe(p.id,1,87);if(!s.encountered.includes(id))s.encountered.push(id);break;}
+ case 'electronic':{const id=safe(p.id,1,119),n=safe(p.value,1,1000000);if(!deviceById(id))throw Error('Unknown electronic.');s.inventory[id]=safe((s.inventory[id]||0)+n,0,1000000000);break;}
+ case 'practice':{const id=safe(p.id,1,119);if(!s.encountered.includes(id))s.encountered.push(id);break;}
  case 'tool':if(!TOOLS.some(t=>t.id===p.id))throw Error('Unknown tool.');if(!s.tools.includes(p.id))s.tools.push(p.id);break;
  case 'prestige':s.pp=safe(s.pp+safe(p.value),0,1000000000);break;
  case 'ascension':s.ascension.level=safe(p.value,0,5);s.pendingAscension=null;if(s.ascension.level)s.gold.unlocked=true;break;

@@ -1,7 +1,7 @@
 export const GOLD_HELP='Tilt the pan with the slider, pointer, arrow keys, or tilt buttons. Keep the gold marker inside the green pocket; shake to clear sediment. Excessive shaking creates instability. Complete three increasingly difficult rounds. A failed pan gives no gold and is free to retry.';
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
 export function createGoldGame(g){
- const e=g.bonus.goldEquipment||{},claim=g.id-101;
+ const e=g.bonus.goldEquipment||{},claim=g.id-1001;
  return Object.assign(g,{claim,round:0,position:.5,velocity:0,tilt:0,target:.5,width:Math.min(.48,(.32-claim*.014)*(1+(e.pan||0)*.08+(e.station||0)*.06)),instability:0,sediment:.22,progress:0,outside:0,shakes:0,lastShake:-10,roundTime:0,roundScores:[],roundLength:Math.max(7.5,12*(1-(e.station||0)*.08-(e.supply||0)*.08)),stabilityFactor:1-(e.kit||0)*.12,currentFactor:1-(e.drone||0)*.2,equipment:e,duration:180*(1+(g.bonus.time||0))});
 }
 export function goldAction(g,action,{value=0,position}={}){

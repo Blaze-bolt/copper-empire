@@ -19,12 +19,12 @@ export function solvePan(g,events){
 for(let claim=0;claim<7;claim++)test(`gold claim ${claim}: three interactive rounds and validated integer reward`,()=>{
  for(const seed of [1,71,1234]){
   const s=E.newState();s.ascension.level=1;s.gold.unlocked=true;s.gold.claims=Array.from({length:claim+1},(_,i)=>i);
-  const a=E.begin(s,claim+1,{mode:'gold',seed});a.status='active';a.launchedAt=0;const events=[],g=solvePan(createGame(101+claim,6,seed,E.bonuses(s)),events);
+  const a=E.begin(s,claim+1,{mode:'gold',seed});a.status='active';a.launchedAt=0;const events=[],g=solvePan(createGame(1001+claim,6,seed,E.bonuses(s)),events);
   assert.equal(g.round,3);const score=replayStage(a,s,events,Math.ceil(g.elapsed*1000));E.stagePass(a,score);const result=E.reward(s,a,()=>0);assert.ok(result.gold);assert.equal(typeof result.amount,'bigint');assert.equal(s.gold.balance,result.amount);assert.equal(s.gold.recovered,result.amount);assert.throws(()=>E.reward(s,a));
  }
 });
 test('failed pan yields no gold; upgrades alter mechanics without automatic wins',()=>{
- const s=E.newState();s.ascension.level=1;s.gold.unlocked=true;s.gold.equipment={pan:4,kit:4,station:3,supply:3,drone:3};const base=createGame(107,6,5),upgraded=createGame(107,6,5,E.bonuses(s));assert.ok(upgraded.width>base.width);assert.ok(upgraded.roundLength<base.roundLength);assert.ok(upgraded.currentFactor<base.currentFactor);
+ const s=E.newState();s.ascension.level=1;s.gold.unlocked=true;s.gold.equipment={pan:4,kit:4,station:3,supply:3,drone:3};const base=createGame(1007,6,5),upgraded=createGame(1007,6,5,E.bonuses(s));assert.ok(upgraded.width>base.width);assert.ok(upgraded.roundLength<base.roundLength);assert.ok(upgraded.currentFactor<base.currentFactor);
  const a=E.begin(s,1,{mode:'gold'});a.status='active';E.stageFail(s,a);assert.equal(s.gold.balance,0n);assert.equal(s.gold.recovered,0n);assert.equal(s.gold.failed,1);assert.throws(()=>E.reward(s,a));
  for(let k=0;k<10000&&upgraded.status==='active';k++)tickGame(upgraded,.02);assert.notEqual(upgraded.status,'success');
 });
