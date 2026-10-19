@@ -2,6 +2,8 @@
 
 This upgrades the existing vanilla JavaScript Copper Empire project. All 52 original catalogue entries and minigames, illustrations, local saves, classic game, and GitHub Pages path are retained. The expansion adds 35 exact electronics/signatures plus Ascension, Stage Compression and Gold Operation.
 
+For the additive Global Industrial Era migration and deployment, see [the industry setup guide](industrial-era/IMPLEMENTATION.md) and [current validation](industrial-era/checkpoint.md).
+
 ## What runs where
 
 GitHub Pages serves static HTML/CSS/JavaScript and the licensed music asset. The official Supabase JavaScript client is bundled with esbuild; no frontend framework is introduced. Supabase handles email/password accounts, unique usernames, private backup slots, authoritative online workshop saves, two shared markets, and verified rankings. The original local workshop remains available without signing in.
