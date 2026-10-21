@@ -31,3 +31,4 @@ input,select{font:inherit;color:#c6d6bd;background:#263331;border:1px solid #425
 nav.industry-tabs{flex-flow:row nowrap;align-items:center}.industry-tabs .button{width:auto;flex:0 0 auto}.factory-curve,.factory-layer{display:block;width:95px;height:85px;margin:auto}
 @media(max-width:600px){.topbar .breadcrumb{display:none}.topbar .topbar-right{gap:5px;min-width:0;flex:1;justify-content:flex-end}.topbar-right .top-copper,.topbar-right .top-money{min-width:0;max-width:105px;overflow:hidden;white-space:nowrap}.topbar-right .account-status{max-width:85px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px}.topbar-right .avatar{flex-shrink:0}.factory-curve,.factory-layer{width:76px;height:68px}}
 .empire-modal .game-button[data-drag]{touch-action:none;user-select:none;-webkit-user-select:none}.industry-form~small{display:block;margin-top:12px;line-height:1.6}
+.topbar-right .fullscreen-button{flex:0 0 32px;min-width:32px}
