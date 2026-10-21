@@ -710,6 +710,12 @@ Account & Cloud supports email/password registration, confirmation email, sign-i
 
 Usernames are public on the world leaderboard. Emails, passwords, and private saves are not leaderboard content. Passwords are handled by the account service rather than written into a game-save export.
 
+### Resetting a password
+
+Open Account & Cloud, enter your email, and select **Email a password reset**. Keep that browser's storage enabled and open the newest reset email on the same device and in the same browser (rather than an email app's built-in browser). A verified link opens **Choose a new password** at the top of Account & Cloud. Enter and confirm a password of 8–128 characters, then select **Save new password**. Signed-in players can also select **Change password**.
+
+If a link has expired, was already used, or cannot be verified, Account & Cloud explains the problem and lets you request another. Requesting several emails can replace the browser's verification data, so use only the newest email. Password recovery does not replace your workshop or saved progress.
+
 ### Two kinds of saved progress
 
 Your original Local Workshop remains in that browser. It can be exported and imported, and a signed-in account can hold a private backup of it. Restoring that backup requires a review, keeps a recovery copy, and replaces only the local workshop.
