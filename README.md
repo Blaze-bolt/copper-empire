@@ -8,9 +8,13 @@ Read the [complete player guide](docs/PLAYER_GUIDE.md) for every electronic and 
 
 Read the [Global Industrial Era guide](docs/industrial-era/IMPLEMENTATION.md) for A2, R19–R26, the approved economy, factories, workers, shipping, compatibility, and backend setup. See the [release checkpoint](docs/industrial-era/checkpoint.md), [model gallery](docs/model-proof/industrial-era.html), and [backend budget](docs/industrial-era/backend-usage.md).
 
+## Unified Workshop (v6.2.0)
+
+One normal workshop saves locally immediately and syncs changed snapshots every 15 minutes. Guests can use Aura Forge. Sign-in compares existing saves before any replacement; owner Debug stays separate. See [Unified Workshop migration, recovery, security and deployment](docs/UNIFIED_WORKSHOP.md). This release is prepared for review; production migration and deployment are separate.
+
 ## Aura Forge (v6.1.0)
 
-The fixed-odds Forge adds 20 auras, exact duplicate counters, permanent batch capacity up to 100 million, and authenticated aggregate purchases. See [Aura Forge implementation, migration and verification](docs/AURA_FORGE.md). Apply the SQL migration and updated Edge Function before releasing the frontend. This update is prepared for review; production deployment is separate.
+The fixed-odds Forge adds 20 auras, exact duplicate counters, permanent batch capacity up to 100 million, and efficient aggregate purchases. See [Aura Forge implementation, migration and verification](docs/AURA_FORGE.md). Apply the SQL migration and updated Edge Function before releasing the frontend. This update is prepared for review; production deployment is separate.
 
 ## Play
 
@@ -18,7 +22,7 @@ Open the published GitHub Pages website. Claim a free Small DC Motor, complete i
 
 The game supports keyboard, mouse, and touch. Instructions appear before each challenge. Escape pauses; leaving the tab pauses active minigames. Practice has selectable difficulty and grants no rewards.
 
-Progress saves in the browser. Use Settings to export/import a backup. Localhost, GitHub Pages, different browsers, and different profiles have separate storage; import a backup once to move existing progress onto the published website. Local play needs no account. Online accounts add cloud saves, verified rankings, and shared trades. There is no real money or cash-out.
+Progress saves in the browser. Use Settings to export/import a backup. Localhost, GitHub Pages, different browsers, and different profiles have separate storage; import a backup once to move existing progress onto the published website. Local play needs no account. Online accounts add cloud synchronization, clearly labeled synced rankings, and authenticated shared trades. There is no real money or cash-out.
 
 ## Systems
 
@@ -28,7 +32,7 @@ Progress saves in the browser. Use Settings to export/import a backup. Localhost
 - Virtual smelting at Rebirth 5, automation at Rebirth 8, refining at Rebirth 10, and refining research at Rebirth 11.
 - Rebirth trials and explicit reset confirmation. Four new electronics unlock per tier through R12; Ascension 1 opens the Gold Operation and eligibility for R13–R18.
 
-All devices, circuits, and furnace activities are stylized game abstractions, without practical electrical disassembly instructions. Local workshops retain browser saves. Verified online workshops use server-checked actions and rewards; imported saves remain local.
+All devices, circuits, and furnace activities are stylized game abstractions, without practical electrical disassembly instructions. The unified workshop retains browser saves and supports confirmed imports. Shared economic transactions are server-checked; locally generated progress is labeled unverified.
 
 ## Develop locally
 
@@ -64,7 +68,7 @@ The original game remains available at `classic.html` with a separate save. Orig
 
 ## Online upgrade
 
-Optional accounts add unique usernames, private cloud backups, a verified online workshop, worldwide rankings, and a shared copper market that ticks every 10 seconds. Only the latest hour of chart prices is retained. All 52 original games and the original local workshop remain available. The expansions add 67 exact electronic signatures, permanent Stage Compression, Ascension, CE skills, gold equipment and Golden Engineering. Ascension 2 opens 25 manufactured products, paid workers and production queues, ten-country hourly export prices, worldwide fictional news, contracts, and five cargo-ship classes with delayed arrival payments. Existing local progress is preserved separately from verified online balances.
+Optional accounts connect the same unified workshop to private cloud snapshots, unique usernames, labeled worldwide rankings, and a shared copper market that ticks every 10 seconds. Only the latest hour of chart prices is retained. All 52 original signatures and guest gameplay remain available. The expansions add 67 exact electronic signatures, permanent Stage Compression, Ascension, CE skills, gold equipment and Golden Engineering. Ascension 2 opens 25 manufactured products, paid workers and production queues, ten-country hourly export prices, worldwide fictional news, contracts, and five cargo-ship classes with delayed arrival payments. Existing device, legacy Main and backup progress is reviewed and preserved during unified-save reconciliation.
 
 Run `npm ci` before testing or building. Node 22+ is recommended. The production build bundles the official Supabase client and copies the licensed music; the development server serves its generated SDK from `dist/vendor`. Run `npm run build` once before `npm start`.
 
@@ -73,7 +77,7 @@ See [online setup and security](docs/ONLINE_SETUP.md) for migrations, Edge Funct
 Background music: “Dreams Become Real” by Kevin MacLeod, licensed CC BY 4.0. Attribution, source links, permissions, and loop adaptation are recorded in [the music license](assets/music/LICENSE.txt) and shown in game Settings. Music waits for user interaction, preserves volume/on-off, and continues across menus.
 # Owner controls
 
-The existing owner's floating copper coin opens two persistent cloud workshops, exact save editors, and independent worldwide copper/gold market administration. See [Owner Admin V2](docs/OWNER_ADMIN.md) for access, backups, competitive safeguards, settings, deployment and UUID provisioning.
+The existing owner's floating copper coin opens the normal unified workshop, an isolated owner Debug workshop, exact save editors, and independent worldwide copper/gold market administration. See [Owner Admin V2](docs/OWNER_ADMIN.md) for access, backups, competitive safeguards, settings, deployment and UUID provisioning.
 
 
 ## Audio, pulse controls and expanded smelting (5.2)
