@@ -23,7 +23,19 @@ export class OnlineWorkshop {
    else if(!points.length||points.at(-1).at!==quote.next-10000){points.push({at:quote.next-10000,quote:quote.quote});points=points.slice(-361);}this[property]={...quote,history:points};};
   await Promise.all([merge('copper',data.copper,history),merge('gold',data.gold,goldHistory)]);return this.market;
  }
- async pollRankings(){if(!this.client)return;const {data,error}=await this.client.rpc('empire_rankings');if(error)throw error;this.rankings=data;}
+ async pollRankings(now=Date.now()){
+  if(!this.client||now<(this.rankingsNextPoll||0))return this.rankings;
+  if(this.rankingsPending)return this.rankingsPending;
+  this.rankingsPending=(async()=>{try{
+   const {data,error}=await this.client.rpc('empire_rankings_snapshot');if(error)throw error;
+   if(!Array.isArray(data?.rows))throw Error('The rankings response was incomplete.');
+   this.rankings=data.rows.slice(0,100);this.rankingsLoaded=true;this.rankingsError='';
+   this.rankingsUpdatedAt=data.updatedAt;this.rankingsNextUpdate=data.nextUpdate;
+   this.rankingsNextPoll=now+Math.max(1000,Math.min(1800000,data.nextUpdate-data.serverTime+1000));
+  }catch(error){this.rankingsError=error.message||'Rankings are temporarily unavailable.';this.rankingsNextPoll=now+60000;}
+  return this.rankings;})();
+  try{return await this.rankingsPending;}finally{this.rankingsPending=null;}
+ }
  async pollRevision(){const {data,error}=await this.client.rpc('empire_my_revision',{p_slot:this.slot});if(error)throw error;return data;}
  async pollIndustry(previous){const {data,error}=await this.client.rpc('empire_export_world',{p_version:previous?.version??-1,p_news_version:previous?.newsVersion??-1});if(error)throw error;const fresh=E.decode(JSON.stringify(data));return {...previous,...fresh,prices:fresh.prices||previous?.prices,events:fresh.events||previous?.events,news:fresh.news||previous?.news};}
  async industryNews(before){const {data,error}=await this.client.rpc('empire_export_news_page',{p_before:before});if(error)throw error;return data;}

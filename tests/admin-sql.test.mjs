@@ -46,7 +46,7 @@ test('deployed handler contract: Debug normal gameplay, reward replay, cloud rel
  const body=await command('stage',{attempt:a.id,index:0,events});assert.ok(cloud.result.amount>0n);const copper=E.totalCopper(cloud.state),rev=cloud.revision;const duplicate=E.decode(JSON.stringify(await handleWorkshop(adapter,owner,body,now)));assert.equal(duplicate.revision,rev);assert.equal(E.totalCopper(duplicate.state),copper);
  const pressure=(await db.query('select pressure from empire_private.market')).rows[0].pressure;
  await command('trade',{side:'sell',quality:0,amount:cloud.state.copper[0].toString(),quote:cloud.state.market.quote});assert.equal(cloud.state.copper[0],0n);assert.equal((await db.query('select pressure from empire_private.market')).rows[0].pressure,pressure);
- assert.equal((await load()).state.money.$int,'0');const reload=E.decode(JSON.stringify(await handleWorkshop(adapter,owner,{command:'load',slot:'debug'},now)));assert.equal(reload.state.money,cloud.state.money);assert.equal(reload.classification,'debug');assert.equal((await rpc('empire_rankings')).find(x=>x.username==='owner_test').completed,0);
+ assert.equal((await load()).state.money.$int,'0');const reload=E.decode(JSON.stringify(await handleWorkshop(adapter,owner,{command:'load',slot:'debug'},now)));assert.equal(reload.state.money,cloud.state.money);assert.equal(reload.classification,'debug');assert.equal((await rpc('empire_rankings')).some(x=>x.username==='owner_test'&&x.completed>0),false);
  await assert.rejects(handleWorkshop(adapter,other,{command:'admin-market',slot:'debug',revision:0,requestId:crypto.randomUUID(),payload:{asset:'gold',action:'set',value:'60',expectedVersion:0}}),/OWNER_ONLY/);
 });
 
