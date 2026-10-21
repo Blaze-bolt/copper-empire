@@ -8,6 +8,10 @@ Read the [complete player guide](docs/PLAYER_GUIDE.md) for every electronic and 
 
 Read the [Global Industrial Era guide](docs/industrial-era/IMPLEMENTATION.md) for A2, R19–R26, the approved economy, factories, workers, shipping, compatibility, and backend setup. See the [release checkpoint](docs/industrial-era/checkpoint.md), [model gallery](docs/model-proof/industrial-era.html), and [backend budget](docs/industrial-era/backend-usage.md).
 
+## Aura Forge (v6.1.0)
+
+The fixed-odds Forge adds 20 auras, exact duplicate counters, permanent batch capacity up to 100 million, and authenticated aggregate purchases. See [Aura Forge implementation, migration and verification](docs/AURA_FORGE.md). Apply the SQL migration and updated Edge Function before releasing the frontend. This update is prepared for review; production deployment is separate.
+
 ## Play
 
 Open the published GitHub Pages website. Claim a free Small DC Motor, complete its skill challenge, sell the recovered copper, and grow your workshop. Every required challenge must succeed before a disassembly pays. Failures retain the electronic and reset the attempt, with no copper or XP awarded.
