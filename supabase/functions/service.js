@@ -122,8 +122,10 @@ export function transition(s,a,command,p={},now=Date.now(),context={}){
  case 'market-refresh':if(!s.market.upgrades.includes('permit')||now<s.market.refreshAt||s.money<25000n*DOLLAR)throw Error('Check your permit, funds, and cooldown.');s.money-=25000n*DOLLAR;s.stats.moneySpent+=25000n*DOLLAR;s.market.refreshAt=now+60000;trade={quote:s.market.quote,volume:20000000n};result={message:'A shared demand signal was submitted for the next tick. The price is not guaranteed to rise.'};break;
  case 'craft':E.craft(s,id);break;
  case 'research':E.research(s,id);break;
- case 'roll':result=E.rollAura(s);break;
- case 'equip-aura':case 'equip-and-close':E.equipAura(s,id);break;
+ case 'aura-capacity':result=E.buyAuraCapacity(s,integer(p.tier,1,16));break;
+ case 'aura-roll':case 'roll':{const before=[...s.achievements];result=E.rollAuras(s,p.quantity??1);E.checkAchievements(s);result.achievements=s.achievements.filter(id=>!before.includes(id));break;}
+ case 'equip-aura':case 'equip-and-close':E.equipAura(s,id,now);break;
+ case 'aura-unequip':E.equipAura(s,null,now);break;
  case 'confirm-rebirth':result=E.confirmRebirth(s);break;
  case 'prestige':E.buyPrestige(s,id);break;
  case 'furnace-queue':E.queueFurnace(s,amount(p.amount),now);break;
@@ -161,5 +163,6 @@ export async function handleCommand(db,user,body,now=Date.now()){
  if(body.command==='heartbeat'&&before===E.encode(t.state))return {state:pack(t.state),attempt:pack(t.attempt),revision:loaded.revision,result:null,classification:loaded.classification};
  const args={p_user:user,p_request:body.requestId,p_expected:body.revision,p_state:storedState(t.state),p_attempt:pack(t.attempt),p_result:pack(t.result),p_quote:t.trade?.quote??null,p_volume:t.trade?.volume.toString()??'0',p_asset:t.trade?.asset||'copper'};
  if(t.worldGate)Object.assign(args,{p_world_epoch:t.worldGate.version,p_news_epoch:t.worldGate.newsVersion,p_slot:body.slot||'main'});
- const committed=await db.rpc(t.worldGate?'empire_commit_industry':'empire_commit_asset',args);Object.assign(committed.state.market,quotes.copper);Object.assign(committed.state.goldMarket,quotes.gold);return committed;
+ const forge=['aura-roll','aura-capacity','roll'].includes(body.command);if(forge){delete args.p_quote;delete args.p_volume;delete args.p_asset;Object.assign(args,{p_slot:body.slot||'main',p_command:body.command==='roll'?'aura-roll':body.command,p_quantity:body.payload?.quantity??1,p_tier:body.payload?.tier??0});}
+ const committed=await db.rpc(forge?'empire_commit_forge':t.worldGate?'empire_commit_industry':'empire_commit_asset',args);Object.assign(committed.state.market,quotes.copper);Object.assign(committed.state.goldMarket,quotes.gold);return committed;
 }

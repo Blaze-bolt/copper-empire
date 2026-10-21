@@ -1,5 +1,6 @@
 // Permanent expansion progression. All quantities of metal are integer milligrams.
 import {DOLLAR,MG} from './data.js';
+import {auraDefaults} from './aura-forge.js';
 import {industryDefaults} from './industry-state.js';
 import {tradeDefaults} from './trade-state.js';
 export const COMPRESSION_COSTS=[100n*MG.g,10n*MG.kg,MG.t,100n*MG.t,10n*MG.kt,MG.Mt,100n*MG.Mt];
@@ -63,7 +64,7 @@ export function expansionDefaults(s){
  s.compression??=0;s.ascension??={level:0,ce:0,upgrades:{},records:[]};s.pendingAscension??=null;
  s.gold??={unlocked:false,balance:0n,recovered:0n,claims:[0],equipment:{},research:[],attempts:0,completed:0,failed:0,history:[]};
  s.goldMarket??={quote:600000,previous:600000,next:0,history:[],global:false};
- return s;
+ auraDefaults(s);return s;
 }
 export function effectiveStageCount(s,d){
  const workbench=(s.tools.includes('workbench')||s.legacyBonuses.includes('workshop'))&&d.id>=9?1:0;
