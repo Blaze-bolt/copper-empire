@@ -22,7 +22,12 @@ export function rollAuras(s,n,random=secureUniform){
  const cost=BigInt(n)*AURA_ROLL_COST;if(s.money<cost)throw Error('Not enough money for this aura batch.');
  // Sample fully before touching money or inventory. A sampling error awards
  // nothing and cannot leave a partially charged pure-state transition.
- const sampled=sampleAuras(n,random);if(Object.values(sampled).reduce((a,b)=>a+b,0)!==n)throw Error('Incomplete batch. No purchase was made.');
+ return settleAuraBatch(s,n,sampleAuras(n,random));
+}
+export function settleAuraBatch(s,n,sampled){
+ auraDefaults(s);if(s.rebirth<2||!AURA_TIERS.includes(n)||n>AURA_TIERS[s.auraForge.tier])throw Error('Select an unlocked batch quantity.');
+ const cost=BigInt(n)*AURA_ROLL_COST;if(s.money<cost)throw Error('Not enough money for this aura batch.');
+ if(AURAS.some(a=>!Number.isSafeInteger(sampled[a.id])||sampled[a.id]<0)||Object.values(sampled).reduce((a,b)=>a+b,0)!==n)throw Error('Incomplete batch. No purchase was made.');
  const discovered=AURAS.filter(a=>sampled[a.id]>0&&s.auras[a.id]===0n).map(a=>a.id);
  s.money-=cost;s.stats.moneySpent+=cost;for(const a of AURAS)s.auras[a.id]+=BigInt(sampled[a.id]);s.stats.rolls+=BigInt(n);s.revision++;
  const result={quantity:n,cost,counts:Object.fromEntries(AURAS.map(a=>[a.id,BigInt(sampled[a.id])])),best:AURAS.filter(a=>sampled[a.id]>0).at(-1).id,discovered,total:totalAuras(s),lifetime:s.stats.rolls,unique:uniqueAuras(s)};
