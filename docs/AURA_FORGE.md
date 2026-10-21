@@ -1,5 +1,7 @@
 # Aura Forge v6.1.0
 
+> v6.2.0 saving/eligibility changes supersede the older Local/Main instructions below. See [Unified Workshop](UNIFIED_WORKSHOP.md) for current reconciliation, Debug, local Forge and cloud synchronization behavior.
+
 This focused update replaces aura luck with fixed probabilities, 20 collectible auras, and 16 permanent sequential capacity purchases. It keeps the existing framework, GitHub Pages build, electronics, minigames, save slots, and economy. All dollars are fictional game currency.
 
 ## Player behavior
