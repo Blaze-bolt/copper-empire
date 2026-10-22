@@ -7,7 +7,7 @@ export class UnifiedSync {
   const raw=storage.getItem(UNIFIED_KEY);if(raw){this.doc=E.decode(raw);if(this.doc.schema!==1)throw Error('Unsupported unified save metadata.');const migrated=validateSnapshot(this.doc.state);if(compressionChanged(this.doc.state,migrated)){this.archive('Before Stage Compression reset migration',this.doc.state,this.doc);this.doc={...this.doc,state:migrated,id:uuid(),lineage:[this.doc.id,...this.doc.lineage].slice(0,32),dirty:true,generation:this.doc.generation+1,lastLocal:this.now()};storage.setItem(UNIFIED_KEY,E.encode(this.doc));}}else this.doc={schema:1,id:uuid(),root:uuid(),lineage:[],ownerId:null,cloudRevision:0,lastLocal:0,lastSync:0,dirty:true,generation:0,migrated:false,state:clone(state()),recoveries:[]};
   this.online=globalThis.navigator?.onLine!==false;this.lastMaterial=material(state());this.nextSync=this.doc.lastSync+SYNC_INTERVAL;this.device=storage.getItem('copper-device-id')||uuid();storage.setItem('copper-device-id',this.device);
  }
- get status(){if(this.conflict||this.plan)return 'Save conflict detected';if(!this.online)return 'Offline';if(this.busy)return 'Syncing';if(this.error)return 'Sync failed';if(this.doc.dirty)return this.account()?'Unsynced changes':'Saved locally';return this.connected?'Cloud synced':'Saved locally';}
+ get status(){if(this.suspended)return 'Maintenance · local changes preserved';if(this.conflict||this.plan)return 'Save conflict detected';if(!this.online)return 'Offline';if(this.busy)return 'Syncing';if(this.error)return 'Sync failed';if(this.doc.dirty)return this.account()?'Unsynced changes':'Saved locally';return this.connected?'Cloud synced':'Saved locally';}
  get locked(){return this.economicPending||!!this.pending?.economic||!!this.doc.pending?.economic;}
  persistDocument(doc){const old=this.storage.getItem(UNIFIED_KEY);if(old){const current=E.decode(old);if(current.id!==this.doc.id)throw Error('TAB_CONFLICT: Another tab saved progress. Review both copies before continuing.');}this.storage.setItem(UNIFIED_KEY,E.encode(doc));this.doc=doc;}
  save(next=this.state(),force=false){const meaningful=material(next);if(!force&&meaningful===this.lastMaterial)return false;const previous=clone(this.doc);const doc={...this.doc,state:clone(next),id:uuid(),lineage:[this.doc.id,...this.doc.lineage].slice(0,32),dirty:true,generation:this.doc.generation+1,lastLocal:this.now()};
@@ -16,7 +16,7 @@ export class UnifiedSync {
  }
  readDisk(){try{return E.decode(this.storage.getItem(UNIFIED_KEY)||'null');}catch{return null;}}
  archive(label,state=this.state(),meta=this.doc){const r={id:uuid(),label,at:this.now(),state:clone(state),meta:{id:meta.id,root:meta.root,lineage:meta.lineage,cloudRevision:meta.cloudRevision,ownerId:meta.ownerId}};this.doc.recoveries=[r,...this.doc.recoveries].slice(0,6);return r;}
- async request(body){return this.api({...body,slot:'main',clientVersion:9});}
+ async request(body){if(this.suspended&&!['unified-load','unified-recovery'].includes(body.command))throw Error('SERVER_LOCKDOWN: Your pending changes are preserved. Try again after reopening.');return this.api({...body,slot:'main',clientVersion:9});}
  async connect(){if(!this.account()||!this.online)return;this.save();if(this.doc.pending&&this.doc.ownerId===this.account()&&this.doc.pending.command!=='unified-migrate'){try{await this.retry();}catch{if(this.conflict)return;}}const loaded=await this.request({command:'unified-load'});this.remote=loaded;const uid=this.account();
   if(loaded.current&&this.doc.ownerId===uid&&this.doc.migrated){
    this.connected=true;const cloud=loaded.current;
@@ -37,7 +37,7 @@ export class UnifiedSync {
  metadata(){return {schema:1,id:uuid(),parent:this.doc.syncedId||this.doc.id,root:this.doc.root,lineage:[this.doc.id,...this.doc.lineage].slice(0,32),ownerId:this.account(),device:this.device,migrated:true};}
  writePending(){const doc={...this.doc,pending:clone(this.pending)};this.persistDocument(doc);}
  async withLock(fn){if(this.locks)return this.locks.request('copper-unified-'+this.account(),{ifAvailable:true},lock=>lock?fn():false);return fn();}
- async sync({manual=false,keepalive=false}={}){if(!this.account()||!this.connected||!this.online||this.busy||this.conflict||this.plan)return false;if(!manual&&this.now()<Math.max(this.nextSync,this.retryAt))return false;this.save();if(!this.doc.dirty&&!this.doc.pending)return false;return this.withLock(()=>this.upload({keepalive}));}
+ async sync({manual=false,keepalive=false}={}){if(this.suspended||!this.account()||!this.connected||!this.online||this.busy||this.conflict||this.plan)return false;if(!manual&&this.now()<Math.max(this.nextSync,this.retryAt))return false;this.save();if(!this.doc.dirty&&!this.doc.pending)return false;return this.withLock(()=>this.upload({keepalive}));}
  async upload({economic=null,payload={},keepalive=false}={}){
   if(this.busy)throw Error('Another synchronization is processing.');const captured=compactState(this.state());
   const request=this.doc.pending||{command:economic?'unified-economic':'unified-sync',requestId:uuid(),revision:this.doc.cloudRevision,generation:this.doc.generation,meta:this.metadata(),state:economic?undefined:captured,patch:economic?statePatch(this.base,captured):undefined,economic,payload};

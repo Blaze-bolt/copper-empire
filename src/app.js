@@ -1,8 +1,13 @@
+import {OnlineWorkshop} from './online/client.js';
+import {connectServerAccess} from './online/server-access.js';
 import { DEVICES, UPGRADES, CHALLENGES, defaultState, loadState, createAttempt, passChallenge, failAttempt, claimReward, buyUpgrade, requiredChallenges, generateCircuit, circuitConnected, circuitUsefulTile, rotate, generateMemory, timingConfig, timingHit, challengeDuration } from './engine.js';
 import { icon, deviceArt, coilArt } from './art.js';
 const $ = (selector, root = document) => root.querySelector(selector);
 const app = $('#app'), overlay = $('#overlay-root');
 let state = loadState(localStorage), selected = 'motor', page = 'workshop', filter = 'all', attempt = null, game = null, paused = false, modalKind = null, lastFrame = 0, audioContext;
+const classicOnline=new OnlineWorkshop(()=>{}),classicSync={suspended:false};
+const classicAccess=connectServerAccess({online:classicOnline,unified:classicSync,save,paused:()=>{paused=true;},render,reopen:()=>render(),exportLocal:()=>{save();const a=document.createElement('a'),url=URL.createObjectURL(new Blob([JSON.stringify(state)],{type:'application/json'}));a.href=url;a.download='copperworks-maintenance-backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);},exportCloud:async()=>{throw Error('Classic progress is stored only in this browser. Use the local export.');}});
+void classicOnline.init().then(()=>classicAccess.check());
 const fmt = n => n.toLocaleString();
 const currentDevice = () => DEVICES.find(d => d.id === selected);
 const has = id => state.upgrades.includes(id);
@@ -14,6 +19,7 @@ function sound(type = 'tap') {
 }
 function pill(text, cls='') { return `<span class="pill ${cls}">${text}</span>`; }
 function render() {
+  if(classicAccess?.blocked){classicAccess.reconcile();return;}
   document.documentElement.classList.toggle('reduced-motion', !state.motion);
   const level = Math.floor(state.xp / 150) + 1, nextXp = state.xp % 150;
   app.innerHTML = `<aside class="sidebar"><a class="brand" href="#workshop" aria-label="Copperworks home"><span class="brand-mark">${icon('copper')}</span><span>COPPER<span class="brand-light">WORKS</span><small>THE ART OF A SECOND LIFE</small></span></a><div class="nav-label">YOUR SPACE</div><nav aria-label="Main navigation">${[['workshop','grid','Workshop'],['inventory','box','Inventory'],['upgrades','tools','Upgrades'],['statistics','chart','Statistics'],['journal','book','Salvage journal']].map(([id, ic, label]) => `<button class="nav-item ${page===id?'active':''}" data-page="${id}" aria-label="${label}" title="${label}">${icon(ic)}<span>${label}</span>${id==='inventory'?`<span class="nav-count">${Object.values(state.inventory).reduce((a,b)=>a+b,0)}</span>`:''}${id==='workshop'?'<span class="nav-dot"></span>':''}</button>`).join('')}</nav><div class="sidebar-bottom"><div class="workshop-level"><div class="level-top"><span class="level-emblem">${icon('workshop')}</span><div>${level>5?'Salvage specialist':level>2?'Skilled recycler':'Apprentice recycler'}<small>LEVEL ${String(level).padStart(2,'0')}</small></div></div><div class="xp-bar"><i style="width:${nextXp/1.5}%"></i></div><div class="xp-caption"><span>${nextXp} / 150 XP</span><span>Next level ${icon('arrow')}</span></div></div><button class="nav-item" data-action="settings" aria-label="Settings">${icon('settings')}<span>Settings</span></button><div class="sidebar-footer"><span class="online-dot"></span> A little less landfill.</div></div></aside><div class="main-wrap"><header class="topbar"><div class="breadcrumb">Your workspace ${icon('chevron')} <strong>${{workshop:'Workshop',inventory:'Inventory',upgrades:'Upgrades',statistics:'Statistics',journal:'Salvage journal'}[page]}</strong></div><div class="topbar-right"><span class="balance">${icon('copper')}<strong>${fmt(state.copper)}</strong><span>g copper</span></span><span class="top-divider"></span><button class="icon-button" data-action="sound" aria-label="${state.sound?'Mute':'Enable'} sound" title="${state.sound?'Mute':'Enable'} sound">${icon(state.sound?'sound':'muted')}</button><button class="avatar" data-action="profile" aria-label="View recycler statistics">J<span></span></button></div></header><main id="main-content">${page==='workshop'?workshopView():page==='inventory'?inventoryView():page==='upgrades'?upgradesView():page==='statistics'?statisticsView():journalView()}</main><footer class="main-footer"><span>${icon('leaf')} Every little bit makes a difference.</span><span>COPPERWORKS <i>·</i> EST. 2026</span></footer></div>`;
@@ -136,6 +142,7 @@ function setPaused(value) {
   if(value) $('[data-action="resume"]')?.focus();
 }
 function frame(now) {
+  if(classicAccess.blocked){classicAccess.reconcile();lastFrame=now;requestAnimationFrame(frame);return;}
   // Clamp simulation time: a slow frame never costs the player unseen time.
   const dt=Math.min(.04,Math.max(0,(now-(lastFrame||now))/1000)); lastFrame=now;
   if(game&&!game.finished&&!paused&&!document.hidden) {

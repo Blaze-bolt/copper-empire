@@ -40,3 +40,15 @@ test('a replayed acknowledgement cannot hide a newer accepted cloud transaction'
 test('all electronic, panning and factory games round-trip through unfinished save checkpoints',async()=>{const {checkpointAttempt,restoreAttempt}=await import('../src/unified/attempt.js'),{createGame}=await import('../src/empire/games.js');for(const id of [...Array.from({length:119},(_,i)=>i+1),...Array.from({length:7},(_,i)=>1001+i),...Array.from({length:30},(_,i)=>2001+i)]){const a={id:'fixture-'+id,stages:[id],index:0,scores:[],paid:false,status:'active'},g=createGame(id,3,234);const checkpoint=checkpointAttempt(a,g),r=restoreAttempt(checkpoint);assert.equal(canonical(checkpointAttempt(r.attempt,r.game)),canonical(checkpoint));}});
 
 test('unified Account preserves the latest verified password recovery flow and surprise link',()=>{const f=controller(),o={session:{user:{user_metadata:{username:'fixture'}}},recovering:true};let html=unifiedAccountView(o,f.sync,f.s);assert.match(html,/id="confirm-password"/);assert.match(html,/Your reset link has been verified/);assert.doesNotMatch(html,/Sync Now/);o.recovering=false;html=unifiedAccountView(o,f.sync,f.s);assert.match(html,/Change password/);assert.match(html,/SUPERISE!!!/);o.authError='Expired email link';html=unifiedAccountView(o,f.sync,f.s);assert.match(html,/role="alert"/);assert.match(html,/Sign in &amp; review saves|Sign in & review saves/);assert.doesNotMatch(html,/id="new-password"/);});
+
+
+test('players can export backups but neither Account nor Settings accepts uploaded saves',async()=>{
+ const f=controller(),{renderApp}=await import('../src/empire/views.js');
+ for(const html of [unifiedAccountView({session:null},f.sync,f.s),renderApp(f.s,{page:'settings'})]){
+  assert.match(html,/data-action="export"/);assert.match(html,/contact the game owner/i);
+  assert.doesNotMatch(html,/import-save|Import Save|Import a save|type="file"/i);
+ }
+ const {readFile}=await import('node:fs/promises'),app=await readFile(new URL('../src/empire/app.js',import.meta.url),'utf8');
+ assert.doesNotMatch(app,/confirm-import|import-save|recover-file|file\.text\(/);
+ assert.match(app,/Export saved data/);assert.match(app,/copper-empire-support-backup/);
+});
