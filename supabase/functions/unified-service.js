@@ -15,6 +15,7 @@ export async function handleUnified(db,user,body,now=Date.now()){
  if(body.command==='unified-moderate'){if(!/^[0-9a-f-]{36}$/i.test(body.user||''))throw Error('Invalid target account.');return db.rpc('empire_unified_moderate',{p_owner:user,p_user:body.user,p_exclude:body.exclude===true});}
  const loaded=decodeLoad(await db.rpc('empire_unified_load',{p_user:user}));
  if(body.command==='unified-load')return pack(loaded);
+ if(Number(body.clientVersion||0)<9)throw Error('UPDATE_REQUIRED: Reload to preserve the Stage Compression reset policy before synchronizing. Your original save is retained.');
  requestIdentity(body);const receipt=await db.rpc('empire_unified_receipt',{p_user:user,p_request:body.requestId});if(receipt)return receipt;
  const old=loaded.current;if((old?.revision??0)!==body.revision)throw Error('SAVE_CONFLICT: Another device synchronized. Review both copies.');
  let s,result=null,trade=null,worldGate=null;const archives=[];let kind;
