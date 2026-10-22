@@ -8,3 +8,4 @@
 *qa-credentials*
 
 /supabase/.temp/
+/.playwright-cli/

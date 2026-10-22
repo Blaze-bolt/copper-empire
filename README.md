@@ -8,6 +8,10 @@ Read the [complete player guide](docs/PLAYER_GUIDE.md) for every electronic and 
 
 Read the [Global Industrial Era guide](docs/industrial-era/IMPLEMENTATION.md) for A2, R19–R26, the approved economy, factories, workers, shipping, compatibility, and backend setup. See the [release checkpoint](docs/industrial-era/checkpoint.md), [model gallery](docs/model-proof/industrial-era.html), and [backend budget](docs/industrial-era/backend-usage.md).
 
+## Performance grading and copper sales (v6.2.1)
+
+Electronic recoveries now use measured performance and EX/S/A/B/C grades. EX pays 1.50× eligible copper. Ascension grants 1.5× raw recovered-copper sale money at A1 and 2× total at A2; market purchases are excluded. See [scoring, migration, sale rules and measured calibration](docs/GRADING_AND_COPPER_SALES.md).
+
 ## Unified Workshop (v6.2.0)
 
 One normal workshop saves locally immediately and syncs changed snapshots every 15 minutes. Guests can use Aura Forge. Sign-in compares existing saves before any replacement; owner Debug stays separate. See [Unified Workshop migration, recovery, security and deployment](docs/UNIFIED_WORKSHOP.md). This release is prepared for review; production migration and deployment are separate.
