@@ -1,3 +1,4 @@
+import {purchasedCopper} from '../../src/empire/copper-sales.js';
 // Shared pure validation for owner edits; authorization is enforced separately by the API and SQL.
 import * as E from '../../src/empire/state.js';
 import {DOLLAR,MG,TOOLS,decimal} from '../../src/empire/data.js';
@@ -45,6 +46,6 @@ export function editSave(source,p){
  }
  if(s.money.toString().length>110||[...s.copper,s.gold.balance].some(x=>x.toString().length>110))throw Error('Balance exceeds the supported range.');
  // No recovery, boss, earnings, panned-gold, or achievement history is fabricated.
- s.revision++;const changed={};for(const key of Object.keys(s))if(E.encode(s[key])!==E.encode(before[key]))changed[key]={before:before[key],after:s[key]};
+ if(s.copperPurchased)s.copperPurchased=purchasedCopper(s);s.revision++;const changed={};for(const key of Object.keys(s))if(E.encode(s[key])!==E.encode(before[key]))changed[key]={before:before[key],after:s[key]};
  return {state:s,details:{kind:p.kind,changed}};
 }
