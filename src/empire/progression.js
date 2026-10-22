@@ -5,6 +5,16 @@ import {auraDefaults} from './aura-forge.js';
 import {industryDefaults} from './industry-state.js';
 import {tradeDefaults} from './trade-state.js';
 export const COMPRESSION_COSTS=[100n*MG.g,10n*MG.kg,MG.t,100n*MG.t,10n*MG.kt,MG.Mt,100n*MG.Mt];
+export const COMPRESSION_POLICY_VERSION=1;
+export function migrateCompression(s){
+ const ascension=s.ascension?.level||0;
+ if(!Number.isInteger(s.compression??0)||(s.compression??0)<0||(s.compression??0)>7)throw Error('Invalid Stage Compression rank.');
+ if((s.compressionPolicyVersion||0)>COMPRESSION_POLICY_VERSION)throw Error('UPDATE_REQUIRED: This save uses a newer Stage Compression policy. Original progress is preserved.');
+ if(s.compressionPolicyVersion===COMPRESSION_POLICY_VERSION&&s.compressionAscension===ascension)return false;
+ const previousRank=s.compression||0;
+ if(ascension>0&&previousRank>0){s.compression=0;s.compressionMigration={version:COMPRESSION_POLICY_VERSION,previousRank,ascension};}
+ s.compressionPolicyVersion=COMPRESSION_POLICY_VERSION;s.compressionAscension=ascension;return true;
+}
 export const ASCENSIONS=[null,{ce:25,recovery:250},{ce:250,recovery:500},{ce:60,recovery:500},{ce:85,recovery:500},{ce:115,recovery:500}];
 export const A2_TRIAL=[1,5,8,2,54,75,59,73,53,46,82,87];
 export const ERA2_REBIRTHS=[
@@ -63,6 +73,7 @@ export function expansionDefaults(s){
  tradeDefaults(s);
  s.run.grades.EX??=0;s.stats.exRecoveries??=0;s.furnace.queue??=[];s.era2??={highestRebirth:0,signatures:[],milestones:{}};
  s.compression??=0;s.ascension??={level:0,ce:0,upgrades:{},records:[]};s.pendingAscension??=null;
+ migrateCompression(s);
  s.gold??={unlocked:false,balance:0n,recovered:0n,claims:[0],equipment:{},research:[],attempts:0,completed:0,failed:0,history:[]};
  s.goldMarket??={quote:600000,previous:600000,next:0,history:[],global:false};
  auraDefaults(s);return s;
@@ -73,6 +84,7 @@ export function effectiveStageCount(s,d){
  return Math.min(d.stageCount,Math.max(floor,d.stageCount-(s.compression||0)-workbench));
 }
 export function buyCompression(s,expectedRank){
+ migrateCompression(s);
  const rank=s.compression||0,cost=COMPRESSION_COSTS[rank];
  if(expectedRank!==rank+1||cost===undefined)throw Error('Review the current Stage Compression rank.');
  if(s.copper[0]<cost)throw Error('Not enough standard copper for this compression rank.');
@@ -117,6 +129,7 @@ export function confirmAscension(s,blankRun){
  if(next===2){s.ascension.industrialClaimed=true;s.ascension.industrialUnlocked=true;}
  s.ascension.records.push({level:next,ce:reward.ce,at:Date.now(),attempt:p.attempt,rebirth:s.rebirth});
  s.gold.unlocked=true;s.rebirth=0;s.xp=0;s.money=0n;s.copper=Array(6).fill(0n);s.copperPurchased=Array(6).fill(0n);s.inventory={};s.tools=['basic'];s.legacyBonuses=[];
+ s.compression=0;s.compressionPolicyVersion=COMPRESSION_POLICY_VERSION;s.compressionAscension=next;
  s.pp=0;s.prestige={};s.components={parts:0};s.research=[];s.contracts=[];s.run=blankRun();
  s.furnace={jobs:[],queue:[],upgrades:{},ingots:0,refined:0};s.refining={unlocked:false,research:0};s.automation={purchased:false,stock:false,wire:false,last:Date.now()};
  s.market.limit=null;s.pendingRebirth=null;s.pendingAscension=null;s.bossClaims=[];

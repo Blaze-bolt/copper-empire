@@ -4,7 +4,9 @@ This extends the existing game to 87 electronics and 87 compulsory signatures, w
 
 ## Stage Compression
 
-Buy seven permanent ranks, in order, with Standard copper. Costs receive no discounts. Each rank removes one supporting stage; the Advanced Workbench may remove one more eligible supporting stage. The current chapter has a floor of three stages when its original count is at least three; earlier chapters have a floor of one. Floors never increase the authored count. The final signature always remains. Bosses and both kinds of trial ignore compression.
+As of v6.2.2, Stage Compression survives ordinary Rebirth, but resets to Rank 0 on every confirmed Ascension. Rank 1 again costs 100 g. A one-time versioned migration repairs unmarked ranks in already-Ascended saves; subsequent purchases are stamped to the current Ascension and are not repeatedly reset.
+
+Buy seven ranks that last until Ascension, in order, with Standard copper. Costs receive no discounts. Each rank removes one supporting stage; the Advanced Workbench may remove one more eligible supporting stage. The current chapter has a floor of three stages when its original count is at least three; earlier chapters have a floor of one. Floors never increase the authored count. The final signature always remains. Bosses and both kinds of trial ignore compression.
 
 | Rank | Cost |
 | --- | --- |
@@ -45,7 +47,7 @@ Further milestones, chosen to make each remaining Ascension harder:
 
 Ascension resets current Rebirth to R0, level and XP, ordinary money and all copper qualities, electronics inventory, ordinary tools and legacy tool bonuses, ordinary Prestige Points/ranks, crafted materials, temporary research, active contracts, current-run statistics, processing jobs, unsold ingots, furnace upgrades, automation, and refining facilities. This facility reset is explicitly warned about before confirmation.
 
-It preserves the account, achievements, lifetime statistics, historical records, cosmetics, auras, Stage Compression, Ascension levels, Copper Essence, purchased Ascension skills, all gold, claims, gold equipment and Golden Engineering. Ordinary Rebirth never resets any gold progression.
+It preserves the account, achievements, lifetime statistics, historical records, cosmetics, auras, Ascension levels, Copper Essence, purchased Ascension skills, all gold, claims, gold equipment and Golden Engineering. Ordinary Rebirth never resets any gold progression.
 
 ### Copper Essence skills
 

@@ -33,7 +33,7 @@ export function validateSnapshot(input){
  for(const key of ['completed','failed','purchased','contracts','bosses'])integer(s.stats[key],'lifetime '+key);
  if(s.gold){exact(s.gold.balance,'gold');exact(s.gold.recovered,'recovered gold');}
  // Existing integer aura counters are normalized without rounding.
- E.expansionDefaults(s);
+ E.expansionDefaults(s);integer(s.compression,'Stage Compression rank',0,7);integer(s.compressionPolicyVersion,'compression policy version',1,1);integer(s.compressionAscension,'compression Ascension',0,5);
  for(const a of AURAS)exact(s.auras[a.id],a.name+' count',131072);exact(s.stats.rolls,'lifetime aura rolls',131072);
  integer(s.auraForge.tier,'Forge tier',0,AURA_TIERS.length-1);
  const ranks=(r,definitions,label)=>{if(!r||Array.isArray(r)||typeof r!=='object')throw Error('Invalid '+label+' ranks.');for(const[id,n]of Object.entries(r)){const d=definitions.find(d=>d.id===id);if(!d)throw Error('Unknown '+label+' upgrade.');integer(n,label+' rank',0,d.max);}};
