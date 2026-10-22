@@ -21,6 +21,7 @@ export function validateSnapshot(input){
  let nodes=0;const visit=(v,depth=0)=>{if(++nodes>100000||depth>32)throw Error('Save structure exceeds supported limits.');if(typeof v==='number'&&!Number.isFinite(v))throw Error('Invalid numeric save value.');if(v&&typeof v==='object')for(const[k,x]of Object.entries(v)){if(['__proto__','constructor','prototype'].includes(k))throw Error('Unsafe save property.');visit(x,depth+1);}};visit(s);
  if(E.encode(s).length>1000000)throw Error('Save exceeds the one-megabyte limit. Export your recovery copy.');
  exact(s.money,'money');if(!Array.isArray(s.copper)||s.copper.length!==6)throw Error('Invalid copper qualities.');s.copper.forEach(n=>exact(n,'copper'));
+ if(s.copperPurchased){if(!Array.isArray(s.copperPurchased)||s.copperPurchased.length!==6)throw Error('Invalid purchased copper record.');s.copperPurchased.forEach((n,q)=>{exact(n,'purchased copper');if(n>s.copper[q])throw Error('Purchased copper exceeds inventory.');});}
  integer(s.rebirth,'Rebirth',0,26);integer(s.xp,'XP');integer(s.pp,'Prestige Points');
  const a=s.ascension?.level??0;integer(a,'Ascension',0,5);
  if(s.ascension)integer(s.ascension.ce,'Copper Essence');
@@ -73,6 +74,7 @@ export function applyPatch(base,patch){if(!patch||Array.isArray(patch)||typeof p
 export function anomalyFlags(previous,next,elapsed){const flags=[];if(next.rebirth>18&&next.ascension.level<2||next.rebirth>12&&next.ascension.level<1)flags.push('legacy_chapter_without_ascension');if(previous){if(next.stats.completed-previous.stats.completed>Math.max(1000,Math.ceil(elapsed/1000)*20))flags.push('unusually_fast_recoveries');if(next.ascension.level>previous.ascension.level+1)flags.push('ascension_jump');if(next.stats.completed<previous.stats.completed||next.stats.rolls<previous.stats.rolls)flags.push('lifetime_counter_regression');}return flags;}
 
 export function validateLockedTrade(before,after){
+ if(before?.copperPurchased&&!after.copperPurchased)throw Error('UPDATE_REQUIRED: Reload to preserve copper purchase provenance.');
  if(!before?.trade)return;
  // Once connected, only the server may change the shipping domain. Local
  // factory production can add stock, but cannot rewrite funded shipment locks.
