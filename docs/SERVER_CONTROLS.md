@@ -18,7 +18,7 @@ Changing/revoking the code can either retain existing sessions or invalidate the
 
 ### Preservation and enforcement
 
-The browser checks status every 45 seconds and after returning to the tab. Access expires locally after a 60-second stale-status lease; a network outage therefore pauses play rather than silently opening a closed server. A verified response restores access. Existing legacy tabs must reload to receive the maintenance UI; their database mutations are still rejected by the migration's write triggers.
+Startup shows a neutral “Opening your workshop…” screen while the first access check is pending. Maintenance appears only after confirmed lockdown (or owner preview); connection errors keep retry, account recovery, and personal exports available without claiming maintenance. The browser checks status every 45 seconds and after returning to the tab. Access expires locally after a 60-second stale-status lease; a network outage therefore pauses play rather than silently opening a closed server. A verified response restores access. Existing legacy tabs must reload to receive the maintenance UI; their database mutations are still rejected by the migration's write triggers.
 
 The current challenge is paused and checkpointed, the existing DOM is hidden rather than destroyed, and dirty/pending unified snapshots retain their request IDs and unsynced status. Blocked uploads are not acknowledged. Reopening restores the workshop and resumes the existing safe sync schedule; no forced snapshot replaces pending local progress.
 
