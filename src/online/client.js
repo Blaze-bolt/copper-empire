@@ -32,7 +32,7 @@ export class OnlineWorkshop {
   }finally{this.initializing=false;}
  }
  async profile(){if(!this.session)return;const {data,error}=await this.client.from('empire_profiles').select('username').eq('id',this.session.user.id).single();if(error)throw error;this.username=data.username;await this.adminStatus();}
- async api(body){if(!this.client||!this.session)throw Error('Sign in to your account first.');const {data:{session},error}=await this.client.auth.getSession();if(error||!session)throw Error('Your sign-in expired. Sign in again.');this.session=session;const res=await fetch(config.url+'/functions/v1/empire-api',{method:'POST',headers:{'content-type':'application/json',apikey:config.publishableKey,authorization:'Bearer '+session.access_token},body:JSON.stringify({...body,clientVersion:7}),signal:globalThis.AbortSignal?.timeout?.(20000)});const data=await res.json();if(!res.ok||data.error){const problem=Error(data.error||'The workshop is unavailable.');problem.definitive=true;throw problem;}return E.decode(JSON.stringify(data));}
+ async api(body){if(!this.client||!this.session)throw Error('Sign in to your account first.');const {data:{session},error}=await this.client.auth.getSession();if(error||!session)throw Error('Your sign-in expired. Sign in again.');this.session=session;const encoded=E.encode({...body,clientVersion:8});const res=await fetch(config.url+'/functions/v1/empire-api',{method:'POST',headers:{'content-type':'application/json',apikey:config.publishableKey,authorization:'Bearer '+session.access_token},body:encoded,keepalive:body.keepalive===true&&new TextEncoder().encode(encoded).length<=60000,signal:globalThis.AbortSignal?.timeout?.(20000)});const data=await res.json();if(!res.ok||data.error){const problem=Error(data.error||'The workshop is unavailable.');problem.definitive=true;throw problem;}return E.decode(JSON.stringify(data));}
  async adminStatus(){if(!this.session){this.admin={owner:false};return this.admin;}this.admin=await this.api({command:'admin-status'});return this.admin;}
  async load(){const data=await this.api({command:'load',slot:this.slot});this.revision=data.revision;this.classification=data.classification||'verified';this.lastSync=Date.now();this.attempt=data.attempt;this.pending=null;this.error='';return data;}
  async command(command,payload={}){
@@ -59,7 +59,7 @@ export class OnlineWorkshop {
    if(!Array.isArray(data?.rows))throw Error('The rankings response was incomplete.');
    this.rankings=data.rows.slice(0,100);this.rankingsLoaded=true;this.rankingsError='';
    this.rankingsUpdatedAt=data.updatedAt;this.rankingsNextUpdate=data.nextUpdate;
-   this.rankingsNextPoll=now+Math.max(1000,Math.min(1800000,data.nextUpdate-data.serverTime+1000));
+   this.rankingsNextPoll=now+Math.max(1000,Math.min(900000,data.nextUpdate-data.serverTime+1000));
   }catch(error){this.rankingsError=error.message||'Rankings are temporarily unavailable.';this.rankingsNextPoll=now+60000;}
   return this.rankings;})();
   try{return await this.rankingsPending;}finally{this.rankingsPending=null;}

@@ -1,5 +1,7 @@
 # Owner Admin V2
 
+> v6.2.0 saving/eligibility changes supersede the older Local/Main instructions below. See [Unified Workshop](UNIFIED_WORKSHOP.md) for current reconciliation, Debug, local Forge and cloud synchronization behavior.
+
 This is an additive update to the existing Copper Empire game, 87 electronics, 87 signature games, Ascension and Gold Operation. No framework or hosting change is required.
 
 ## Access and save switching

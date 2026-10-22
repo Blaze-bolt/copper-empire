@@ -1,5 +1,7 @@
 # Online backend setup
 
+> v6.2.0 replaces the separate normal Local/Main playthroughs. Follow [Unified Workshop](UNIFIED_WORKSHOP.md) for the additional migration, release order, verification labels and current sync behavior. Existing authentication and market setup below still applies.
+
 This upgrades the existing vanilla JavaScript Copper Empire project. All 52 original catalogue entries and minigames, illustrations, local saves, classic game, and GitHub Pages path are retained. The expansion adds 35 exact electronics/signatures plus Ascension, Stage Compression and Gold Operation.
 
 For the additive Global Industrial Era migration and deployment, see [the industry setup guide](industrial-era/IMPLEMENTATION.md) and [current validation](industrial-era/checkpoint.md).
