@@ -16,6 +16,6 @@ if(process.env.SUPABASE_URL||process.env.SUPABASE_PUBLISHABLE_KEY){const url=pro
 const game=await build({entryPoints:['dist/src/empire/app.js'],bundle:true,format:'esm',platform:'browser',target:'es2022',external:['../../vendor/supabase.js'],entryNames:'workshop-[hash]',outdir:'dist/src/empire',metafile:true});
 const modulePath=Object.keys(game.metafile.outputs).find(x=>/workshop-[^/]+\.js$/.test(x));
 let html=await readFile('dist/index.html','utf8');html=html.replace('./src/empire/app.js','./'+modulePath.replace(/^dist\//,''));
-for(const name of ['styles.css','empire.css']){const digest=createHash('sha256').update(await readFile('dist/'+name)).digest('hex').slice(0,12);html=html.replace('./'+name,'./'+name+'?v='+digest);}
+for(const name of ['styles.css','empire.css','src/online/server-access.css']){const digest=createHash('sha256').update(await readFile('dist/'+name)).digest('hex').slice(0,12);html=html.replace('./'+name,'./'+name+'?v='+digest);}
 await writeFile('dist/index.html',html);
 console.log('Built Copper Empire in dist/');
