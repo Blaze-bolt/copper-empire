@@ -26,9 +26,9 @@ test('Ascension requires the real trial, separate confirmation, and awards once'
  a.status='active';assert.throws(()=>E.reward(s,a));for(let i=0;i<12;i++){a.status='active';E.stagePass(a,.99);}const r=E.reward(s,a);assert.ok(r.ascension);assert.equal(s.rebirth,12);assert.equal(s.ascension.level,0);
  E.confirmAscension(s);assert.equal(s.ascension.level,1);assert.equal(s.ascension.ce,25);assert.equal(s.rebirth,0);assert.equal(s.xp,0);assert.ok(s.gold.unlocked);assert.equal(P.permanentBonuses(s).recovery,250);assert.throws(()=>E.confirmAscension(s));assert.throws(()=>E.reward(s,a));
 });
-test('Ascension reset preserves gold, compression, collections, history and essence purchases',()=>{
+test('Ascension reset resets compression and preserves gold, collections, history and essence purchases',()=>{
  const s=eligible();s.compression=7;s.ascension.upgrades.precision=1;s.gold.balance=123456n;s.gold.recovered=234567n;s.gold.research=['contacts'];s.gold.claims=[0,1];s.gold.equipment.pan=2;s.auras.glow=1n;s.achievements=['first'];s.stats.completed=99;s.furnace.upgrades.speed=3;s.pp=70;s.prestige.precision=5;s.pendingAscension={attempt:'proof',level:0,next:1};E.confirmAscension(s);
- assert.equal(s.compression,7);assert.equal(s.gold.balance,123456n);assert.equal(s.gold.recovered,234567n);assert.deepEqual(s.gold.research,['contacts']);assert.equal(s.ascension.upgrades.precision,1);assert.equal(s.auras.glow,1n);assert.equal(s.stats.completed,99);assert.equal(s.pp,0);assert.deepEqual(s.prestige,{});assert.deepEqual(s.furnace.upgrades,{});
+ assert.equal(s.compression,0);assert.equal(s.gold.balance,123456n);assert.equal(s.gold.recovered,234567n);assert.deepEqual(s.gold.research,['contacts']);assert.equal(s.ascension.upgrades.precision,1);assert.equal(s.auras.glow,1n);assert.equal(s.stats.completed,99);assert.equal(s.pp,0);assert.deepEqual(s.prestige,{});assert.deepEqual(s.furnace.upgrades,{});
 });
 test('first Ascension recovery and XP apply without automatic purchase discounts',()=>{
  const s=E.newState();s.ascension.level=1;s.gold.unlocked=true;s.inventory[1]=1;const a=E.begin(s,1);a.status='active';E.stagePass(a,1);const r=E.reward(s,a,()=>0);assert.equal(r.amount,r.base*120n/100n*250n/100n);assert.equal(r.xp,deviceById(1).xp*2);assert.equal(E.shopPrice(s,deviceById(53)),deviceById(53).price);

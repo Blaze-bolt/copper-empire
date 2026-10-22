@@ -6,7 +6,7 @@ import {auraForgeView} from '../src/empire/aura-ui.js';
 import {unifiedAccountView,saveComparison} from '../src/unified/ui.js';
 const uid='11000000-0000-4000-8000-000000000001';
 const storage=()=>{const map=new Map();let writes=0;return {getItem:k=>map.get(k)||null,setItem:(k,v)=>{writes++;map.set(k,v);},map,get writes(){return writes;}};};
-const state=(a=0,r=0)=>{const s=E.newState(0);s.ascension.level=a;s.rebirth=r;return s;};
+const state=(a=0,r=0)=>{const s=E.newState(0);s.ascension.level=a;s.compressionAscension=a;s.rebirth=r;return s;};
 const meta=(parent=null)=>({schema:1,id:crypto.randomUUID(),parent,root:'root',lineage:[],ownerId:uid,migrated:true});
 function controller(){let s=state(),time=0,account=uid,current=null,calls=[],failure=null,delay=null;const disk=storage();const api=async b=>{calls.push(clone(b));if(failure)throw failure;if(b.command==='unified-load')return {current:clone(current),token:'sources'};if(delay)await delay;current={state:clone(b.state||applyPatch(current.state,b.patch)),meta:clone(b.meta),revision:(current?.revision||0)+1};return clone(current);};const sync=new UnifiedSync({storage:disk,state:()=>s,apply:n=>s=n,api,account:()=>account,now:()=>time,locks:null});return {sync,disk,calls,get s(){return s;},set s(n){s=n;},set time(n){time=n;},get time(){return time;},set failure(e){failure=e;},set delay(d){delay=d;},set current(n){current=n;},get current(){return current;},set account(a){account=a;}};}
 async function connected(){const f=controller();await f.sync.connect();await f.sync.choose('device');f.calls.length=0;return f;}
