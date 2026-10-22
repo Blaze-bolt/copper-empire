@@ -8,7 +8,7 @@ for(const difficulty of [0,4,6])test(`online: all 52 existing games replay and v
  const state=E.newState();for(let id=1;id<=52;id++){
   const events=[],g=createGame(id,difficulty,100+id,E.bonuses(state));solve(g,events);
   const a={stages:[id],index:0,seed:100+id,status:'active',difficulty,hints:0,replays:0,launchedAt:0};
-  assert.ok(replayStage(a,state,events,600000)>=.45,`Signature ${id}`);
+  const score=replayStage(a,state,events,600000);assert.ok(score>=0&&score<=1,`Signature ${id}`);assert.equal(score,g.score,`Signature ${id}: client/server performance agrees`);
  }
 });
 test('online: failure resets the attempt, preserves item, and cannot award rewards',()=>{const s=E.newState();const begun=transition(s,null,'begin',{device:1},100);assert.equal(s.inventory[1],1);const a=begun.attempt;transition(s,a,'launch',{},100);assert.throws(()=>transition(s,a,'stage',{attempt:a.id,index:0,events:[]},110),/not completed/);transition(s,a,'fail',{},120);assert.equal(a.status,'failed');assert.deepEqual(a.scores,[]);assert.equal(s.inventory[1],1);assert.equal(s.xp,0);assert.equal(E.totalCopper(s),0n);assert.throws(()=>E.reward(s,a),/Every challenge/);});
