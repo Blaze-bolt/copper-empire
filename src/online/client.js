@@ -13,6 +13,7 @@ export class OnlineWorkshop {
    this.client.auth.onAuthStateChange((event,session)=>{
     if(this.session?.user.id!==session?.user.id){this.username='';this.admin={owner:false};this.slot='main';this.classification='verified';this.recovering=false;}
     this.session=session;
+    setTimeout(()=>{if(this.serverAccess){if(event==='SIGNED_OUT')void this.serverAccess.forget();else void this.serverAccess.check();}},0);
     if(this.active&&session?.user.id!==this.activeUserId){this.active=false;this.onSignOut?.();}
     if(event==='PASSWORD_RECOVERY'&&session){this.recovering=true;this.authError='';}
     if(event==='SIGNED_OUT'){this.recovering=false;this.active=false;this.onSignOut?.();}
@@ -32,7 +33,14 @@ export class OnlineWorkshop {
   }finally{this.initializing=false;}
  }
  async profile(){if(!this.session)return;const {data,error}=await this.client.from('empire_profiles').select('username').eq('id',this.session.user.id).single();if(error)throw error;this.username=data.username;await this.adminStatus();}
- async api(body){if(!this.client||!this.session)throw Error('Sign in to your account first.');const {data:{session},error}=await this.client.auth.getSession();if(error||!session)throw Error('Your sign-in expired. Sign in again.');this.session=session;const encoded=E.encode({...body,clientVersion:8});const res=await fetch(config.url+'/functions/v1/empire-api',{method:'POST',headers:{'content-type':'application/json',apikey:config.publishableKey,authorization:'Bearer '+session.access_token},body:encoded,keepalive:body.keepalive===true&&new TextEncoder().encode(encoded).length<=60000,signal:globalThis.AbortSignal?.timeout?.(20000)});const data=await res.json();if(!res.ok||data.error){const problem=Error(data.error||'The workshop is unavailable.');problem.definitive=true;throw problem;}return E.decode(JSON.stringify(data));}
+ async rawApi(body){
+  let session=this.session;if(this.client){const current=await this.client.auth.getSession();if(current.error)throw current.error;session=current.data.session;this.session=session;}
+  const encoded=E.encode({...body,clientVersion:9}),headers={'content-type':'application/json',apikey:config.publishableKey};
+  if(session)headers.authorization='Bearer '+session.access_token;if(this.serverAccess?.token)headers['x-empire-testing']=this.serverAccess.token;
+  const res=await fetch(config.url+'/functions/v1/empire-api',{method:'POST',headers,body:encoded,keepalive:body.keepalive===true&&new TextEncoder().encode(encoded).length<=60000,signal:globalThis.AbortSignal?.timeout?.(20000)}),data=await res.json();
+  if(!res.ok||data.error){if(res.status===423)this.serverAccess?.reject(data.access);const problem=Error(data.error||'The workshop is unavailable.');problem.definitive=res.status!==423;problem.lockdown=res.status===423;throw problem;}return E.decode(JSON.stringify(data));
+ }
+ async api(body){if(!this.client||!this.session)throw Error('Sign in to your account first.');return this.rawApi(body);}
  async adminStatus(){if(!this.session){this.admin={owner:false};return this.admin;}this.admin=await this.api({command:'admin-status'});return this.admin;}
  async load(){const data=await this.api({command:'load',slot:this.slot});this.revision=data.revision;this.classification=data.classification||'verified';this.lastSync=Date.now();this.attempt=data.attempt;this.pending=null;this.error='';return data;}
  async command(command,payload={}){

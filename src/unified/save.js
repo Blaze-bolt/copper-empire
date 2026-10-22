@@ -21,6 +21,7 @@ export function validateSnapshot(input){
  let nodes=0;const visit=(v,depth=0)=>{if(++nodes>100000||depth>32)throw Error('Save structure exceeds supported limits.');if(typeof v==='number'&&!Number.isFinite(v))throw Error('Invalid numeric save value.');if(v&&typeof v==='object')for(const[k,x]of Object.entries(v)){if(['__proto__','constructor','prototype'].includes(k))throw Error('Unsafe save property.');visit(x,depth+1);}};visit(s);
  if(E.encode(s).length>1000000)throw Error('Save exceeds the one-megabyte limit. Export your recovery copy.');
  exact(s.money,'money');if(!Array.isArray(s.copper)||s.copper.length!==6)throw Error('Invalid copper qualities.');s.copper.forEach(n=>exact(n,'copper'));
+ if(s.copperPurchased){if(!Array.isArray(s.copperPurchased)||s.copperPurchased.length!==6)throw Error('Invalid purchased copper record.');s.copperPurchased.forEach((n,q)=>{exact(n,'purchased copper');if(n>s.copper[q])throw Error('Purchased copper exceeds inventory.');});}
  integer(s.rebirth,'Rebirth',0,26);integer(s.xp,'XP');integer(s.pp,'Prestige Points');
  const a=s.ascension?.level??0;integer(a,'Ascension',0,5);
  if(s.ascension)integer(s.ascension.ce,'Copper Essence');
@@ -32,7 +33,7 @@ export function validateSnapshot(input){
  for(const key of ['completed','failed','purchased','contracts','bosses'])integer(s.stats[key],'lifetime '+key);
  if(s.gold){exact(s.gold.balance,'gold');exact(s.gold.recovered,'recovered gold');}
  // Existing integer aura counters are normalized without rounding.
- E.expansionDefaults(s);
+ E.expansionDefaults(s);integer(s.compression,'Stage Compression rank',0,7);integer(s.compressionPolicyVersion,'compression policy version',1,1);integer(s.compressionAscension,'compression Ascension',0,5);
  for(const a of AURAS)exact(s.auras[a.id],a.name+' count',131072);exact(s.stats.rolls,'lifetime aura rolls',131072);
  integer(s.auraForge.tier,'Forge tier',0,AURA_TIERS.length-1);
  const ranks=(r,definitions,label)=>{if(!r||Array.isArray(r)||typeof r!=='object')throw Error('Invalid '+label+' ranks.');for(const[id,n]of Object.entries(r)){const d=definitions.find(d=>d.id===id);if(!d)throw Error('Unknown '+label+' upgrade.');integer(n,label+' rank',0,d.max);}};
@@ -73,6 +74,7 @@ export function applyPatch(base,patch){if(!patch||Array.isArray(patch)||typeof p
 export function anomalyFlags(previous,next,elapsed){const flags=[];if(next.rebirth>18&&next.ascension.level<2||next.rebirth>12&&next.ascension.level<1)flags.push('legacy_chapter_without_ascension');if(previous){if(next.stats.completed-previous.stats.completed>Math.max(1000,Math.ceil(elapsed/1000)*20))flags.push('unusually_fast_recoveries');if(next.ascension.level>previous.ascension.level+1)flags.push('ascension_jump');if(next.stats.completed<previous.stats.completed||next.stats.rolls<previous.stats.rolls)flags.push('lifetime_counter_regression');}return flags;}
 
 export function validateLockedTrade(before,after){
+ if(before?.copperPurchased&&!after.copperPurchased)throw Error('UPDATE_REQUIRED: Reload to preserve copper purchase provenance.');
  if(!before?.trade)return;
  // Once connected, only the server may change the shipping domain. Local
  // factory production can add stock, but cannot rewrite funded shipment locks.

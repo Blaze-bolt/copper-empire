@@ -15,7 +15,7 @@ for(let id=53;id<=87;id++)test(`online signature ${id}: recorded controls verify
  const result=transition(s,a,'stage',{attempt:a.id,index:0,events:recording},600000);assert.ok(result.result.practice);assert.equal(s.stats.completed,0);assert.equal(s.xp,E.levelXP(60));assert.equal(E.totalCopper(s),0n);assert.throws(()=>transition(s,a,'stage',{attempt:a.id,index:0,events:recording},600000));
 });
 test('new electronics pay only after every supporting stage and compulsory signature',()=>{
- const s=rich();s.rebirth=13;s.compression=7;s.inventory[53]=1;const a=transition(s,null,'begin',{device:53},0).attempt;assert.equal(a.stages.length,3);assert.equal(a.stages.at(-1),53);
+ const s=rich();s.rebirth=13;s.compression=7;s.compressionAscension=s.ascension.level;s.inventory[53]=1;const a=transition(s,null,'begin',{device:53},0).attempt;assert.equal(a.stages.length,3);assert.equal(a.stages.at(-1),53);
  for(let stage=0;stage<3;stage++){transition(s,a,'launch',{},0);const events=[],g=createGame(a.stages[a.index],a.difficulty,a.seed+a.index*7919,E.bonuses(s));g.id<=52?solve(g,events):solveExpansion(g,events);const result=transition(s,a,'stage',{attempt:a.id,index:a.index,events},600000);if(stage<2){assert.equal(s.inventory[53],1);assert.equal(E.totalCopper(s),0n);assert.equal(result.result,null);}else{assert.equal(s.inventory[53],0);assert.ok(result.result.amount>=deviceById(53).min*250n/100n);assert.equal(s.stats.completed,1);}}
 });
 test('gold market purchases never count as panned recovery; forged and locked trades fail unchanged',()=>{

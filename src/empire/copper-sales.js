@@ -1,0 +1,7 @@
+// Purchases remain distinguishable from recoveries. Mixed spending consumes
+// bought material first; processing never converts it into bonus-eligible raw stock.
+export const copperSalePercent=s=>(s.ascension?.level||0)>=2?200:(s.ascension?.level||0)>=1?150:100;
+export function purchasedCopper(s){return Array.from({length:6},(_,q)=>{const n=s.copperPurchased?.[q]??0n;if(typeof n!=='bigint'||n<0n)throw Error('Invalid purchased copper record.');return n<s.copper[q]?n:s.copper[q];});}
+export function consumeCopper(s,amount,q=0){if(typeof amount!=='bigint'||amount<0n||!Number.isInteger(q)||q<0||q>5||s.copper[q]<amount)throw Error('Not enough copper.');const purchased=purchasedCopper(s);purchased[q]=purchased[q]>amount?purchased[q]-amount:0n;s.copperPurchased=purchased;s.copper[q]-=amount;}
+export function addPurchasedCopper(s,amount){if(typeof amount!=='bigint'||amount<=0n)throw Error('Invalid purchased copper.');s.copperPurchased=purchasedCopper(s);s.copper[0]+=amount;s.copperPurchased[0]+=amount;}
+export function copperSalePreview(s,amount,q=0){if(typeof amount!=='bigint'||amount<0n||!Number.isInteger(q)||q<0||q>5||amount>s.copper[q])throw Error('Choose an available amount of copper.');const purchased=purchasedCopper(s)[q],bought=amount<purchased?amount:purchased,recovered=amount-bought,percent=copperSalePercent(s);return {purchased:bought,recovered,percent,weightedAmount:bought*100n+recovered*BigInt(percent)};}

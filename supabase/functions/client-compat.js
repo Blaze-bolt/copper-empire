@@ -4,6 +4,7 @@ import {handleUnified} from './unified-service.js';
 // buying with obsolete Ascension discounts or confirming an outdated reset warning.
 export function clientResponse(data,version){if(Number(version)>=6)return {...data,serverVersion:6};const a=data.attempt;return {...data,serverVersion:6,attempt:a?.mode==='gold'?{...a,stages:a.stages.map(id=>id>=1001&&id<=1007?id-900:id)}:a};}
 export async function handleClientWorkshop(db,user,body,now=Date.now()){
+ if(body.command==='confirm-ascension'&&Number(body.clientVersion||0)<9)throw Error('UPDATE_REQUIRED: Reload to review the Stage Compression reset before confirming Ascension. Your progress is saved.');
  if(String(body.command).startsWith('unified-'))return handleUnified(db,user,body,now);
  if((body.slot||'main')==='main'&&!['admin-status','admin-market'].includes(body.command)){
   const unified=await db.rpc('empire_unified_load',{p_user:user});if(unified?.current)throw Error('UPDATE_REQUIRED: This account uses one Unified Workshop. Reload to continue the same progress.');

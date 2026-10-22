@@ -1,3 +1,5 @@
+import {addPurchasedCopper} from '../../src/empire/copper-sales.js';
+import {stageReport} from '../../src/empire/grading.js';
 import * as E from '../../src/empire/state.js';
 import * as I from '../../src/empire/industry-state.js';
 import * as T from '../../src/empire/trade-state.js';
@@ -31,8 +33,7 @@ export function replayStage(attempt,state,events,now=Date.now(),checkpoint=false
  }
  if(checkpoint){if(g.id!==1||g.duration||g.status!=='active')throw Error('No clock checkpoint is available for this challenge.');attempt.checkpoint={position:g.position,direction:g.direction,elapsed:g.elapsed};return 0;}
  if(g.status!=='success')throw Error('The challenge was not completed. No reward awarded.');
- const timeScore=g.duration?1-Math.max(0,g.elapsed/g.duration-.45)*.7:1;
- return Math.max(.45,Math.min(g.score,timeScore)-(attempt.replays?.06:0)-g.errors*.02);
+ const report=stageReport(g);attempt.pendingStageReport=report;return report.score;
 }
 export function transition(s,a,command,p={},now=Date.now(),context={}){
  E.expansionDefaults(s);E.claimLegacyIndustrial(s);E.migrateAttempt(a);let result=null,trade=null,worldGate=null;
@@ -89,7 +90,7 @@ export function transition(s,a,command,p={},now=Date.now(),context={}){
  case 'checkpoint':if(p.attempt!==a?.id||p.index!==a.index)throw Error('This stage is no longer current.');replayStage(a,s,p.events,now,true);break;
  case 'stage':{
   if(p.attempt!==a?.id||p.index!==a.index)throw Error('This stage is no longer current.');
-  const score=replayStage(a,s,p.events,now);E.stagePass(a,score);
+  const score=replayStage(a,s,p.events,now);E.stagePass(a,score,a.pendingStageReport);delete a.pendingStageReport;
   if(a.status==='complete'){
    if(a.mode==='furnace'){const job=s.furnace.jobs.find(j=>j.id===a.job),saved=E.furnaceBonus(s,job,now);a.paid=true;result={furnace:true,secondsSaved:saved/1000};}
    else if(a.mode==='factory')result=I.finishProductionChallenge(s,a,E.performanceGrade(a.scores),now);
@@ -113,7 +114,7 @@ export function transition(s,a,command,p={},now=Date.now(),context={}){
   if(p.asset==='gold'){const n=amount(p.amount);if(p.quote!==s.goldMarket.quote)throw Error('QUOTE_CHANGED: Review the new gold price.');result=E.tradeGold(s,p.side,n,p.quote);trade={quote:p.quote,volume:p.side==='buy'?n:-n,asset:'gold'};break;}if(p.asset&&p.asset!=='copper')throw Error('Unknown market asset.');
   const q=integer(p.quality??0,0,5),n=amount(p.amount);if(p.quote!==s.market.quote)throw Error('QUOTE_CHANGED: Review the new price.');
   if(p.side==='sell'){result={side:'sell',amount:n,quality:q,quote:s.market.quote,proceeds:E.sell(s,n,q)};trade={quote:s.market.quote,volume:-n};}
-  else if(p.side==='buy'&&q===0){const cost=(n*BigInt(s.market.quote)*100n*101n+99n)/100n;if(s.money<cost)throw Error('Not enough money.');s.money-=cost;s.stats.moneySpent+=cost;s.copper[0]+=n;result={side:'buy',amount:n,quality:0,quote:s.market.quote,cost};trade={quote:s.market.quote,volume:n};}
+  else if(p.side==='buy'&&q===0){const cost=(n*BigInt(s.market.quote)*100n*101n+99n)/100n;if(s.money<cost)throw Error('Not enough money.');s.money-=cost;s.stats.moneySpent+=cost;addPurchasedCopper(s,n);result={side:'buy',amount:n,quality:0,quote:s.market.quote,cost};trade={quote:s.market.quote,volume:n};}
   else throw Error('Unknown trade.');break;
  }
  case 'set-alert':s.market.alert=integer(p.quote,s.market.minimum||3000,s.market.maximum||20000);break;

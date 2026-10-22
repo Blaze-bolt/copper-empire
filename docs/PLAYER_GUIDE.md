@@ -1,6 +1,6 @@
 # Copper Empire — Complete Game Guide
 
-An explanation of the current game, checked against its source on 17 October 2026. The [Ascension and Gold expansion guide](ASCENSION_GOLD.md) covers devices #53–87, their 35 signature games, permanent Stage Compression, A1–A5, Gold Operation and the two worldwide markets. This describes implemented features, rather than the additional gameplay ideas discussed for future updates.
+An explanation of the current game, checked against its source on 17 October 2026. The [Ascension and Gold expansion guide](ASCENSION_GOLD.md) covers devices #53–87, their 35 signature games, Stage Compression (retained through ordinary Rebirths, reset by Ascension), A1–A5, Gold Operation and the two worldwide markets. This describes implemented features, rather than the additional gameplay ideas discussed for future updates.
 
 Play at [Copper Empire](https://blaze-bolt.github.io/copper-empire/).
 
@@ -49,7 +49,7 @@ Your workshop lets you select an owned device and review the attempt before star
 
 Every device has a signature minigame, listed in the catalogue below. For a multi-stage recovery, the game also selects earlier signatures as supporting stages and finishes with the selected device's own signature. Ordinary device attempts choose supporting signatures without repeating them within that selection.
 
-Completing a stage unlocks the next briefing. It does not award a partial recovery. Every required stage must succeed before the electronic pays copper or XP. Permanent Stage Compression and the Advanced Workbench can reduce supporting stages. Current-chapter electronics with at least three authored stages retain a minimum of three; older chapters retain at least one. The final signature remains compulsory.
+Completing a stage unlocks the next briefing. It does not award a partial recovery. Every required stage must succeed before the electronic pays copper or XP. Stage Compression and the Advanced Workbench can reduce supporting stages. Current-chapter electronics with at least three authored stages retain a minimum of three; older chapters retain at least one. The final signature remains compulsory.
 
 ### Failure and retrying
 
