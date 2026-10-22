@@ -35,3 +35,13 @@ Thats what I like (Thats what I like.m4a)
 Grief (Grief.m4a)
 
 The project owner supplied these files and explicitly confirmed they are copyright-free and cleared for distribution in this public game. No separate attribution requirements were supplied. This record documents the owner's confirmation; it does not relicense third-party work under the Kevin MacLeod license above. Originals remain unchanged. Distribution copies are MP3-encoded, displayed with the original base filenames, level-calibrated during playback and crossfaded for looping.
+
+
+Additional owner-supplied music — 22 October 2026
+
+Sunshine (Sunshine.m4a)
+RickRoll (RickRoll.m4a)
+
+The owner explicitly confirmed: "Yes, both are cleared for public use" when asked about distribution in this public game. This is a record of the owner's permission assertion, not independent license verification and not a CC BY relicense. No separate attribution terms were supplied. The original files remain unchanged; the bundled MP3 copies keep their base-filename titles and are level-calibrated at playback.
+
+Playback modes now include repeating one track (with the existing loop crossfade), selecting a random different song, or playing in displayed list order and wrapping to the start. Playlist playback uses each decoded song in full. If changing from a playlist to repeat mid-song, the current song finishes before its seamless repeating version begins. Mode and selected track are saved with the existing audio preferences; menu changes do not restart playback.
