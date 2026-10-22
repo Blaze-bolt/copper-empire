@@ -1,3 +1,4 @@
+import {consumeCopper} from './copper-sales.js';
 // Permanent expansion progression. All quantities of metal are integer milligrams.
 import {DOLLAR,MG} from './data.js';
 import {auraDefaults} from './aura-forge.js';
@@ -60,7 +61,7 @@ export const GOLD_RESEARCH=[
 export function expansionDefaults(s){
  industryDefaults(s);
  tradeDefaults(s);
- s.furnace.queue??=[];s.era2??={highestRebirth:0,signatures:[],milestones:{}};
+ s.run.grades.EX??=0;s.stats.exRecoveries??=0;s.furnace.queue??=[];s.era2??={highestRebirth:0,signatures:[],milestones:{}};
  s.compression??=0;s.ascension??={level:0,ce:0,upgrades:{},records:[]};s.pendingAscension??=null;
  s.gold??={unlocked:false,balance:0n,recovered:0n,claims:[0],equipment:{},research:[],attempts:0,completed:0,failed:0,history:[]};
  s.goldMarket??={quote:600000,previous:600000,next:0,history:[],global:false};
@@ -75,7 +76,7 @@ export function buyCompression(s,expectedRank){
  const rank=s.compression||0,cost=COMPRESSION_COSTS[rank];
  if(expectedRank!==rank+1||cost===undefined)throw Error('Review the current Stage Compression rank.');
  if(s.copper[0]<cost)throw Error('Not enough standard copper for this compression rank.');
- s.copper[0]-=cost;s.compression=rank+1;s.revision++;return s.compression;
+ consumeCopper(s,cost);s.compression=rank+1;s.revision++;return s.compression;
 }
 export const essenceCost=(s,u)=>u.cost*((s.ascension?.upgrades[u.id]||0)+1);
 export function buyEssence(s,id,expectedRank){
@@ -115,7 +116,7 @@ export function confirmAscension(s,blankRun){
  const next=p.next,reward=ASCENSIONS[next];if(next===2&&s.ascension.industrialClaimed)throw Error('The A2 grant has already been claimed.');s.ascension.level=next;s.ascension.ce+=reward.ce;
  if(next===2){s.ascension.industrialClaimed=true;s.ascension.industrialUnlocked=true;}
  s.ascension.records.push({level:next,ce:reward.ce,at:Date.now(),attempt:p.attempt,rebirth:s.rebirth});
- s.gold.unlocked=true;s.rebirth=0;s.xp=0;s.money=0n;s.copper=Array(6).fill(0n);s.inventory={};s.tools=['basic'];s.legacyBonuses=[];
+ s.gold.unlocked=true;s.rebirth=0;s.xp=0;s.money=0n;s.copper=Array(6).fill(0n);s.copperPurchased=Array(6).fill(0n);s.inventory={};s.tools=['basic'];s.legacyBonuses=[];
  s.pp=0;s.prestige={};s.components={parts:0};s.research=[];s.contracts=[];s.run=blankRun();
  s.furnace={jobs:[],queue:[],upgrades:{},ingots:0,refined:0};s.refining={unlocked:false,research:0};s.automation={purchased:false,stock:false,wire:false,last:Date.now()};
  s.market.limit=null;s.pendingRebirth=null;s.pendingAscension=null;s.bossClaims=[];
@@ -135,7 +136,7 @@ export function buyGoldEquipment(s,id,expectedRank){
 export function buyGoldResearch(s,id){
  expansionDefaults(s);const r=GOLD_RESEARCH.find(x=>x.id===id),g=s.gold;
  if(!r||!g.unlocked||g.research.includes(id)||(r.prerequisite&&!g.research.includes(r.prerequisite))||(['recovery','legacy'].includes(id)&&(!(s.ascension.upgrades.master>0)||(g.equipment.lab||0)<(id==='legacy'?2:1)))||g.balance<r.gold||s.copper[0]<r.copper||s.money<r.money||(r.component&&!(s.components[r.component]>0)))throw Error('Meet all displayed research prerequisites and costs.');
- g.balance-=r.gold;s.copper[0]-=r.copper;s.money-=r.money;s.stats.moneySpent+=r.money;if(r.component)s.components[r.component]--;g.research.push(id);s.revision++;
+ g.balance-=r.gold;consumeCopper(s,r.copper);s.money-=r.money;s.stats.moneySpent+=r.money;if(r.component)s.components[r.component]--;g.research.push(id);s.revision++;
 }
 export function rewardGold(s,a,grade,random){
  const g=s.gold,c=GOLD_CLAIMS[a.claim];if(!g?.unlocked||!c||!g.claims.includes(a.claim))throw Error('This river claim is locked.');
