@@ -1,0 +1,86 @@
+COPPER EMPIRE — AURA FORGE RARITY EXPANSION & SMOOTHER PROGRESSION
+Complete implementation specification for Codex
+Repository: https://github.com/Blaze-bolt/copper-empire
+
+GOAL
+Expand the existing 20-aura catalogue to 34 auras, preserving all 20 existing auras exactly and adding 14 carefully positioned intermediate rarities. The current jumps between rarity denominators feel too drastic. Give players more distinct goals on the way from Copper Glow to Copper God, WITHOUT creating runaway equipped bonuses or making the rarest auras easy to roll.
+
+THIS IS AN IMPLEMENTATION TASK. Use the exact names, odds and equipped bonuses in the catalogue below. Do not generate or improvise replacement names, probabilities, or bonuses. Preserve the original published probabilities of existing auras. Implement, test, and prepare a reviewable PR. Do not change the live production market or saves during testing.
+
+1. COMPLETE AURA CATALOGUE — EXACT AUTHORITATIVE SPECIFICATION
+"1/N" is the exact probability for ONE roll; it is not a pity timer or a guarantee after N rolls. Copper % means copper recovery, XP % means earned XP, smelting/factory % mean speed increases. Only the equipped aura grants buffs. Every aura remains collectible; duplicates count precisely.
+
+ No. | Name | Single-roll odds | Equipped effect | Status
+  1 | Rusty Aura | remainder (common) | +5% copper recovery | EXISTING
+  2 | Copper Glow | 1/5 | +10% copper recovery | EXISTING
+  3 | Copper Ember | 1/10 | +12% copper recovery | NEW
+  4 | Bronze Radiance | 1/25 | +15% XP | EXISTING
+  5 | Copper Pulse | 1/50 | +12% XP, +8% copper recovery | NEW
+  6 | Electric Copper | 1/100 | +20% copper recovery | EXISTING
+  7 | Magnetic Ember | 1/200 | +18% copper recovery, +8% XP | NEW
+  8 | Plasma Core | 1/500 | +25% smelting speed | EXISTING
+  9 | Arc Reactor Glow | 1/1,500 | +30% smelting speed, +10% copper recovery | NEW
+ 10 | Storm Conductor | 1/5,000 | +30% XP, +10% copper recovery | EXISTING
+ 11 | Tempered Lightning | 1/10,000 | +35% XP, +15% copper recovery | NEW
+ 12 | Ancient Copper Spirit | 1/25,000 | +40% copper recovery | EXISTING
+ 13 | Verdant Conductor | 1/50,000 | +45% copper recovery, +10% XP | NEW
+ 14 | Celestial Copper | 1/100,000 | +50% copper recovery | EXISTING
+ 15 | Solar Crucible | 1/150,000 | +50% smelting speed, +20% copper recovery | NEW
+ 16 | Molten Heart | 1/250,000 | +60% smelting speed | EXISTING
+ 17 | Quantum Circuit | 1/500,000 | +50% XP, +25% copper recovery | EXISTING
+ 18 | Copper Eclipse | 1/1,000,000 | −3% manufacturing fees | EXISTING
+ 19 | Aurora Circuit | 1/1,500,000 | +60% XP, +35% copper recovery | NEW
+ 20 | Void Conductor | 1/2,500,000 | +80% XP, +40% copper recovery | EXISTING
+ 21 | Neon Foundry | 1/5,000,000 | +50% factory production speed | EXISTING
+ 22 | Nebula Smelter | 1/7,500,000 | +70% smelting speed, +30% factory speed | NEW
+ 23 | Galactic Copper | 1/10,000,000 | +100% copper recovery | EXISTING
+ 24 | Astral Forge | 1/15,000,000 | +80% factory speed, +35% copper recovery | NEW
+ 25 | Primordial Core | 1/25,000,000 | +125% copper recovery | EXISTING
+ 26 | Event Horizon Copper | 1/50,000,000 | +135% copper recovery, +40% XP | NEW
+ 27 | Copper Singularity | 1/100,000,000 | +150% copper recovery, +75% XP | EXISTING
+ 28 | Eternal Furnace | 1/250,000,000 | +100% smelting and factory speed | EXISTING
+ 29 | Supernova Foundry | 1/350,000,000 | +110% factory speed, +80% smelting speed | NEW
+ 30 | Cosmic Copperstorm | 1/500,000,000 | +200% copper recovery, +100% XP | EXISTING
+ 31 | Reality Breaker | 1/1,000,000,000 | +250% copper recovery, +125% XP | EXISTING
+ 32 | Infinite Copperlight | 1/3,000,000,000 | +275% copper recovery, +140% XP, +30% factory speed | NEW
+ 33 | Copper God | 1/10,000,000,000 | +300% copper recovery, +150% XP, +50% factory speed | EXISTING
+ 34 | Copper Crown | 1/20,000,000,000 | +315% copper recovery, +155% XP, +55% factory speed | NEW
+
+CORRECTION / CANONICAL COUNT: The table above contains 34 entries total: 20 existing + 14 new. Use 34 as the authoritative final total. IDs/names must be unique. Ensure UI sorts by numeric odds with stable ordering. Preserve Quantum Circuit at 1/500k and Copper Eclipse at 1/1M. Do not reorder auras incorrectly in the interface. NEW aura names/effects are specified above; the list is the source of truth, not any earlier drafts.
+
+2. RARITY LOGIC
+Use exact rational/integer weights, not floating-point equality approximations. The existing implementation uses a 10-billion denominator, which CANNOT represent an exact 1/20-billion single-roll chance. Increase the integer denominator to a common multiple of ALL listed odds denominators, computed and checked programmatically using BigInt. Avoid exceeding Number.MAX_SAFE_INTEGER in sum, products or bulk sampler calculations. If required, use an accurate BigInt-supported discrete sampler or mathematically equivalent exact method. Preserve correctness and efficiency for up to 100 million bulk rolls. Do not approximate rare-aura probabilities into zero, round expected counts, impose pity, or fake variance.
+
+The common Rusty Aura fills the remaining probability mass after all other entries. All auras are mutually exclusive outcomes on each roll. The sum of probabilities must be exactly one. Import/export probability displays must remain correct.
+
+3. BALANCING GOALS
+The major problem to solve is the enormous steps in odds, NOT lack of overpowered buffs. All existing aura bonuses stay the same. The strongest NEW Copper Crown is only marginally better than Copper God (+315% vs +300% copper, +155% vs +150% XP, +55% vs +50% factory speed). Keep the 1/20B drop genuinely aspirational; large batch rolls must not make it trivially obtainable. Do not buff other systems or silently increase general aura power.
+
+Not every rarer aura must be universally stronger: some are specialized for manufacturing or XP, so make that specialization explicit. In descriptions and UI, avoid calling a niche aura a straight upgrade when its strengths are in a different category.
+
+4. UI / COLLECTION
+Show all 34 auras in the collection, with clear rarity (1 in N), ability, ownership count, equipped indicator, and accessible color-independent rarity labels. Group rarities into understandable tiers or bands without obscuring exact odds. Highlight newly introduced auras visually but do not reset or alter existing owned counts. Sort by one-roll chance, using stable tie-breakers. Keep existing aura selection, equipping and duplicate count behavior. Save migration must extend old collections to accept 14 new aura IDs without discarding the 20 existing ones.
+
+5. BULK UPGRADE PRICES VS AURA ODDS — IMPORTANT DISTINCTION
+Aura rarity (1/N chance per roll) and the purchase cost for larger bulk-roll capacity are DIFFERENT systems. The complaint concerns runaway MULTIPLIERS BETWEEN AURA ODDS. Do not casually rebalance the money cost of bulk-roll capacity or the $100 individual roll cost as part of this implementation. If review shows the user's comment also applies to bulk-capacity purchase prices, flag that as a separate follow-up proposal instead of silently changing the economy.
+
+6. PLAYER-SAFETY / ECONOMY / SAVE INTEGRITY
+Preserve unified workshop local saving and cloud syncing, account migration, offline inventory, debug/owner saves, leaderboard security boundaries, and all existing Gold/Copper Essence/rebirth/ascension data. Validate aura IDs and ownership counts against the authoritative catalogue. Treat old save records as valid legacy data, not an opportunity to reset them. Do not generate auras or award rolls during migration.
+
+7. TESTS
+- All 20 pre-existing rarities and effects are unchanged.
+- Every newly specified aura has the exact declared probability and buff.
+- Total aura count is 34, with 14 new unique IDs.
+- Exact integer weights are positive and sum exactly to the denominator.
+- Old save migrations preserve every owned aura count and equipped state.
+- 100-million bulk rolls finish efficiently with statistically correct distributions; include deterministic simulation tests for rare outcomes and edge cases.
+- The common remainder is positive; no aura becomes impossible due to rounding.
+- Existing UI shows correct odds, counts, new icons, and rarity ordering.
+- Aura ordering matches ascending denominators and is stable.
+- Gold/copper/XP/factory/smelting buffs stack only according to existing equipment rules; do not double-apply.
+- No production changes without approval.
+
+8. DELIVERABLE
+Implement the catalogue, exact odds math, UI, migration, and tests. Explain changes and any unavoidable compatibility risks. Provide a reviewable pull request.
+
+CONCRETE DIRECTIVE: Do NOT ask Codex to invent aura names, odds, effects or descriptions. All authoritative player-facing text and numbers are provided above. Implement faithfully.

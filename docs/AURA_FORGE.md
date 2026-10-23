@@ -1,5 +1,7 @@
 # Aura Forge v6.1.0
 
+> v6.5.0 expands this historical 20-aura catalogue to 34 with exact rational weights. See [Aura Rarity Expansion](AURA_RARITY_EXPANSION.md) for the current catalogue, migration and release order.
+
 > v6.2.0 saving/eligibility changes supersede the older Local/Main instructions below. See [Unified Workshop](UNIFIED_WORKSHOP.md) for current reconciliation, Debug, local Forge and cloud synchronization behavior.
 
 This focused update replaces aura luck with fixed probabilities, 20 collectible auras, and 16 permanent sequential capacity purchases. It keeps the existing framework, GitHub Pages build, electronics, minigames, save slots, and economy. All dollars are fictional game currency.
