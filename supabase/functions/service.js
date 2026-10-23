@@ -1,3 +1,4 @@
+import {mergeTutorials} from '../../src/empire/tutorial-state.js';
 import {addPurchasedCopper} from '../../src/empire/copper-sales.js';
 import {stageReport} from '../../src/empire/grading.js';
 import * as E from '../../src/empire/state.js';
@@ -159,8 +160,9 @@ export async function handleCommand(db,user,body,now=Date.now()){
  const loaded=await db.rpc('empire_load',{p_user:user,p_initial:storedState(initial)});
  if(loaded.revision!==body.revision)throw Error('SAVE_CONFLICT: Another device changed your workshop. Refresh before continuing.');
  const s=E.expansionDefaults(unpack(loaded.state)),a=unpack(loaded.attempt);const quotes=await db.rpc('empire_quotes',{});Object.assign(s.market,quotes.copper);s.market.history=[];Object.assign(s.goldMarket,quotes.gold);s.goldMarket.history=[];
+ const beforeTutorials=E.encode(s);if(body.tutorialProgress){const meta=unpack(body.tutorialProgress);mergeTutorials(s,meta);if(typeof meta.settings?.firstTimeTutorials==='boolean')s.settings.firstTimeTutorials=meta.settings.firstTimeTutorials;}
  const context={user,feesBefore:s.industry.stats.fees};if((['heartbeat','trade-refresh'].includes(body.command)&&s.industry.facilities.some(f=>f.queue.length))||['factory-reserve','factory-queue','ship-dispatch','export-accept'].includes(body.command))context.world=unpack(await db.rpc('empire_export_world',{}));
- const before=E.encode(s);const t=transition(s,a,body.command,body.payload,now,context);
+ const before=beforeTutorials;const t=transition(s,a,body.command,body.payload,now,context);
  if(body.command==='heartbeat'&&before===E.encode(t.state))return {state:pack(t.state),attempt:pack(t.attempt),revision:loaded.revision,result:null,classification:loaded.classification};
  const args={p_user:user,p_request:body.requestId,p_expected:body.revision,p_state:storedState(t.state),p_attempt:pack(t.attempt),p_result:pack(t.result),p_quote:t.trade?.quote??null,p_volume:t.trade?.volume.toString()??'0',p_asset:t.trade?.asset||'copper'};
  if(t.worldGate)Object.assign(args,{p_world_epoch:t.worldGate.version,p_news_epoch:t.worldGate.newsVersion,p_slot:body.slot||'main'});

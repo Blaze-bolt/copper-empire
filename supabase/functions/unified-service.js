@@ -1,4 +1,5 @@
 import {editSave} from './admin-editor.js';
+import {mergeTutorials} from '../../src/empire/tutorial-state.js';
 import * as E from '../../src/empire/state.js';
 import {validateSnapshot,compactState,candidate,selectMigration,applyPatch,anomalyFlags,validateLockedTrade} from '../../src/unified/save.js';
 import {pack,unpack,transition} from './service.js';
@@ -24,7 +25,7 @@ export async function handleUnified(db,user,body,now=Date.now()){
   const choices=[candidate('device',unpack(body.state),body.meta)];
   for(const[source,row]of [['legacy-main',loaded.legacyMain],['cloud-backup',loaded.legacyBackup]])if(row?.state)try{choices.push(candidate(source,row.state,row.meta||{}));}catch{/* Invalid originals remain in their old tables and are reported by the client. */}
   const selection=selectMigration(choices);if(!selection.eligible.includes(body.source))throw Error('Migration must respect Ascension first, then Rebirth.');
-  s=validateSnapshot(choices.find(c=>c.source===body.source).state);
+  s=validateSnapshot(choices.find(c=>c.source===body.source).state);mergeTutorials(s,...choices.map(c=>c.state));
   for(const c of choices)archives.push({source:c.source,state:pack(c.state),meta:pack(c.meta)});
   // Old local vessels become bound to the same account, without changing their
   // identity, cargo, locked rate, payment, or travel timestamps.
@@ -42,6 +43,9 @@ export async function handleUnified(db,user,body,now=Date.now()){
    const changed=transition(s,null,body.economic,p,now,context);s=changed.state;result=changed.result;trade=changed.trade;worldGate=changed.worldGate;
   }
  }else throw Error('Unknown unified command.');
+ // Completion is monotonic, even when a previous client or a conflict resolution
+ // selects a coherent older workshop. No balance or gameplay domain is merged.
+ if(old)mergeTutorials(s,old.state);
  s=compactState(s);const meta={...body.meta,schema:1,ownerId:user,migrated:true};
  if(typeof meta.root!=='string'||!Array.isArray(meta.lineage)||meta.lineage.length>32||!meta.lineage.every(x=>typeof x==='string'&&x.length<=64))throw Error('Invalid save ancestry.');
  if(old&&meta.parent!==old.meta.id)throw Error('STALE_ANCESTRY: Reconcile against the current cloud snapshot.');
