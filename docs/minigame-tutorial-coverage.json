@@ -1,0 +1,3344 @@
+{
+  "baseIds": 156,
+  "compositeSections": 10,
+  "renderedSteps": 847,
+  "entries": [
+    {
+      "id": 1,
+      "name": "Precision Timing",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"hit\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 2,
+      "name": "Fan Blade Alignment",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"select\"]",
+        "[data-g=\"rotate\"]",
+        "[data-g=\"slot\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 3,
+      "name": "Rotor Balance",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"cell\"]",
+        "[data-g=\"test\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 4,
+      "name": "Sound Wave Matching",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"slider\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 5,
+      "name": "Vibration Pattern Memory",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-demo-scene]",
+        "[data-g=\"pulse\"]",
+        "[data-g=\"pulse\"][data-value=\"1\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 6,
+      "name": "Frequency Slider Puzzle",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"slider\"]",
+        "[data-g=\"test\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 7,
+      "name": "Airflow Maze",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"tile\"]",
+        "[data-g=\"test\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 8,
+      "name": "Circuit Tile Rotation",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"tile\"]",
+        "[data-g=\"test\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 9,
+      "name": "Symbol Matching",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"target\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 10,
+      "name": "Rotating Gear Puzzle",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"gear\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 11,
+      "name": "Conveyor Component Sorting",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"select\"]",
+        "[data-g=\"bin\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 12,
+      "name": "Precision Path Tracing",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"trace-key\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 13,
+      "name": "Suction Direction Puzzle",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"tile\"]",
+        "[data-g=\"test\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 14,
+      "name": "Flow Network Puzzle",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"gate\"]",
+        "[data-g=\"test\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 15,
+      "name": "Magnetic Polarity Logic",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"cell\"]",
+        "[data-g=\"test\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 16,
+      "name": "Spin Cycle Rhythm",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"beat\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 17,
+      "name": "Pipe Connection Puzzle",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"select\"]",
+        "[data-g=\"rotate\"]",
+        "[data-g=\"slot\"]",
+        "[data-g=\"test\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 18,
+      "name": "Temperature Balance",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"slider\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 19,
+      "name": "Pressure Stability",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"push\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 20,
+      "name": "Valve Sequence Memory",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-demo-scene]",
+        "[data-g=\"symbol\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 21,
+      "name": "Moving Target Challenge",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"target\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 22,
+      "name": "Power Output Matching",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"point\"]",
+        "[data-g=\"test\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 23,
+      "name": "Dual Circuit Synchronisation",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"tile\"]",
+        "[data-g=\"test\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 24,
+      "name": "Coil Pattern Reconstruction",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-demo-scene]",
+        "[data-g=\"cell\"]",
+        "[data-g=\"rotate\"]",
+        "[data-g=\"ring\"]",
+        "[data-g=\"test\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 25,
+      "name": "Multi-Channel Flow",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"junction\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 26,
+      "name": "Elevator Positioning",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"up\"]",
+        "[data-g=\"down\"]",
+        "[data-g=\"brake\"]",
+        "[data-g=\"stop\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 27,
+      "name": "Factory Conveyor Coordination",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"speed\"]",
+        "[data-g=\"junction\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 28,
+      "name": "Load Distribution Puzzle",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"select\"]",
+        "[data-g=\"slot\"]",
+        "[data-g=\"test\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 29,
+      "name": "Energy Routing",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"edge\"]",
+        "[data-g=\"test\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 30,
+      "name": "Recycling Assembly Line",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"select\"]",
+        "[data-g=\"station\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 31,
+      "name": "Multi-Rotor Synchronisation",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"rotor-speed\"]",
+        "[data-g=\"rotor-pause\"]",
+        "[data-g=\"test\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 32,
+      "name": "Power Grid Restoration",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"edge\"]",
+        "[data-g=\"test\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 33,
+      "name": "Precision Frequency Lock",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"move\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 34,
+      "name": "Factory Robot Programming",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"command\"]",
+        "[data-g=\"command\"][data-command=\"left\"]",
+        "[data-g=\"command\"][data-command=\"right\"]",
+        "[data-g=\"command\"][data-command=\"collect\"]",
+        "[data-g=\"command\"][data-command=\"repeat\"]",
+        "[data-g=\"remove\"]",
+        "[data-g=\"run\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 35,
+      "name": "Stability Matrix",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"cell\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 36,
+      "name": "Magnetic Field Maze",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"tile\"]",
+        "[data-g=\"step\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 37,
+      "name": "Alternating Pulse Sequence",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"beat\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 38,
+      "name": "Generator Network Puzzle",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"allocation\"]",
+        "[data-g=\"test\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 39,
+      "name": "Rotational Momentum Challenge",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"impulse\"]",
+        "[data-g=\"test\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 40,
+      "name": "Automated Recovery Scheduling",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"select\"]",
+        "[data-g=\"place\"]",
+        "[data-g=\"test\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 41,
+      "name": "Ultra-Precision Alignment",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"ring\"]",
+        "[data-g=\"test\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 42,
+      "name": "Multi-Generator Synchronization",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"offset\"]",
+        "[data-g=\"test\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 43,
+      "name": "Resource Optimization",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"recipe\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 44,
+      "name": "Titan Core Sequence",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"answer\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 45,
+      "name": "Experimental Pattern Decoder",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"answer\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 46,
+      "name": "Hyper-Speed Reflex Grid",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-demo-scene]",
+        "[data-g=\"symbol\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 47,
+      "name": "Electromagnetic Logic Gates",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"input\"]",
+        "[data-g=\"cross\"]",
+        "[data-g=\"test\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 48,
+      "name": "Experimental Core Stabilization",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"slider\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 49,
+      "name": "Multi-Dimensional Energy Routing",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"token\"]",
+        "[data-g=\"move\"]",
+        "[data-g=\"portal\"]",
+        "[data-g=\"layer\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 50,
+      "name": "Ultra-Dense Pattern Compression",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"select\"]",
+        "[data-g=\"place\"]",
+        "[data-g=\"restart\"]",
+        "[data-g=\"test\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 51,
+      "name": "Hyper-Scale Command Center",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"resource\"]",
+        "[data-g=\"cool\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 52,
+      "name": "Experimental Energy Converter",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"gate\"]",
+        "[data-g=\"tile\"]",
+        "[data-g=\"destination\"]",
+        "[data-g=\"batch\"]",
+        "[data-g=\"convert\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 53,
+      "name": "Four-Phase Alignment",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"phase\"]",
+        "[data-g=\"lock\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 54,
+      "name": "Symbol Queue Reconstruction",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"operation\"]",
+        "[data-g=\"operation\"][data-i=\"1\"]",
+        "[data-g=\"operation\"][data-i=\"2\"]",
+        "[data-g=\"operation\"][data-i=\"3\"]",
+        "[data-g=\"operation\"][data-i=\"7\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 55,
+      "name": "Momentum Dial Lock",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"select\"]",
+        "[data-g=\"accelerate\"]",
+        "[data-g=\"brake\"]",
+        "[data-g=\"lock\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 56,
+      "name": "Six-Destination Power Allocation",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"slider\"]",
+        "[data-g=\"submit\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 57,
+      "name": "Linked Rotor Rotation",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"rotor\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 58,
+      "name": "Rotating Symbol Memory",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-demo-scene]",
+        "[data-g=\"symbol\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 59,
+      "name": "Converter Output Allocation",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"slider\"]",
+        "[data-g=\"submit\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 60,
+      "name": "Pulsing Ring Rhythm",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"beat\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 61,
+      "name": "Checkpoint Junction Routing",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"switch\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 62,
+      "name": "Eight-Point Network",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"edge\"]",
+        "[data-g=\"submit\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 63,
+      "name": "Neighbour-Coupled Arrows",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"rotor\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 64,
+      "name": "Geometric Tile Reconstruction",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"tile\"]",
+        "[data-g=\"rotate\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 65,
+      "name": "Four-Control Stability",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"slider\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 66,
+      "name": "Advanced Robot Program",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"program\"]",
+        "[data-g=\"program\"][data-command=\"left\"]",
+        "[data-g=\"program\"][data-command=\"right\"]",
+        "[data-g=\"program\"][data-command=\"collect\"]",
+        "[data-g=\"program\"][data-command=\"repeat\"]",
+        "[data-g=\"undo\"]",
+        "[data-g=\"run\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 67,
+      "name": "Checkpoint Route Planner",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"edge\"]",
+        "[data-g=\"submit\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 68,
+      "name": "Machine Timeline Scheduling",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"select\"]",
+        "[data-g=\"place\"]",
+        "[data-g=\"submit\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 69,
+      "name": "Four-Lane Rhythm",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"beat\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 70,
+      "name": "Changing-Rule Sorting",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"sort\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 71,
+      "name": "Six-Station Power Grid",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"edge\"]",
+        "[data-g=\"submit\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 72,
+      "name": "Coupled Turbine Balance",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"accelerate\"]",
+        "[data-g=\"brake\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 73,
+      "name": "Six-Symbol Equation Code",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"slider\"]",
+        "[data-g=\"submit\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 74,
+      "name": "Abstract State Machine",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"transition\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 75,
+      "name": "Three-Robot Coordination",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"order\"]",
+        "[data-g=\"turn\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 76,
+      "name": "Four-Resource Project Allocation",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"slider\"]",
+        "[data-g=\"submit\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 77,
+      "name": "Five-Lane Advanced Rhythm",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"beat\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 78,
+      "name": "Two-Layer Portal Routing",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"tile\"]",
+        "[data-g=\"submit\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 79,
+      "name": "Two-Layer Symbol Memory",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-demo-scene]",
+        "[data-g=\"layer\"]",
+        "[data-g=\"tile\"]",
+        "[data-g=\"rotate\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 80,
+      "name": "Two-Source Transport Flow",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"slider\"]",
+        "[data-g=\"submit\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 81,
+      "name": "Material Collection Robot",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"program\"]",
+        "[data-g=\"program\"][data-command=\"left\"]",
+        "[data-g=\"program\"][data-command=\"right\"]",
+        "[data-g=\"program\"][data-command=\"collect\"]",
+        "[data-g=\"program\"][data-command=\"deposit\"]",
+        "[data-g=\"program\"][data-command=\"loop\"]",
+        "[data-g=\"program\"][data-command=\"skip\"]",
+        "[data-g=\"undo\"]",
+        "[data-g=\"run\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 82,
+      "name": "Linked Control Panels",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"panel\"]",
+        "[data-g=\"route\"]",
+        "[data-g=\"submit\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 83,
+      "name": "Six Coupled Phase Rings",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"phase\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 84,
+      "name": "Programmable Logic Gates",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"gate\"]",
+        "[data-g=\"port\"]",
+        "[data-g=\"submit\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 85,
+      "name": "Six-by-Six Pattern Builder",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"block\"]",
+        "[data-g=\"rows\"]",
+        "[data-g=\"pickmerge\"]",
+        "[data-g=\"submit\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 86,
+      "name": "Three-Phase Systems Finale",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"slider\"]",
+        "[data-g=\"submit\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 87,
+      "name": "Ascendant Final Challenge",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-demo-scene]",
+        "[data-g=\"symbol\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 88,
+      "name": "Quantum Logic Grid",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"cell\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 89,
+      "name": "Five-Channel Calibration",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"slider\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 90,
+      "name": "Robotic Recovery Routing",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"move\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 91,
+      "name": "Titan Sequence Reconstruction",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-demo-scene]",
+        "[data-g=\"answer\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 92,
+      "name": "Grid Synchronization",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"lock\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 93,
+      "name": "Transformer Flow Balance",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"slider\"]",
+        "[data-g=\"submit\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 94,
+      "name": "CNC Command Programming",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"program\"]",
+        "[data-g=\"program\"][data-command=\"left\"]",
+        "[data-g=\"program\"][data-command=\"right\"]",
+        "[data-g=\"program\"][data-command=\"pick\"]",
+        "[data-g=\"program\"][data-command=\"drop\"]",
+        "[data-g=\"program\"][data-command=\"repeat\"]",
+        "[data-g=\"clear\"]",
+        "[data-g=\"run\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 95,
+      "name": "Stator Ring Assembly",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"swap\"]",
+        "[data-g=\"rotate\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 96,
+      "name": "Automation Scheduler",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"select\"]",
+        "[data-g=\"place\"]",
+        "[data-g=\"submit\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 97,
+      "name": "Servo Wave Matching",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"slider\"]",
+        "[data-g=\"lock\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 98,
+      "name": "Conveyor Sorting",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"sort\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 99,
+      "name": "PLC Logic Puzzle",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"select\"]",
+        "[data-g=\"slot\"]",
+        "[data-g=\"submit\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 100,
+      "name": "Breaker Dependency Puzzle",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"node\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 101,
+      "name": "Three-Phase Balance",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"slider\"]",
+        "[data-g=\"submit\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 102,
+      "name": "Grid Route Optimizer",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"cell\"]",
+        "[data-g=\"submit\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 103,
+      "name": "Converter Synchronization",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"sync\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 104,
+      "name": "Superconducting Ring Calibration",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"cell\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 105,
+      "name": "Cryogenic Stability",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"slider\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 106,
+      "name": "Copper Separation Sorting",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"sort\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 107,
+      "name": "Research Instrument Alignment",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"arm\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 108,
+      "name": "Rotor Balance",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"select\"]",
+        "[data-g=\"slot\"]",
+        "[data-g=\"submit\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 109,
+      "name": "Data Center Cooling Network",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"cell\"]",
+        "[data-g=\"submit\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 110,
+      "name": "Gantry Path Programming",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"cell\"]",
+        "[data-g=\"clear\"]",
+        "[data-g=\"run\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 111,
+      "name": "Motor Vibration Analyzer",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"slider\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 112,
+      "name": "Converter Module Network",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"cell\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 113,
+      "name": "Turbine Synchronization",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"speed\"]",
+        "[data-g=\"phase\"]",
+        "[data-g=\"lock\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 114,
+      "name": "Supercomputer Packet Routing",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"route\"]",
+        "[data-g=\"turn\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 115,
+      "name": "Industrial Command Priorities",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"task\"]",
+        "[data-g=\"clear\"]",
+        "[data-g=\"submit\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 116,
+      "name": "Generator Array Balancing",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"slider\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 117,
+      "name": "Experimental Control Matrix",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"cell\"]",
+        "[data-g=\"submit\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 118,
+      "name": "Megafactory Logistics",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"cell\"]",
+        "[data-g=\"run\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 119,
+      "name": "Central Power Complex Finale",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"cell\"]",
+        "[data-g=\"submit\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 1001,
+      "name": "Gold Panning",
+      "type": "Gold",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"slider\"]",
+        "[data-g=\"nudge\"]",
+        "[data-g=\"shake\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 1002,
+      "name": "Gold Panning Round Set 2",
+      "type": "Gold",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"slider\"]",
+        "[data-g=\"nudge\"]",
+        "[data-g=\"shake\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 1003,
+      "name": "Gold Panning Round Set 3",
+      "type": "Gold",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"slider\"]",
+        "[data-g=\"nudge\"]",
+        "[data-g=\"shake\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 1004,
+      "name": "Gold Panning Round Set 4",
+      "type": "Gold",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"slider\"]",
+        "[data-g=\"nudge\"]",
+        "[data-g=\"shake\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 1005,
+      "name": "Gold Panning Round Set 5",
+      "type": "Gold",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"slider\"]",
+        "[data-g=\"nudge\"]",
+        "[data-g=\"shake\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 1006,
+      "name": "Gold Panning Round Set 6",
+      "type": "Gold",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"slider\"]",
+        "[data-g=\"nudge\"]",
+        "[data-g=\"shake\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 1007,
+      "name": "Gold Panning Round Set 7",
+      "type": "Gold",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"slider\"]",
+        "[data-g=\"nudge\"]",
+        "[data-g=\"shake\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 2001,
+      "name": "Wire Winding",
+      "type": "Factory",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"wind\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 2002,
+      "name": "Cable Insulation Alignment",
+      "type": "Factory",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"select\"]",
+        "[data-g=\"slot\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 2003,
+      "name": "Pipe Bending Pattern",
+      "type": "Factory",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"swap\"]",
+        "[data-g=\"turn\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 2004,
+      "name": "Copper Sheet Pressing",
+      "type": "Factory",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"slider\"]",
+        "[data-g=\"press\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 2005,
+      "name": "Cooling Tube Routing",
+      "type": "Factory",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"tile\"]",
+        "[data-g=\"submit\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 2006,
+      "name": "Motor Coil Winding",
+      "type": "Factory",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-demo-scene]",
+        "[data-g=\"symbol\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 2007,
+      "name": "Transformer Coil Matching",
+      "type": "Factory",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"slider\"]",
+        "[data-g=\"submit\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 2008,
+      "name": "Wiring Harness Assembly",
+      "type": "Factory",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"select\"]",
+        "[data-g=\"slot\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 2009,
+      "name": "Stator Segment Alignment",
+      "type": "Factory",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"swap\"]",
+        "[data-g=\"turn\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 2010,
+      "name": "Heat Exchanger Flow",
+      "type": "Factory",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"tile\"]",
+        "[data-g=\"submit\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 2011,
+      "name": "Precision Connector Inspection",
+      "type": "Factory",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"inspect\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 2012,
+      "name": "Busbar Placement",
+      "type": "Factory",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"select\"]",
+        "[data-g=\"place\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 2013,
+      "name": "Cooling Module Calibration",
+      "type": "Factory",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"slider\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 2014,
+      "name": "Cable Network Sequencing",
+      "type": "Factory",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"node\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 2015,
+      "name": "Generator Phase Lock",
+      "type": "Factory",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"lock\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 2016,
+      "name": "Transformer Core Assembly",
+      "type": "Factory",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"select\"]",
+        "[data-g=\"turn\"]",
+        "[data-g=\"place\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 2017,
+      "name": "Grid Distribution Puzzle",
+      "type": "Factory",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"slider\"]",
+        "[data-g=\"submit\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 2018,
+      "name": "Motor Shaft Alignment",
+      "type": "Factory",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"slider\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 2019,
+      "name": "Converter Frequency Control",
+      "type": "Factory",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"slider\"]",
+        "[data-g=\"lock\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 2020,
+      "name": "Substation Routing",
+      "type": "Factory",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"cell\"]",
+        "[data-g=\"submit\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 2021,
+      "name": "Generator Module Sequencing",
+      "type": "Factory",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"node\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 2022,
+      "name": "Continental Grid Planning",
+      "type": "Factory",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"edge\"]",
+        "[data-g=\"submit\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 2023,
+      "name": "Megaplant Conveyor Management",
+      "type": "Factory",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"sort\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 2024,
+      "name": "Infrastructure Assembly Planner",
+      "type": "Factory",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"select\"]",
+        "[data-g=\"turn\"]",
+        "[data-g=\"place\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 2025,
+      "name": "Industrial Power Complex Finale",
+      "type": "Factory",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"cell\"]",
+        "[data-g=\"submit\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 2026,
+      "name": "Precision Quality Scan",
+      "type": "Factory",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"classify\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 2027,
+      "name": "Production Optimization",
+      "type": "Factory",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"select\"]",
+        "[data-g=\"place\"]",
+        "[data-g=\"submit\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 2028,
+      "name": "Freight Container Packing",
+      "type": "Factory",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"select\"]",
+        "[data-g=\"turn\"]",
+        "[data-g=\"place\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 2029,
+      "name": "Supply Chain Synchronization",
+      "type": "Factory",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"slider\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": 2030,
+      "name": "Master Industrial Certification",
+      "type": "Factory",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"slider\"]",
+        "[data-g=\"press\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": "44:3",
+      "name": "Titan final code",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "#titan-code",
+        "[data-g=\"code\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": "82:B",
+      "name": "Linked panels · allocation",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"slider\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": "82:C",
+      "name": "Linked panels · encoding",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"pattern\"]",
+        "[data-g=\"submit\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": "86:1",
+      "name": "Systems finale · route",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"edge\"]",
+        "[data-g=\"submit\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": "86:2",
+      "name": "Systems finale · timing",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"lock\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": "87:1",
+      "name": "Ascendant core · allocation",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"slider\"]",
+        "[data-g=\"submit\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": "87:2",
+      "name": "Ascendant core · rings",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"lock\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": "87:3",
+      "name": "Ascendant core · network",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"edge\"]",
+        "[data-g=\"submit\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": "119:1",
+      "name": "Power complex · allocation",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"slider\"]",
+        "[data-g=\"submit\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    },
+    {
+      "id": "119:2",
+      "name": "Power complex · synchronization",
+      "type": "Electronics",
+      "version": 1,
+      "fields": true,
+      "tutorialTargets": [
+        "[data-tutorial-goal]",
+        "[data-g=\"sync\"]",
+        "[data-tutorial-limits]",
+        "[data-tutorial-ready]"
+      ],
+      "firstPlay": "per-ID versioned gate",
+      "skip": "explicit Skip marks seen",
+      "replay": "never clears completion",
+      "demonstration": "separate seeded engine; no economy callback",
+      "persistence": "unified local save and existing cloud schedule",
+      "browserTargetsVerified": true
+    }
+  ]
+}

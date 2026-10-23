@@ -1,0 +1,1782 @@
+# COPPER EMPIRE — COMPLETE MINIGAME INSTRUCTION COPY + FIRST-TIME TUTORIAL IMPLEMENTATION
+
+**Repository:** https://github.com/Blaze-bolt/copper-empire
+**Prepared:** 22 October 2026
+**Purpose:** Codex must IMPLEMENT these player-facing words, not invent replacement directions.
+
+## IMPLEMENTATION ORDER — READ FIRST
+
+1. **Use the instruction entries below as the actual English player-facing copy.** Each entry is individually written, with a goal, action instructions, and concrete failure or success details. Do not merely ask another model to 'make them clearer'. Wire these strings by the specified game IDs into the existing help/briefing UI. Keep exact functional meaning; only make tiny corrective edits where verified runtime rules differ, and list every such correction in the PR.
+2. Cover IDs **1–119**, factory IDs **2001–2030**, and gold IDs **1001–1007** (gold challenges use a common mechanic with claim-specific difficulty). Preserve instructions for additional dynamically selected or composite minigames. When a composite switches to a subgame, show that subgame's real instructions, not only the parent's summary.
+3. Inspect relevant mechanics and controls for accuracy, including `src/empire/game-ui.js`, `expansion-ui.js`, `era2-ui.js`, `factory-ui-games.js`, `gold-games.js` and their corresponding engine files. The descriptions are written against the inspected source descriptions, but when a behavior is not clear from a spec, verify the engine. **Do not fabricate exact timers, failure limits, button labels or shortcuts** if engine behavior differs. Correct text and explain the difference.
+4. Render each game's five help fields consistently: **Objective**, **How to play**, **How to win**, **How you can fail**, **Tip**. The Objective, How to play and Watch out copy below must be used. For How to win, use the goal and verified success rule from Watch out. For How you can fail, use the failure clause from Watch out and any additional real failure conditions, verified against code. **Do not show a fictional failure rule.** Tip may use the final teaching cue that follows each item, without solving the challenge.
+5. **One-time interactive tutorials, individually per minigame ID**, not just one tutorial for the entire game. First encounter in an account/workshop shows guided onboarding before the real challenge counts time, score, mistakes or purchases. Each tutorial uses an overlay that dims irrelevant UI, highlights a specific actionable control, and presents short sequential text. Use a visible fake cursor/tap indicator or animated arrow to show the expected interaction. Don't use a real interactive action as a fake demo: tutorial actions must operate on a safe practice copy, or only indicate controls, never spend resources, consume inputs, charge money, award rewards, or advance a real challenge.
+6. **Tutorial storyboard for every ID**: STEP A highlight the goal, board, target/reference and what success looks like; STEP B highlight the primary control and display a tap/drag/slider/keyboard demonstration appropriate to that game; STEP C highlight its important limitation, timer, move counter or common mistake; STEP D show 'Got it — Start challenge' / 'Practice first'. Do not cover the target with the tooltip. When a game has multiple key operations (select + rotate + place, or watch + repeat), add a short step per operation. For time-sensitive or memory games, demonstrate using a fixed harmless illustrative example, NOT the real attempt's answer.
+7. Dimming: full-screen translucent scrim with clearly spotlighted target(s); allow interaction only with the tutorial's safe example/Next/Back/Skip controls, trap focus in an accessible overlay. Mobile use a finger-tap cue instead of hover-only instructions; desktop show cursor click/drag; keyboard focus and keys must be explained. Use robust target anchoring so resized layouts remain correct. Honor reduced-motion settings and screen readers. If a highlighted element is off-screen, scroll it into view safely.
+8. **Exactly once per unique minigame per player/workshop by default.** Persist tutorial-completed IDs in unified save and cloud sync. Mark completed only on finishing or explicitly choosing 'Skip tutorial'; a crash halfway through should resume/reoffer rather than silently mark complete. An already-seen tutorial must NOT reappear due to rebirth, ascension, browser refresh, reinstall or a second device after cloud sync. Concurrent device conflicts must preserve the union of completed IDs safely. Version tutorial completion separately if mechanics truly change and require an explicit new tutorial version; do NOT reset all seen flags during routine updates.
+9. In **Settings → Tutorials**, add: **Replay Any Minigame Tutorial** (search by name/ID, filters), **Replay Current Minigame Tutorial**, **Show First-Time Tutorials** switch (default ON), and optional **Replay All Tutorials** (this should manually launch chosen tutorials, not erase completion history). Settings must also give an accessible method to replay even if initial help was skipped. Practice Room should also have 'Watch Tutorial' button. Replay is never graded and never awards or consumes gameplay resources.
+10. Existing experienced players: don't forcibly interrupt an active attempt upon update. For minigames whose tutorial-seen flag is unknown on existing saves, show the tutorial next time that minigame is started, unless the user disabled first-time tutorials. Preserve active puzzle states, resources, grade/reward mechanics, timing, all progression and multiplayer/cloud behavior.
+11. Verify tutorial coverage programmatically: there must be real structured instructions AND reachable tutorial steps for each supported ID (119 electronics + 30 factory + 7 gold IDs = **156 ID entries**). Some factory entries wrap or use other signatures; ensure subgame-specific onboarding too. Add unit/integration tests for every ID, no unknown placeholders, correct HTML escaping, mobile and keyboard controls, persistence, skip, replay, and absence of economy side effects. Test at least one actual in-browser run in each interaction family (timing, sliders, memory, rotations, dragging, scheduling, logic, rhythm, routing, composites).
+12. Do NOT lower minigame difficulty to 'fix' confusing help. The intention is to teach controls and rules while preserving challenge.
+
+## STYLE RULES FOR ALL COPY
+
+- Explain **what the player sees**, **what to touch**, and **what changes**. Never say just 'solve', 'synchronize', 'optimize' or 'restore' without actionable details.
+- The instructions are for a new player, NOT an engineer. Technical words only when the game visibly uses them, with meaning explained by the action.
+- Explicitly distinguish selecting a thing, rotating it, placing it, submitting/testing it, and waiting for a hold timer.
+- Use the actual rendered control labels if they differ from the sample wording. Do not invent clickable controls that don't exist.
+- Avoid spoilers or providing generated puzzle solutions. Tutorial examples must be made-up practice examples, not actual attempt data.
+- Clear but not childish; short paragraphs rather than an unexplained wall of text.
+
+---
+
+# COMPLETE AUTHORED PLAYER-FACING INSTRUCTION LIBRARY
+
+Every entry below is bespoke English copy. 'Watch out' is a concise, verified-intent rule summary; split it into Win/Fail as appropriate when rendering. Tooltip cue is authored independently and specifies **what the overlay should point at**. Do not replace these with raw existing `spec` strings.
+
+
+## Electronics signatures 1–52
+
+
+### ID 1 — Precision Timing
+
+**Objective:** Stop the moving marker inside the green zone.
+
+**How to play:** Watch the marker travel along the track, then press Space or tap Lock it in when it enters green.
+
+**How to win / how you can fail:** Stopping outside green fails the stage. There is no countdown on the first motor.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 2 — Fan Blade Alignment
+
+**Objective:** Match every fan blade to its numbered outline at the correct angle.
+
+**How to play:** Select a loose blade, rotate it in 60-degree steps, then tap its matching numbered shadow to place it. Repeat for all blades.
+
+**How to win / how you can fail:** A blade must match both its number and rotation. Three incorrect placements end the attempt.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 3 — Rotor Balance
+
+**Objective:** Move weights until the spinning wheel is balanced.
+
+**How to play:** Tap a segment containing a weight, then tap its destination. Try arranging weights so they counterbalance around the wheel; press Check when ready.
+
+**How to win / how you can fail:** The balance reading must fall below 0.15. Moving weight to a poor spot won't solve it.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 4 — Sound Wave Matching
+
+**Objective:** Make your adjustable wave overlap the reference wave.
+
+**How to play:** Change the Amplitude, Frequency and Phase controls, comparing your waveform with the reference as you go.
+
+**How to win / how you can fail:** Maintain at least 90% similarity for two seconds. A close match for only a moment is not enough.
+
+**Beginner tutorial visual:** Spotlight one control or slider, demonstrate a small adjustment, then spotlight its matching changing meter; reveal the goal band and hold requirement.
+
+
+### ID 5 — Vibration Pattern Memory
+
+**Objective:** Repeat the short-and-long pulse pattern in the same order.
+
+**How to play:** Watch the demonstration without pressing anything. When input begins, tap SHORT for a short pulse or LONG for a long pulse; S and L work too.
+
+**How to win / how you can fail:** Each tap submits one pulse. Holding a button longer does not create a long pulse; use LONG instead.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 6 — Frequency Slider Puzzle
+
+**Objective:** Make all five bars match their reference heights.
+
+**How to play:** Look at the target shown for each band. Move its slider up or down until the value matches, then submit the full arrangement.
+
+**How to win / how you can fail:** Check every band before submitting; one correct slider does not complete the puzzle.
+
+**Beginner tutorial visual:** Spotlight one control or slider, demonstrate a small adjustment, then spotlight its matching changing meter; reveal the goal band and hold requirement.
+
+
+### ID 7 — Airflow Maze
+
+**Objective:** Create an uninterrupted path from IN to OUT.
+
+**How to play:** Tap an arrow to rotate its direction. Follow the arrows from IN and make each one point toward the next usable tile, then test the route.
+
+**How to win / how you can fail:** Walls cannot carry airflow. Testing an incomplete path spends two moves.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 8 — Circuit Tile Rotation
+
+**Objective:** Join the two outside terminals with a continuous circuit.
+
+**How to play:** Tap circuit tiles to rotate their visible connections until the paths join end-to-end. Press Test when the route appears connected.
+
+**How to win / how you can fail:** Touching lines must connect correctly; a gap or incorrect turn breaks the circuit.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 9 — Symbol Matching
+
+**Objective:** Select the moving shapes that match the target symbol.
+
+**How to play:** Check the reference symbol first. Tap only matching shapes as they move across the screen; ignore the decoys.
+
+**How to win / how you can fail:** Three wrong selections or four missed targets end the stage.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 10 — Rotating Gear Puzzle
+
+**Objective:** Point every gear marker straight upward.
+
+**How to play:** Tap a gear to turn it clockwise. Watch its neighbours: they rotate the opposite way, so plan more than one move ahead.
+
+**How to win / how you can fail:** All markers must face up before your move allowance runs out.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 11 — Conveyor Component Sorting
+
+**Objective:** Send each moving component to the bin with the same label.
+
+**How to play:** Read the component's A, B or C label, then tap or drag it into the matching bin before it passes.
+
+**How to win / how you can fail:** Three incorrect sorts or four missed components end the stage.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 12 — Precision Path Tracing
+
+**Objective:** Trace the glowing route all the way from START to END.
+
+**How to play:** Begin at START, then drag along the highlighted corridor. On supported controls, use arrows or the on-screen direction buttons instead.
+
+**How to win / how you can fail:** Stay inside the corridor; cutting across the unmarked area does not count.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 13 — Suction Direction Puzzle
+
+**Objective:** Guide both colored particles to their separate exits.
+
+**How to play:** Rotate the directional arrows before releasing the particles. Trace orange from tile 1 to tile 8 and teal from tile 13 to tile 12.
+
+**How to win / how you can fail:** Both colored routes must work. A route that sends one particle to the wrong exit is incorrect.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 14 — Flow Network Puzzle
+
+**Objective:** Send every flow to the destination shown for it.
+
+**How to play:** Toggle gates A, B and C. Each route turns RIGHT only when exactly one of its two linked gates is open; otherwise it goes the other way. Press Dispatch to test.
+
+**How to win / how you can fail:** All flow destinations must match together, not one at a time.
+
+**Beginner tutorial visual:** Spotlight the relevant key/button, animate a press on a practice example, then show the target region and failure boundary.
+
+
+### ID 15 — Magnetic Polarity Logic
+
+**Objective:** Arrange positive and negative blocks in an alternating pattern.
+
+**How to play:** Tap one polarity block and then a second to swap them. Compare every block with the one above, below, left and right.
+
+**How to win / how you can fail:** Two blocks that touch along an edge must have opposite signs. Submit only when every pair follows the rule.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 16 — Spin Cycle Rhythm
+
+**Objective:** Hit the notes as they cross the top target line.
+
+**How to play:** Watch each rotating note and tap Space at the moment it reaches the marker at the top.
+
+**How to win / how you can fail:** Reach at least 75% accuracy and miss no more than three notes.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 17 — Pipe Connection Puzzle
+
+**Objective:** Build one complete pipe route between IN and OUT.
+
+**How to play:** Select a pipe piece, rotate it to point the right way, then place it in an available spot. Tap a placed piece to pick it up again.
+
+**How to win / how you can fail:** Use every piece exactly once and leave no gap between connected pipe ends.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 18 — Temperature Balance
+
+**Objective:** Keep both temperature meters inside their green bands at once.
+
+**How to play:** Adjust the two controls gradually. Each control also influences the other meter; keep watching both readings as you change them.
+
+**How to win / how you can fail:** Both meters must stay in their target bands for three continuous seconds.
+
+**Beginner tutorial visual:** Spotlight one control or slider, demonstrate a small adjustment, then spotlight its matching changing meter; reveal the goal band and hold requirement.
+
+
+### ID 19 — Pressure Stability
+
+**Objective:** Keep the drifting pressure gauge within the safe middle range.
+
+**How to play:** Use + and − or the arrow keys to correct the gauge as it drifts. Make at least three adjustments while accumulating safe time.
+
+**How to win / how you can fail:** Collect ten seconds inside 35–65%. Staying outside for more than 2.5 seconds continuously fails.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 20 — Valve Sequence Memory
+
+**Objective:** Repeat the numbered valves in the demonstrated order.
+
+**How to play:** Watch which valve numbers flash. After the demonstration, tap the valves in that same numerical order, even if their positions move.
+
+**How to win / how you can fail:** One incorrect valve ends the stage. Remember the numbers, not just the locations.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 21 — Moving Target Challenge
+
+**Objective:** Hit the highlighted moving target repeatedly.
+
+**How to play:** Tap the amber target whenever it appears and ignore the gray distractions. Look again after each hit because the active target moves.
+
+**How to win / how you can fail:** Three wrong selections end the stage.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 22 — Power Output Matching
+
+**Objective:** Make your six output bars match the six reference marks.
+
+**How to play:** Tap each column to cycle its output from 0 to 5. Compare the six heights with the reference, then Submit.
+
+**How to win / how you can fail:** The average difference from the targets must be no more than 0.25.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 23 — Dual Circuit Synchronisation
+
+**Objective:** Complete both circuit boards simultaneously.
+
+**How to play:** Rotate tiles until both boards have working connections. The first linked tile turns on BOTH boards, while other tiles change independently.
+
+**How to win / how you can fail:** A change that repairs one board may disturb the other. Check both before testing.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 24 — Coil Pattern Reconstruction
+
+**Objective:** Restore the displayed ring's segment order and arrow direction.
+
+**How to play:** Memorize the reference ring. Swap pieces into their positions and rotate each arrow upward as needed.
+
+**How to win / how you can fail:** Correct pieces in the wrong positions, or correct positions with wrong arrows, do not win.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 25 — Multi-Channel Flow
+
+**Objective:** Direct each moving token into its matching outlet.
+
+**How to play:** Before a token reaches a junction, change that junction to A, B or C so it follows the matching route.
+
+**How to win / how you can fail:** You may misroute at most two tokens.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 26 — Elevator Positioning
+
+**Objective:** Stop the platform at each marked floor in order.
+
+**How to play:** Use Up and Down to change movement, Brake to slow down and Stop once the platform is close to the next target.
+
+**How to win / how you can fail:** You must stop within 4.5% of the target at a low speed. Reaching the floor while moving too fast doesn't count.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 27 — Factory Conveyor Coordination
+
+**Objective:** Schedule conveyor speeds so loads do not collide.
+
+**How to play:** Switch each belt between Paused, Slow and Fast, and set its A, B or C exit. Watch when loads will arrive at the shared junction.
+
+**How to win / how you can fail:** Arrivals at the shared junction must be at least 0.7 seconds apart.
+
+**Beginner tutorial visual:** Spotlight the animated reference first; show a harmless sample playback and then spotlight the response buttons without revealing the live pattern.
+
+
+### ID 28 — Load Distribution Puzzle
+
+**Objective:** Keep the loaded platform balanced in its middle zone.
+
+**How to play:** Select a weight, then choose an open platform slot. Use the visible weight values and distances to spread the load evenly.
+
+**How to win / how you can fail:** Place all four blocks and keep the weighted balance point in the middle before submitting.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 29 — Energy Routing
+
+**Objective:** Deliver power from source 0 to every starred point.
+
+**How to play:** Choose connections between points, starting from the power source. Trace which stars are reachable through your selected connections.
+
+**How to win / how you can fail:** Every star must have power, and selected connections must stay within six energy tokens.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 30 — Recycling Assembly Line
+
+**Objective:** Process six batches through stations in the correct order.
+
+**How to play:** Select a batch, read its station sequence, then tap the requested stations in that order. Switch batches when useful.
+
+**How to win / how you can fail:** Stations temporarily cool down. Fewer than three processing errors are allowed.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 31 — Multi-Rotor Synchronisation
+
+**Objective:** Bring every spinning marker into its top alignment zone together.
+
+**How to play:** Adjust individual rotor speeds in quarter steps. You can set a rotor's speed to zero to hold its position, then press Synchronize.
+
+**How to win / how you can fail:** All rotors must be aligned at the same time, not just one after another.
+
+**Beginner tutorial visual:** Spotlight the relevant key/button, animate a press on a practice example, then show the target region and failure boundary.
+
+
+### ID 32 — Power Grid Restoration
+
+**Objective:** Reconnect the grid so all stations receive power from source 0.
+
+**How to play:** Choose links that connect the source to the other nodes. Use the displayed energy limit and count links touching each node.
+
+**How to win / how you can fail:** You have seven energy. No node may have more than two connections.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 33 — Precision Frequency Lock
+
+**Objective:** Keep your adjustable marker following the moving target.
+
+**How to play:** Move your marker with Left and Right or the on-screen bar. Make small corrections as the target travels.
+
+**How to win / how you can fail:** Stay inside tolerance for eight consecutive seconds. Three seconds of mismatch loses.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 34 — Factory Robot Programming
+
+**Objective:** Program a robot to collect both stars and reach EXIT.
+
+**How to play:** Build a command sequence using Move, Left, Right and Collect. Repeat executes the previous command twice more; then run your program.
+
+**How to win / how you can fail:** The robot must collect both stars before reaching EXIT. Check the route your commands actually produce.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 35 — Stability Matrix
+
+**Objective:** Turn every lit matrix cell off.
+
+**How to play:** Tap a cell to change that cell and its four direct neighbours. Plan which cells to toggle, then check the board.
+
+**How to win / how you can fail:** Every cell must be off before the move budget runs out.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 36 — Magnetic Field Maze
+
+**Objective:** Reach EXIT without entering forbidden spaces.
+
+**How to play:** Rotate the directional field arrow underneath your token, then press Step to move one tile. Repeat until you reach the exit.
+
+**How to win / how you can fail:** A step into an invalid or forbidden tile ends the stage.
+
+**Beginner tutorial visual:** Spotlight the relevant key/button, animate a press on a practice example, then show the target region and failure boundary.
+
+
+### ID 37 — Alternating Pulse Sequence
+
+**Objective:** Hit the timed notes on both lanes.
+
+**How to play:** Use A or Left for one lane and D or Right for the other. Tap as each note reaches its lane's top timing mark.
+
+**How to win / how you can fail:** More than three missed notes ends the stage; keep watching both lanes.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 38 — Generator Network Puzzle
+
+**Objective:** Supply the three demands using two limited generators.
+
+**How to play:** Choose how many energy tokens each generator sends to each destination. Review generator totals and destination needs before testing.
+
+**How to win / how you can fail:** A connection holds at most three tokens. Use no more than four connections and do not exceed supply.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 39 — Rotational Momentum Challenge
+
+**Objective:** Bring the rotating disc to its target angle and nearly stop it.
+
+**How to play:** Apply clockwise or counterclockwise impulses to steer and slow the disc. Watch both its angle and the speed readout before Lock.
+
+**How to win / how you can fail:** The disc must be on target and moving below 8 degrees per second.
+
+**Beginner tutorial visual:** Spotlight the animated reference first; show a harmless sample playback and then spotlight the response buttons without revealing the live pattern.
+
+
+### ID 40 — Automated Recovery Scheduling
+
+**Objective:** Fit every job into an eight-tick schedule without resource clashes.
+
+**How to play:** Select a job, then tap where it should begin on the timeline. A two-resource job occupies both rows during its run.
+
+**How to win / how you can fail:** All jobs must fit before the end, with no overlapping use of the same resource.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 41 — Ultra-Precision Alignment
+
+**Objective:** Align every ring's arrow with its narrow target.
+
+**How to play:** Rotate rings in 15-degree steps. Watch for linked rings: adjusting one may also move another.
+
+**How to win / how you can fail:** Every ring must match its marked target before checking.
+
+**Beginner tutorial visual:** Spotlight the animated reference first; show a harmless sample playback and then spotlight the response buttons without revealing the live pattern.
+
+
+### ID 42 — Multi-Generator Synchronization
+
+**Objective:** Make all three generator peaks line up in time.
+
+**How to play:** Change the phase offsets, which shift a wave left or right without changing its speed. Test when all three peaks appear aligned.
+
+**How to win / how you can fail:** All peaks need a shared alignment window lasting 0.35 seconds.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 43 — Resource Optimization
+
+**Objective:** Produce the required amount of resource C without leaving unusable waste.
+
+**How to play:** Read the available recipes. Choose conversions between A, B and C, tracking what each move consumes and produces.
+
+**How to win / how you can fail:** An impossible leftover combination or using all permitted actions without success fails.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 44 — Titan Core Sequence
+
+**Objective:** Solve the connected panels and enter their final code.
+
+**How to play:** Complete each panel, remembering the symbol values it reveals. Enter the SUN–MOON–DIAMOND values in the displayed order.
+
+**How to win / how you can fail:** The final answer must use the values revealed by this attempt, not a remembered code from another run.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 45 — Experimental Pattern Decoder
+
+**Objective:** Work out the values of three symbolic expressions.
+
+**How to play:** Use the displayed symbol values. Add touching symbols together and double the expression inside brackets. Enter each result.
+
+**How to win / how you can fail:** Three incorrect answers end the stage.
+
+**Beginner tutorial visual:** Spotlight the relevant key/button, animate a press on a practice example, then show the target region and failure boundary.
+
+
+### ID 46 — Hyper-Speed Reflex Grid
+
+**Objective:** Repeat the flashed cell sequence under time pressure.
+
+**How to play:** Watch the three highlighted cells, then tap them in the same order before seven seconds elapse. Complete all four rounds.
+
+**How to win / how you can fail:** Three mistakes end the stage. The active cells can change between rounds.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 47 — Electromagnetic Logic Gates
+
+**Objective:** Make the three displayed logic outputs match their targets.
+
+**How to play:** Toggle the Boolean inputs. If needed, swap the B/C connections. Compare the resulting AND, OR and NOT outputs with the references.
+
+**How to win / how you can fail:** Test only when all three outputs match together.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 48 — Experimental Core Stabilization
+
+**Objective:** Keep three linked readings inside their marked bands.
+
+**How to play:** Move the three controls in small steps while monitoring how each one changes multiple readings.
+
+**How to win / how you can fail:** All three readings must remain inside target for three continuous seconds.
+
+**Beginner tutorial visual:** Spotlight one control or slider, demonstrate a small adjustment, then spotlight its matching changing meter; reveal the goal band and hold requirement.
+
+
+### ID 49 — Multi-Dimensional Energy Routing
+
+**Objective:** Guide two tokens through a two-layer board to their own goals.
+
+**How to play:** Choose which token to move, use direction controls, and use the central portal when needed to change layers.
+
+**How to win / how you can fail:** Deliver both tokens to their matching destinations in sixteen moves.
+
+**Beginner tutorial visual:** Spotlight one control or slider, demonstrate a small adjustment, then spotlight its matching changing meter; reveal the goal band and hold requirement.
+
+
+### ID 50 — Ultra-Dense Pattern Compression
+
+**Objective:** Build the shown picture using the available small blocks.
+
+**How to play:** Select a reusable 2-by-2 block, then tap the square where its top-left corner should go. Use Restart if you want to clear the layout.
+
+**How to win / how you can fail:** Match the whole reference while staying within the block allowance.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 51 — Hyper-Scale Command Center
+
+**Objective:** Complete eight system tasks by dividing limited resources.
+
+**How to play:** Move four shared resource controls to satisfy each displayed task. Let the systems cool when necessary before continuing.
+
+**How to win / how you can fail:** Finish all eight tasks before three deadlines are missed or the system overheats.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 52 — Experimental Energy Converter
+
+**Objective:** Produce exactly one Y and one Z using the virtual converter.
+
+**How to play:** Open both input gates and connect the converter route. Feed 2 units of A and 1 of B for each conversion, then trigger during the green timing window.
+
+**How to win / how you can fail:** Respect the converter capacity. Extra products or incorrectly timed conversions do not meet the target.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+## Electronics signatures 53–87
+
+
+### ID 53 — Four-Phase Alignment
+
+**Objective:** Line up all four rings with their green target arcs.
+
+**How to play:** Use the plus or minus 15-degree controls under each ring. Once all are inside the marked arcs, press Lock.
+
+**How to win / how you can fail:** Each ring must be within 12 degrees of its target and hold alignment for two seconds. Three bad locks fail.
+
+**Beginner tutorial visual:** Spotlight the relevant key/button, animate a press on a practice example, then show the target region and failure boundary.
+
+
+### ID 54 — Symbol Queue Reconstruction
+
+**Objective:** Turn your five-symbol sequence into the displayed target sequence.
+
+**How to play:** Use Rotate Left, Rotate Right, Reverse First Three or Swap Adjacent Pair. Watch the queue after each operation.
+
+**How to win / how you can fail:** Reach the exact target within eight operations. The last and first positions count as adjacent for the wraparound swap.
+
+**Beginner tutorial visual:** Spotlight the animated reference first; show a harmless sample playback and then spotlight the response buttons without revealing the live pattern.
+
+
+### ID 55 — Momentum Dial Lock
+
+**Objective:** Stop three moving dials at their individual target angles.
+
+**How to play:** Choose a dial, use thrust to change its momentum, apply Brake to slow it, then Lock only when it is near its goal.
+
+**How to win / how you can fail:** Each dial must be within ten degrees and slower than five degrees per second. Three bad locks fail.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 56 — Six-Destination Power Allocation
+
+**Objective:** Distribute all twelve available energy units according to the destination demands.
+
+**How to play:** Set the six amount sliders. The requested amounts are shown next to the destinations; each link can carry at most five.
+
+**How to win / how you can fail:** Use exactly twelve units and meet every displayed demand; three invalid submissions fail.
+
+**Beginner tutorial visual:** Spotlight one control or slider, demonstrate a small adjustment, then spotlight its matching changing meter; reveal the goal band and hold requirement.
+
+
+### ID 57 — Linked Rotor Rotation
+
+**Objective:** Turn every rotor arrow to the direction shown on its target.
+
+**How to play:** Tap a rotor to rotate it; its linked horizontal neighbour also turns. Recheck both arrows after every click.
+
+**How to win / how you can fail:** All rotor directions must match together.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 58 — Rotating Symbol Memory
+
+**Objective:** Remember symbol identities even while the board changes position.
+
+**How to play:** Watch four symbols flash one after another. When asked to repeat them, choose the same symbols rather than the same screen locations.
+
+**How to win / how you can fail:** The matrix rotates after flashes. Complete four rounds; two errors fail.
+
+**Beginner tutorial visual:** Spotlight the animated reference first; show a harmless sample playback and then spotlight the response buttons without revealing the live pattern.
+
+
+### ID 59 — Converter Output Allocation
+
+**Objective:** Feed four virtual converters to reach their requested outputs.
+
+**How to play:** Check each converter's multiplier and permitted input range. Adjust its slider so its resulting output matches the printed target.
+
+**How to win / how you can fail:** Allocate exactly twenty inputs overall and meet all four output targets; three invalid submissions fail.
+
+**Beginner tutorial visual:** Spotlight one control or slider, demonstrate a small adjustment, then spotlight its matching changing meter; reveal the goal band and hold requirement.
+
+
+### ID 60 — Pulsing Ring Rhythm
+
+**Objective:** Tap each ring as it crosses the top timing mark.
+
+**How to play:** Watch each ring's independent rotation and tap its control at the highlighted top point. Continue through three six-note rounds.
+
+**How to win / how you can fail:** Four missed beats fail. Different rings do not necessarily share the same timing.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 61 — Checkpoint Junction Routing
+
+**Objective:** Guide the moving token through checkpoints in numerical order.
+
+**How to play:** Before the token reaches a junction, choose the branch labeled with the next required checkpoint number.
+
+**How to win / how you can fail:** A wrong checkpoint or dead-end path ends the stage immediately.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 62 — Eight-Point Network
+
+**Objective:** Connect all eight marked points without overspending.
+
+**How to play:** Select links to build a connected network. Check the cost displayed for each available connection.
+
+**How to win / how you can fail:** All eight nodes must be connected and the total selected link cost must fit the budget. An affordable loop is allowed.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 63 — Neighbour-Coupled Arrows
+
+**Objective:** Point every arrow straight upward.
+
+**How to play:** Tap a tile to turn its arrow clockwise; the arrows directly above, below, left and right turn the opposite way.
+
+**How to win / how you can fail:** Get all arrows upright before the move limit is exhausted.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 64 — Geometric Tile Reconstruction
+
+**Objective:** Rebuild the numbered picture in its original order and direction.
+
+**How to play:** Tap two tiles to swap positions, and rotate tiles until their small arrows point up. Compare the result to the reference.
+
+**How to win / how you can fail:** Every tile must occupy the correct place and orientation within the move budget.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 65 — Four-Control Stability
+
+**Objective:** Keep four connected readings inside their respective target regions.
+
+**How to play:** Change one of the four integer controls at a time, then watch how all four meters respond.
+
+**How to win / how you can fail:** Maintain all target readings for three seconds. Remaining outside the safe region for ten seconds fails.
+
+**Beginner tutorial visual:** Spotlight one control or slider, demonstrate a small adjustment, then spotlight its matching changing meter; reveal the goal band and hold requirement.
+
+
+### ID 66 — Advanced Robot Program
+
+**Objective:** Write a short robot program to gather two tokens and reach EXIT.
+
+**How to play:** Add Forward, Left, Right, Collect and Repeat Previous commands, then run the sequence to test its movement.
+
+**How to win / how you can fail:** Collect both tokens and finish at EXIT within twelve command slots. Three failed program runs end the stage.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 67 — Checkpoint Route Planner
+
+**Objective:** Draw a connected route from START to END through both required checkpoints.
+
+**How to play:** Choose route links one by one. You may remove a link and try another route before validation.
+
+**How to win / how you can fail:** Visit both marked checkpoints, stay within the weighted cost budget and avoid a broken route. Three invalid checks fail.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 68 — Machine Timeline Scheduling
+
+**Objective:** Schedule six jobs on their permitted machines without conflicts.
+
+**How to play:** Choose a job, then select or drag it to an allowed machine and starting time. Observe duration and prerequisite tasks.
+
+**How to win / how you can fail:** All six must finish by tick twelve without overlaps or broken dependencies.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 69 — Four-Lane Rhythm
+
+**Objective:** Play the notes in four lanes, including notes that arrive together.
+
+**How to play:** Press keys 1–4 as notes reach their lane markers. Hold a key through a long note's tail when indicated.
+
+**How to win / how you can fail:** Finish 24 notes with at least 80% accuracy. Four completely missed notes fail.
+
+**Beginner tutorial visual:** Spotlight the relevant key/button, animate a press on a practice example, then show the target region and failure boundary.
+
+
+### ID 70 — Changing-Rule Sorting
+
+**Objective:** Sort eighteen tokens while the sorting rule changes during the game.
+
+**How to play:** Read the current rule: it might ask for shape, color or symbol. Route each token according to that rule, then re-read it after six correct sorts.
+
+**How to win / how you can fail:** Three incorrect sorts end the stage. Don't keep using the old rule after it changes.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 71 — Six-Station Power Grid
+
+**Objective:** Connect the power source to all six marked stations.
+
+**How to play:** Select cable links through the 5-by-5 grid and check whether every star can be reached from the source.
+
+**How to win / how you can fail:** Stay within fourteen links and observe the connection limit printed on each node. Three bad validations fail.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 72 — Coupled Turbine Balance
+
+**Objective:** Keep three turbine outputs near their indicated goals while slowing their movement.
+
+**How to play:** Accelerate or brake the displayed turbine controls. Some changes affect a neighbouring turbine too.
+
+**How to win / how you can fail:** Maintain all three target bands with low momentum for four seconds; avoid the broad danger limits.
+
+**Beginner tutorial visual:** Spotlight one control or slider, demonstrate a small adjustment, then spotlight its matching changing meter; reveal the goal band and hold requirement.
+
+
+### ID 73 — Six-Symbol Equation Code
+
+**Objective:** Solve the linked clues and enter the resulting six-digit code.
+
+**How to play:** Read all six equations. Work out shared symbol values that satisfy them together, then enter the digits in the requested order.
+
+**How to win / how you can fail:** The same symbol represents the same value in every equation. Three incorrect submissions fail.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 74 — Abstract State Machine
+
+**Objective:** Navigate from the current state to the starred goal.
+
+**How to play:** Select one of the visible transitions, checking what it costs and which state it leads to before moving.
+
+**How to win / how you can fail:** Reach the target before resources run out. Entering the red forbidden state ends the stage.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 75 — Three-Robot Coordination
+
+**Objective:** Move three robots to their matching goals without letting them collide.
+
+**How to play:** Choose a direction or Wait for each robot, then press Advance to execute that shared turn. Repeat as a sequence.
+
+**How to win / how you can fail:** Complete within twelve turns. Robots cannot enter walls, share a tile or swap through each other.
+
+**Beginner tutorial visual:** Spotlight the relevant key/button, animate a press on a practice example, then show the target region and failure boundary.
+
+
+### ID 76 — Four-Resource Project Allocation
+
+**Objective:** Fund four projects from four limited resource pools.
+
+**How to play:** Adjust how much of each resource goes to each project. Read the required amounts for each resource type separately.
+
+**How to win / how you can fail:** Every project must receive all its requirements without spending more than any resource pool holds. Three invalid submissions fail.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 77 — Five-Lane Advanced Rhythm
+
+**Objective:** Play the changing timing windows across five note lanes.
+
+**How to play:** Use keys 1–5. Tap single or paired notes together and hold sustained notes until their ends.
+
+**How to win / how you can fail:** Complete thirty notes while staying below five misses. Later notes have narrower hit windows.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 78 — Two-Layer Portal Routing
+
+**Objective:** Route three colored inputs to their matching colored outputs.
+
+**How to play:** Rotate arrows on both layers to direct each route. Use an upward portal tile only when it is part of a marked matching portal pair.
+
+**How to win / how you can fail:** All three paths must end at their own outputs; mismatched portals do not transfer the route.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 79 — Two-Layer Symbol Memory
+
+**Objective:** Rebuild both symbol grids from a short preview.
+
+**How to play:** Study the two 3-by-3 layers during the eight-second viewing phase. Then swap symbols and rotate them to match the original positions and directions.
+
+**How to win / how you can fail:** Both layers, including their orientations, must match within the move allowance.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 80 — Two-Source Transport Flow
+
+**Objective:** Deliver required quantities from two sources through hubs to five destinations at minimum cost.
+
+**How to play:** Set the amount on each available link. Check source supplies, hub inflows and outflows, destination demands, link capacities and total cost.
+
+**How to win / how you can fail:** Every destination must receive its demand, hubs must balance and the route must meet the minimum-cost requirement.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 81 — Material Collection Robot
+
+**Objective:** Program a robot to collect three materials and drop each at its matching station.
+
+**How to play:** Build Move, Collect and Deposit commands. Repeat replays the previous command block twice; Conditional Skip skips the next command if empty.
+
+**How to win / how you can fail:** The program has fourteen slots. All three materials must reach the correct stations.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 82 — Linked Control Panels
+
+**Objective:** Solve three connected panels whose outputs feed one another.
+
+**How to play:** Start with panel A to route power, use the resulting capacity when setting panel B, then encode B's output in panel C.
+
+**How to win / how you can fail:** The final check validates all three panels together. Changing an earlier panel may invalidate a later one.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 83 — Six Coupled Phase Rings
+
+**Objective:** Align six rings whose controls rotate neighbours as well.
+
+**How to play:** Select a ring and turn it plus or minus thirty degrees. Watch the two linked neighbours after every adjustment.
+
+**How to win / how you can fail:** Match every displayed ring target before using the move budget.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 84 — Programmable Logic Gates
+
+**Objective:** Build a gate network that produces the required outputs for all input examples.
+
+**How to play:** Choose AND, OR, XOR or NOT gates for the slots. Connect them to compatible input ports, then test the shown cases.
+
+**How to win / how you can fail:** All four outputs must match for every listed input case. Three failed validations end the stage.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 85 — Six-by-Six Pattern Builder
+
+**Objective:** Reconstruct the pictured board and place the required symbols into special pockets.
+
+**How to play:** Rotate 2-by-2 squares clockwise and swap entire rows until the pattern matches. Merge exactly three matching symbols into the outlined pockets.
+
+**How to win / how you can fail:** Finish both the pattern and the pocket requirement within the move budget.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 86 — Three-Phase Systems Finale
+
+**Objective:** Complete a linked sequence of resource, route and timing puzzles.
+
+**How to play:** First allocate the shared resources. Next plan an affordable route using what remains. Finally synchronize the three indicators.
+
+**How to win / how you can fail:** Choices in an earlier phase change later limits. All three phases must succeed.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 87 — Ascendant Final Challenge
+
+**Objective:** Complete four different puzzle sections in one run.
+
+**How to play:** Memorize six symbols, allocate ten resource units, stop three moving rings in their targets, then connect the final network.
+
+**How to win / how you can fail:** A failure in any section restarts the full signature; finish all four in order.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+## Electronics signatures 88–119
+
+
+### ID 88 — Quantum Logic Grid
+
+**Objective:** Make your 5-by-5 grid match the reference pattern exactly.
+
+**How to play:** Tap a cell to flip it and its diagonal neighbours. Compare your grid to the reference after each change.
+
+**How to win / how you can fail:** Match all 25 cells within fourteen clicks. Cells directly above or beside your choice do not flip.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 89 — Five-Channel Calibration
+
+**Objective:** Keep all five adjustable markers inside their moving goal bands.
+
+**How to play:** Use the five channel sliders or focused arrow keys. Watch each target band drift and adjust markers to follow.
+
+**How to win / how you can fail:** All five must stay aligned simultaneously for three seconds. A full instability meter fails.
+
+**Beginner tutorial visual:** Spotlight one control or slider, demonstrate a small adjustment, then spotlight its matching changing meter; reveal the goal band and hold requirement.
+
+
+### ID 90 — Robotic Recovery Routing
+
+**Objective:** Move three robots to their matching colored goals.
+
+**How to play:** Press Up, Down, Left, Right or Stay. Every robot receives the SAME command on each turn, so plan how they move together.
+
+**How to win / how you can fail:** Reach all three goals within the displayed turn limit. Walls, collisions and swapping positions are forbidden.
+
+**Beginner tutorial visual:** Spotlight the relevant key/button, animate a press on a practice example, then show the target region and failure boundary.
+
+
+### ID 91 — Titan Sequence Reconstruction
+
+**Objective:** Choose the correct transformed version of the remembered symbol sequence.
+
+**How to play:** Watch six symbols for four seconds. Read the requested change: reverse, rotate left, rotate right or swap neighbouring pairs. Choose the resulting sequence from the options.
+
+**How to win / how you can fail:** Complete four rounds. A second wrong answer ends the stage.
+
+**Beginner tutorial visual:** Spotlight the animated reference first; show a harmless sample playback and then spotlight the response buttons without revealing the live pattern.
+
+
+### ID 92 — Grid Synchronization
+
+**Objective:** Stop each of the six spinning discs inside its marked target wedge.
+
+**How to play:** Watch the moving pointer on each disc, then tap its Lock control when the pointer enters the highlighted sector.
+
+**How to win / how you can fail:** Lock all six. Only two mistimed locks are allowed.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 93 — Transformer Flow Balance
+
+**Objective:** Send exactly the requested energy to six destinations using two limited sources.
+
+**How to play:** Adjust each source-to-destination amount. Add outgoing amounts for each source and incoming amounts for each destination before submitting.
+
+**How to win / how you can fail:** Meet all six demands without exceeding source supplies or connection capacity. Three incorrect submissions fail.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 94 — CNC Command Programming
+
+**Objective:** Write a robot program that collects three parts and drops each at its matching station.
+
+**How to play:** Add Move, Turn, Pick, Drop and Repeat Twice commands; run the program to see what happens.
+
+**How to win / how you can fail:** All three parts must be delivered correctly within fourteen instruction slots. Three failed executions end the stage.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 95 — Stator Ring Assembly
+
+**Objective:** Put eight ring sectors in the correct order and orientation.
+
+**How to play:** Use the swap control to exchange adjacent sectors. Rotate an individual sector left or right by 45 degrees to match its reference arrow.
+
+**How to win / how you can fail:** Finish the full reference pattern within sixteen actions.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 96 — Automation Scheduler
+
+**Objective:** Fit eight jobs onto four available machine timelines.
+
+**How to play:** Select or drag a job to an allowed machine lane and choose its start time. Check the job's length and any overlap with existing work.
+
+**How to win / how you can fail:** All eight jobs must fit before virtual time twelve with no overlaps.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 97 — Servo Wave Matching
+
+**Objective:** Make four adjustable signal curves overlap their target curves.
+
+**How to play:** For each curve adjust Frequency, Amplitude and Phase, then compare the copper-colored line with the teal reference. Press Lock when ready.
+
+**How to win / how you can fail:** All four curves must stay close enough for two seconds. Five bad lock attempts fail.
+
+**Beginner tutorial visual:** Spotlight the relevant key/button, animate a press on a practice example, then show the target region and failure boundary.
+
+
+### ID 98 — Conveyor Sorting
+
+**Objective:** Send twenty moving tokens to one of three matching exits.
+
+**How to play:** Look at the token's symbol or color, then press exit 1, 2 or 3 before the next token advances.
+
+**How to win / how you can fail:** Only two wrong routes are allowed; a third error ends the stage.
+
+**Beginner tutorial visual:** Spotlight the relevant key/button, animate a press on a practice example, then show the target region and failure boundary.
+
+
+### ID 99 — PLC Logic Puzzle
+
+**Objective:** Make the six connected logic sockets produce every required test result.
+
+**How to play:** Choose AND, OR or NOT for each socket. Follow its displayed input connections and compare output values across the four listed input cases.
+
+**How to win / how you can fail:** Run all four cases successfully. Three failed validations end the stage.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 100 — Breaker Dependency Puzzle
+
+**Objective:** Activate all eight nodes in an order their dependencies permit.
+
+**How to play:** Read the Needs list on each node. Start with a node that needs nothing, then activate nodes only after all their prerequisites show complete.
+
+**How to win / how you can fail:** Activate all nodes. A third dependency mistake fails.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 101 — Three-Phase Balance
+
+**Objective:** Distribute twelve tokens across three phase meters.
+
+**How to play:** Adjust the three phase amounts while checking each displayed target and maximum capacity.
+
+**How to win / how you can fail:** Use exactly twelve tokens; each amount must be within one of its target and below its capacity. Three incorrect checks fail.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 102 — Grid Route Optimizer
+
+**Objective:** Join five starred stations through a blocked grid.
+
+**How to play:** Tap passable cells to place or remove cable segments and create one connected network linking every starred point.
+
+**How to win / how you can fail:** Use at most twenty cable segments and do not route through blocked squares.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 103 — Converter Synchronization
+
+**Objective:** Press SYNC when all three moving markers are in their highlighted windows together.
+
+**How to play:** Watch the two horizontal indicators and the vertical indicator. Wait for the moment all three are inside their own green bands, then tap SYNC.
+
+**How to win / how you can fail:** You have three synchronization attempts.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 104 — Superconducting Ring Calibration
+
+**Objective:** Match the twelve position symbols to the displayed target.
+
+**How to play:** Tap a position to advance its state. The two immediate neighbours also advance, so watch the full ring after each click.
+
+**How to win / how you can fail:** Match every position within twenty actions.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 105 — Cryogenic Stability
+
+**Objective:** Keep three simulated temperatures in their safe bands.
+
+**How to play:** Share ten cooling points across the three cooling channels; adjust the controls as the temperature readings drift.
+
+**How to win / how you can fail:** Keep all temperatures safe for four seconds. If the instability meter fills, the stage fails.
+
+**Beginner tutorial visual:** Spotlight one control or slider, demonstrate a small adjustment, then spotlight its matching changing meter; reveal the goal band and hold requirement.
+
+
+### ID 106 — Copper Separation Sorting
+
+**Objective:** Sort twenty-four labeled tokens into their corresponding outlets.
+
+**How to play:** Read each token's visible symbol, then press the matching one of three outlet buttons before its timer expires.
+
+**How to win / how you can fail:** The third wrong or missed route ends the stage.
+
+**Beginner tutorial visual:** Spotlight the relevant key/button, animate a press on a practice example, then show the target region and failure boundary.
+
+
+### ID 107 — Research Instrument Alignment
+
+**Objective:** Turn six connected instrument arms to their reference directions.
+
+**How to play:** Tap an arm to rotate it clockwise by 60 degrees. Its clockwise neighbour turns too, so plan around that side effect.
+
+**How to win / how you can fail:** All six arms must match within eighteen actions.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 108 — Rotor Balance
+
+**Objective:** Arrange eight positive and negative blocks to cancel out horizontal and vertical force.
+
+**How to play:** Select a +1 or −1 block and place it into one of the eight labelled positions around the rotor. Watch the two vector totals.
+
+**How to win / how you can fail:** Place all four +1 and four −1 blocks; both vector totals must equal zero.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 109 — Data Center Cooling Network
+
+**Objective:** Connect the cooling source to all three server-rack inlets without leaks.
+
+**How to play:** Rotate the pipe pieces until each required inlet connects through continuous pipe paths. Check that unused open pipe ends do not leak.
+
+**How to win / how you can fail:** Every rack must be connected and the completed network must be sealed.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 110 — Gantry Path Programming
+
+**Objective:** Visit stations 1, 2, 3 and 4 in order, then reach DOCK.
+
+**How to play:** Select up to six waypoints to shape the gantry's route. Use Clear to redesign the path; press Run to test it.
+
+**How to win / how you can fail:** Visit stations in number order and reach the dock within twenty-two grid steps.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 111 — Motor Vibration Analyzer
+
+**Objective:** Match the combined vibration trace to the target waveform.
+
+**How to play:** Move the Low, Mid and High harmonic sliders, watching how each changes the copper-colored combined curve.
+
+**How to win / how you can fail:** Keep the waveform error below the shown threshold for three seconds without filling instability.
+
+**Beginner tutorial visual:** Spotlight one control or slider, demonstrate a small adjustment, then spotlight its matching changing meter; reveal the goal band and hold requirement.
+
+
+### ID 112 — Converter Module Network
+
+**Objective:** Rotate four connection modules into one working route.
+
+**How to play:** Tap module controls to turn their ports until the power input reaches the required outputs through matching openings.
+
+**How to win / how you can fail:** Complete all output connections within fifteen actions.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 113 — Turbine Synchronization
+
+**Objective:** Make both turbines spin at nearly the same speed and angle.
+
+**How to play:** Use separate speed and phase buttons for rotor 1 and rotor 2. Watch both values, then press Lock when they line up.
+
+**How to win / how you can fail:** Maintain speed difference below 3% and phase difference below twelve degrees for two seconds. Three bad locks fail.
+
+**Beginner tutorial visual:** Spotlight the animated reference first; show a harmless sample playback and then spotlight the response buttons without revealing the live pattern.
+
+
+### ID 114 — Supercomputer Packet Routing
+
+**Objective:** Deliver each labeled data packet to its matching destination.
+
+**How to play:** For each round choose the next reachable node for every packet, or Stay. Check blocked links and how many packets each link can carry.
+
+**How to win / how you can fail:** All packets must arrive within eight rounds without exceeding link capacity.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 115 — Industrial Command Priorities
+
+**Objective:** Put six jobs in a schedule that meets every deadline.
+
+**How to play:** Read each job's duration, priority and due time, then tap jobs in the order you want them run. Check the resulting ten-slot timeline.
+
+**How to win / how you can fail:** Fit all jobs before their deadlines. Especially protect priority-three critical jobs.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 116 — Generator Array Balancing
+
+**Objective:** Produce the requested combined output while keeping generators balanced.
+
+**How to play:** Move the three generator sliders, checking both the total output and the gap between the largest and smallest outputs.
+
+**How to win / how you can fail:** Keep total output within 1% of target and spread within the displayed limit for three seconds.
+
+**Beginner tutorial visual:** Spotlight one control or slider, demonstrate a small adjustment, then spotlight its matching changing meter; reveal the goal band and hold requirement.
+
+
+### ID 117 — Experimental Control Matrix
+
+**Objective:** Fill a 5-by-5 symbol board without repeating a symbol in any row or column.
+
+**How to play:** Tap an unlocked square to cycle its symbol. Leave the fixed clue squares unchanged; compare each row and column as you fill.
+
+**How to win / how you can fail:** Each of the five symbols must appear exactly once in every row and every column.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 118 — Megafactory Logistics
+
+**Objective:** Route three packets from their starting points to their matching exits.
+
+**How to play:** Tap direction arrows to rotate their paths, then press Simulate to test where all three packets travel.
+
+**How to win / how you can fail:** All three must arrive within twenty ticks without entering walls, colliding or swapping positions.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 119 — Central Power Complex Finale
+
+**Objective:** Complete the three connected finale sections.
+
+**How to play:** First rotate and connect six power modules. Next divide the available energy between four destinations. Finally synchronize two discs and one moving marker.
+
+**How to win / how you can fail:** Complete all three sections within the shared three-error allowance.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+## Gold challenge 1001–1007 (same mechanic)
+
+
+### ID 1001 — Gold Panning
+
+**Objective:** Keep the gold marker inside its green pocket until each round finishes.
+
+**How to play:** Tilt the pan using the slider, Left/Right controls or on-screen buttons. Tap Shake occasionally to clear sediment, then let the pan settle.
+
+**How to win / how you can fail:** Complete three increasingly difficult rounds. Leaving the pocket too long or shaking until instability fills fails; you may retry.
+
+**Beginner tutorial visual:** Spotlight one control or slider, demonstrate a small adjustment, then spotlight its matching changing meter; reveal the goal band and hold requirement.
+
+
+### ID 1002 — Gold Panning Round Set 2
+
+**Objective:** Keep the gold marker inside its green pocket until each round finishes.
+
+**How to play:** Tilt the pan using the slider, Left/Right controls or on-screen buttons. Tap Shake occasionally to clear sediment, then let the pan settle.
+
+**How to win / how you can fail:** Complete three increasingly difficult rounds. Leaving the pocket too long or shaking until instability fills fails; you may retry. Higher claim levels can add stronger currents or moving pockets; follow the live green marker.
+
+**Beginner tutorial visual:** Spotlight one control or slider, demonstrate a small adjustment, then spotlight its matching changing meter; reveal the goal band and hold requirement.
+
+
+### ID 1003 — Gold Panning Round Set 3
+
+**Objective:** Keep the gold marker inside its green pocket until each round finishes.
+
+**How to play:** Tilt the pan using the slider, Left/Right controls or on-screen buttons. Tap Shake occasionally to clear sediment, then let the pan settle.
+
+**How to win / how you can fail:** Complete three increasingly difficult rounds. Leaving the pocket too long or shaking until instability fills fails; you may retry. Higher claim levels can add stronger currents or moving pockets; follow the live green marker.
+
+**Beginner tutorial visual:** Spotlight one control or slider, demonstrate a small adjustment, then spotlight its matching changing meter; reveal the goal band and hold requirement.
+
+
+### ID 1004 — Gold Panning Round Set 4
+
+**Objective:** Keep the gold marker inside its green pocket until each round finishes.
+
+**How to play:** Tilt the pan using the slider, Left/Right controls or on-screen buttons. Tap Shake occasionally to clear sediment, then let the pan settle.
+
+**How to win / how you can fail:** Complete three increasingly difficult rounds. Leaving the pocket too long or shaking until instability fills fails; you may retry. Higher claim levels can add stronger currents or moving pockets; follow the live green marker.
+
+**Beginner tutorial visual:** Spotlight one control or slider, demonstrate a small adjustment, then spotlight its matching changing meter; reveal the goal band and hold requirement.
+
+
+### ID 1005 — Gold Panning Round Set 5
+
+**Objective:** Keep the gold marker inside its green pocket until each round finishes.
+
+**How to play:** Tilt the pan using the slider, Left/Right controls or on-screen buttons. Tap Shake occasionally to clear sediment, then let the pan settle.
+
+**How to win / how you can fail:** Complete three increasingly difficult rounds. Leaving the pocket too long or shaking until instability fills fails; you may retry. Higher claim levels can add stronger currents or moving pockets; follow the live green marker.
+
+**Beginner tutorial visual:** Spotlight one control or slider, demonstrate a small adjustment, then spotlight its matching changing meter; reveal the goal band and hold requirement.
+
+
+### ID 1006 — Gold Panning Round Set 6
+
+**Objective:** Keep the gold marker inside its green pocket until each round finishes.
+
+**How to play:** Tilt the pan using the slider, Left/Right controls or on-screen buttons. Tap Shake occasionally to clear sediment, then let the pan settle.
+
+**How to win / how you can fail:** Complete three increasingly difficult rounds. Leaving the pocket too long or shaking until instability fills fails; you may retry. Higher claim levels can add stronger currents or moving pockets; follow the live green marker.
+
+**Beginner tutorial visual:** Spotlight one control or slider, demonstrate a small adjustment, then spotlight its matching changing meter; reveal the goal band and hold requirement.
+
+
+### ID 1007 — Gold Panning Round Set 7
+
+**Objective:** Keep the gold marker inside its green pocket until each round finishes.
+
+**How to play:** Tilt the pan using the slider, Left/Right controls or on-screen buttons. Tap Shake occasionally to clear sediment, then let the pan settle.
+
+**How to win / how you can fail:** Complete three increasingly difficult rounds. Leaving the pocket too long or shaking until instability fills fails; you may retry. Higher claim levels can add stronger currents or moving pockets; follow the live green marker.
+
+**Beginner tutorial visual:** Spotlight one control or slider, demonstrate a small adjustment, then spotlight its matching changing meter; reveal the goal band and hold requirement.
+
+
+## Factory signatures 2001–2030
+
+
+### ID 2001 — Wire Winding
+
+**Objective:** Stop the spool pointer inside the highlighted winding window six times.
+
+**How to play:** Watch the rotating marker. Tap WIND whenever it enters the target region, then prepare for the next pass.
+
+**How to win / how you can fail:** You need six accurate hits within nine total attempts; the target gradually becomes smaller.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 2002 — Cable Insulation Alignment
+
+**Objective:** Place three differently marked layers into their matching cable rings.
+
+**How to play:** Select or drag a layer, then tap the ring with the same color or shape. Work from inner ring to outer ring if that helps you track placements.
+
+**How to win / how you can fail:** All three must match within thirty seconds. Three incorrect placements fail.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 2003 — Pipe Bending Pattern
+
+**Objective:** Make the four adjustable pipe curves match the reference drawings.
+
+**How to play:** Compare the reference pipes above with the working pieces below. Rotate a curve or swap it into the next position as needed.
+
+**How to win / how you can fail:** Match both curve order and direction within twelve actions.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 2004 — Copper Sheet Pressing
+
+**Objective:** Match the target thickness on five successive presses.
+
+**How to play:** Read the displayed thickness target for the current round, adjust the Thickness slider, and tap PRESS to check.
+
+**How to win / how you can fail:** Each press must be within five units of its target; only two bad presses are allowed.
+
+**Beginner tutorial visual:** Spotlight one control or slider, demonstrate a small adjustment, then spotlight its matching changing meter; reveal the goal band and hold requirement.
+
+
+### ID 2005 — Cooling Tube Routing
+
+**Objective:** Build a sealed pipe route from IN to OUT.
+
+**How to play:** Tap each pipe tile to rotate its openings. Follow the route from IN and check that all pipe ends connect correctly before testing.
+
+**How to win / how you can fail:** No disconnected pipe ends or leaks are allowed in the completed route.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 2006 — Motor Coil Winding
+
+**Objective:** Repeat the six glowing coil locations in the order shown.
+
+**How to play:** Watch the six flashes without touching the grid, then tap the same positions in sequence once the input phase starts.
+
+**How to win / how you can fail:** Two sequence mistakes are tolerated; a further error fails.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 2007 — Transformer Coil Matching
+
+**Objective:** Share fifteen winding tokens between coils A, B and C.
+
+**How to play:** Read the three requested winding amounts. Adjust each coil's value until it matches its target, then Submit.
+
+**How to win / how you can fail:** Use all fifteen tokens and match each requested amount exactly.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 2008 — Wiring Harness Assembly
+
+**Objective:** Connect five labeled wires to their matching terminals.
+
+**How to play:** Select or drag each wire, compare its label or symbol with the terminal labels, and place it on the correct one.
+
+**How to win / how you can fail:** All five matches are needed. Only two incorrect placements are tolerated.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 2009 — Stator Segment Alignment
+
+**Objective:** Restore six curved stator pieces to their numbered order and upright orientation.
+
+**How to play:** Use Swap Adjacent to move pieces into positions one through six, then rotate each winding marker to point up.
+
+**How to win / how you can fail:** Finish within twelve allowed moves; order AND orientation must match.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 2010 — Heat Exchanger Flow
+
+**Objective:** Build two separate sealed pipe paths across the board.
+
+**How to play:** Rotate pipe tiles so the upper IN connects only to its upper OUT and the lower IN connects only to the lower OUT.
+
+**How to win / how you can fail:** The two routes may not cross, leak or leave unmatched ends.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 2011 — Precision Connector Inspection
+
+**Objective:** Find the three connectors whose pins differ from the reference.
+
+**How to play:** Study the reference connector, then inspect the twelve numbered drawings and tap the three with a visibly shorter pin.
+
+**How to win / how you can fail:** Only one incorrect selection is allowed. Choose differences, not ordinary matching connectors.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 2012 — Busbar Placement
+
+**Objective:** Bridge all four marked terminal pairs with the available bar pieces.
+
+**How to play:** Select a bar, then tap the grid position where it should begin. Check its length against the row's start and end terminals.
+
+**How to win / how you can fail:** Each pair needs a continuous bar, with no overlapping bars; use at most ten placement actions.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 2013 — Cooling Module Calibration
+
+**Objective:** Hold all three fan readings inside their safe ranges.
+
+**How to play:** Adjust fans A, B and C using their sliders. Watch the moving targets and correct readings that drift toward the edges.
+
+**How to win / how you can fail:** All three must remain in their target ranges for three seconds before instability reaches its limit.
+
+**Beginner tutorial visual:** Spotlight one control or slider, demonstrate a small adjustment, then spotlight its matching changing meter; reveal the goal band and hold requirement.
+
+
+### ID 2014 — Cable Network Sequencing
+
+**Objective:** Connect six modules in an order that respects their dependencies.
+
+**How to play:** Read the prerequisite numbers shown on every cable module. Activate modules with no unmet requirements, then continue in order.
+
+**How to win / how you can fail:** Activate every module; at most two dependency mistakes are permitted.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 2015 — Generator Phase Lock
+
+**Objective:** Stop three rotating pointers in their target sectors.
+
+**How to play:** Watch the first spinning pointer and press its STOP control in the highlighted zone. Repeat separately for the other rotors.
+
+**How to win / how you can fail:** Lock all three pointers. Only two bad stops are allowed.
+
+**Beginner tutorial visual:** Spotlight the animated reference first; show a harmless sample playback and then spotlight the response buttons without revealing the live pattern.
+
+
+### ID 2016 — Transformer Core Assembly
+
+**Objective:** Fit six shapes inside the highlighted outline.
+
+**How to play:** Select a core piece, rotate it with the Turn control, then tap the top-left placement square on the board.
+
+**How to win / how you can fail:** Fit every piece inside the outline without overlapping another, within fifteen actions.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 2017 — Grid Distribution Puzzle
+
+**Objective:** Allocate the available virtual power across the displayed load branches.
+
+**How to play:** Use the branch sliders and read each branch's minimum and maximum. Check that the total uses the available pool correctly.
+
+**How to win / how you can fail:** Respect every minimum, maximum and the overall resource total; no more than three wrong validations.
+
+**Beginner tutorial visual:** Spotlight one control or slider, demonstrate a small adjustment, then spotlight its matching changing meter; reveal the goal band and hold requirement.
+
+
+### ID 2018 — Motor Shaft Alignment
+
+**Objective:** Line up two virtual shafts on both horizontal and vertical axes.
+
+**How to play:** Adjust the four offsets: shaft A left-right/up-down and shaft B left-right/up-down. Watch all target readings.
+
+**How to win / how you can fail:** Keep both shafts within the shown alignment tolerance for two seconds.
+
+**Beginner tutorial visual:** Spotlight the animated reference first; show a harmless sample playback and then spotlight the response buttons without revealing the live pattern.
+
+
+### ID 2019 — Converter Frequency Control
+
+**Objective:** Match two frequency readings and one phase reading to the references.
+
+**How to play:** Adjust Frequency A, Frequency B and Phase using their sliders. Compare each current value with its printed reference, then LOCK.
+
+**How to win / how you can fail:** All three must be within three units of their targets; three incorrect locks fail.
+
+**Beginner tutorial visual:** Spotlight one control or slider, demonstrate a small adjustment, then spotlight its matching changing meter; reveal the goal band and hold requirement.
+
+
+### ID 2020 — Substation Routing
+
+**Objective:** Connect four marked stations through a grid of cable spaces.
+
+**How to play:** Tap passable squares to place or remove cable segments. Keep away from blocked squares and connect all station symbols.
+
+**How to win / how you can fail:** Use no more than sixteen cable pieces and verify the complete network.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 2021 — Generator Module Sequencing
+
+**Objective:** Activate six generator modules after their prerequisites are complete.
+
+**How to play:** Read each module's incoming dependency arrows, start with eligible modules, and work forward until all are active.
+
+**How to win / how you can fail:** Activating a module too early is a mistake; only two are tolerated.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 2022 — Continental Grid Planning
+
+**Objective:** Choose six links that connect the seven stations at acceptable total cost.
+
+**How to play:** Tap connection options to turn them on or off. Compare their costs and check whether the entire set forms one connected grid.
+
+**How to win / how you can fail:** Use exactly six links, keep within the shown budget and connect all stations.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 2023 — Megaplant Conveyor Management
+
+**Objective:** Send twenty-five labeled items to their matching chutes.
+
+**How to play:** Read the moving item's symbol and press chute 1, 2 or 3 before it reaches the dispatch point.
+
+**How to win / how you can fail:** A third wrong dispatch ends the stage.
+
+**Beginner tutorial visual:** Spotlight the relevant key/button, animate a press on a practice example, then show the target region and failure boundary.
+
+
+### ID 2024 — Infrastructure Assembly Planner
+
+**Objective:** Pack the six shown schematic shapes into the grid.
+
+**How to play:** Select a shape, rotate it if necessary and tap its intended top-left placement square. Check the marked pairs that must touch.
+
+**How to win / how you can fail:** Fit pieces inside the grid without overlaps and satisfy every required touching pair.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 2025 — Industrial Power Complex Finale
+
+**Objective:** Finish three linked industrial certification puzzles.
+
+**How to play:** First connect the six-module power network. Next allocate its energy to four facilities. Finally synchronize the three moving indicators.
+
+**How to win / how you can fail:** Each section depends on the previous one. Stay within the shared mistake limit.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+### ID 2026 — Precision Quality Scan
+
+**Objective:** Decide whether each of ten products matches the reference.
+
+**How to play:** Compare the current product's connector drawing with the reference. Press PASS if it matches, or REWORK if it has a different pin.
+
+**How to win / how you can fail:** Classify at least nine of the ten products correctly.
+
+**Beginner tutorial visual:** Spotlight the relevant key/button, animate a press on a practice example, then show the target region and failure boundary.
+
+
+### ID 2027 — Production Optimization
+
+**Objective:** Schedule eight jobs on three machines before the deadline.
+
+**How to play:** Select each job, read which lanes it can use, and place it into an open starting slot on one of those lanes.
+
+**How to win / how you can fail:** All jobs must fit before time eight without overlapping on a machine.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 2028 — Freight Container Packing
+
+**Objective:** Fit ten differently shaped cargo pieces into the container grid.
+
+**How to play:** Select a piece, rotate it into a useful direction, then tap where its top-left corner should be placed.
+
+**How to win / how you can fail:** Every shape must fit completely inside the packing grid without overlapping another piece.
+
+**Beginner tutorial visual:** Spotlight the first selectable object, show a harmless sample tap, then spotlight the affected object/result and the relevant mistake or move counter.
+
+
+### ID 2029 — Supply Chain Synchronization
+
+**Objective:** Time five stations so each handoff arrives inside the next station's receiving window.
+
+**How to play:** Adjust the five start offsets, watching the indicated travel times and target receiving windows.
+
+**How to win / how you can fail:** All handoffs must stay in their acceptable windows for three seconds.
+
+**Beginner tutorial visual:** Spotlight the animated reference first; show a harmless sample playback and then spotlight the response buttons without revealing the live pattern.
+
+
+### ID 2030 — Master Industrial Certification
+
+**Objective:** Pass three short challenges drawn from precision, logic and logistics.
+
+**How to play:** Read the name and instructions of each currently presented challenge. Complete it, then follow the next section's separate controls.
+
+**How to win / how you can fail:** You must pass all three sections. This tutorial should show a new brief explanation when the challenge type changes.
+
+**Beginner tutorial visual:** Spotlight the goal and the board, demonstrate the first harmless control action using a practice example, and show the visible limit indicator.
+
+
+---
+
+## CODEX DELIVERY CONTRACT
+
+- Implement, don't simply propose. Prepare a reviewable pull request with actual instruction mapping and interactive tutorial framework.
+- For each ID, supply an implementation coverage report confirming that the text is displayed, both pointer/touch and keyboard control help is accurate, first-play tutorial triggers once, tutorial can be skipped and replayed, and no real state is mutated during demonstrations.
+- The wording above is the authored source of truth. Any game-engine discrepancy must be fixed by correcting the instruction text to match actual mechanics, NOT by silently changing gameplay rules.
+- If the UI has composite IDs or additional minigames beyond the listed 156 IDs, inventory them and report them explicitly, and write equally specific new instructions before claiming 100% coverage. Do not rely on generic text for those.
+- Keep a machine-readable instruction registry (e.g. `MINIGAME_GUIDES[id] = {objective, howTo, win, fail, tip, tutorialSteps}`) instead of giant hand-built HTML concatenation. Render with safe escaping. Add a test that every registry item has all required fields and tutorial targets resolve.
+- Save completion in the existing unified workshop's state, sync normally with the 15-minute cloud schedule (no extra write per tutorial step); for offline/guest players persist immediately locally.
+- The word **once** applies separately to each minigame ID, not to the game as a whole. Replay must never overwrite 'seen' status.
+- Test the production build and pre-existing regression suite. Report exact tests run, failures, unverified UI behaviors, and screenshots or short capture of representative tutorials if feasible.
+
+**DONE means the actual game now teaches every minigame properly, using THESE explicit words, with a one-time guided walkthrough and a Settings replay option.**
