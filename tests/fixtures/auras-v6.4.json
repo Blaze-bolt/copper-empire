@@ -1,0 +1,231 @@
+[
+  {
+    "id": "rusty",
+    "name": "Rusty Aura",
+    "odds": null,
+    "effect": {
+      "recovery": 5
+    },
+    "ability": "+5% copper recovery",
+    "index": 0,
+    "color": "#9c775e"
+  },
+  {
+    "id": "glow",
+    "name": "Copper Glow",
+    "odds": 5,
+    "effect": {
+      "recovery": 10
+    },
+    "ability": "+10% copper recovery",
+    "index": 1,
+    "color": "#e69155"
+  },
+  {
+    "id": "bronze",
+    "name": "Bronze Radiance",
+    "odds": 25,
+    "effect": {
+      "xp": 15
+    },
+    "ability": "+15% earned XP",
+    "index": 2,
+    "color": "#d1a556"
+  },
+  {
+    "id": "electric",
+    "name": "Electric Copper",
+    "odds": 100,
+    "effect": {
+      "recovery": 20
+    },
+    "ability": "+20% copper recovery",
+    "index": 3,
+    "color": "#57c6c2"
+  },
+  {
+    "id": "plasma",
+    "name": "Plasma Core",
+    "odds": 500,
+    "effect": {
+      "smelting": 25
+    },
+    "ability": "+25% smelting speed",
+    "index": 4,
+    "color": "#c686f0"
+  },
+  {
+    "id": "storm",
+    "name": "Storm Conductor",
+    "odds": 5000,
+    "effect": {
+      "xp": 30,
+      "recovery": 10
+    },
+    "ability": "+30% XP · +10% copper recovery",
+    "index": 5,
+    "color": "#7ca9ff"
+  },
+  {
+    "id": "ancient",
+    "name": "Ancient Copper Spirit",
+    "odds": 25000,
+    "effect": {
+      "recovery": 40
+    },
+    "ability": "+40% copper recovery",
+    "index": 6,
+    "color": "#7edba4"
+  },
+  {
+    "id": "celestial",
+    "name": "Celestial Copper",
+    "odds": 100000,
+    "effect": {
+      "recovery": 50
+    },
+    "ability": "+50% copper recovery",
+    "index": 7,
+    "color": "#ffe5a0"
+  },
+  {
+    "id": "molten",
+    "name": "Molten Heart",
+    "odds": 250000,
+    "effect": {
+      "smelting": 60
+    },
+    "ability": "+60% smelting speed",
+    "index": 8,
+    "color": "#ff7149"
+  },
+  {
+    "id": "quantum",
+    "name": "Quantum Circuit",
+    "odds": 500000,
+    "effect": {
+      "xp": 50,
+      "recovery": 25
+    },
+    "ability": "+50% XP · +25% copper recovery",
+    "index": 9,
+    "color": "#80fff1"
+  },
+  {
+    "id": "eclipse",
+    "name": "Copper Eclipse",
+    "odds": 1000000,
+    "effect": {
+      "fee": 3
+    },
+    "ability": "−3% manufacturing fees",
+    "index": 10,
+    "color": "#e2aa86"
+  },
+  {
+    "id": "void",
+    "name": "Void Conductor",
+    "odds": 2500000,
+    "effect": {
+      "xp": 80,
+      "recovery": 40
+    },
+    "ability": "+80% XP · +40% copper recovery",
+    "index": 11,
+    "color": "#b394ff"
+  },
+  {
+    "id": "neon",
+    "name": "Neon Foundry",
+    "odds": 5000000,
+    "effect": {
+      "factory": 50
+    },
+    "ability": "+50% factory production speed",
+    "index": 12,
+    "color": "#f589df"
+  },
+  {
+    "id": "galactic",
+    "name": "Galactic Copper",
+    "odds": 10000000,
+    "effect": {
+      "recovery": 100
+    },
+    "ability": "+100% copper recovery",
+    "index": 13,
+    "color": "#86c8ff"
+  },
+  {
+    "id": "primordial",
+    "name": "Primordial Core",
+    "odds": 25000000,
+    "effect": {
+      "recovery": 125
+    },
+    "ability": "+125% copper recovery",
+    "index": 14,
+    "color": "#f4bc6a"
+  },
+  {
+    "id": "singularity",
+    "name": "Copper Singularity",
+    "odds": 100000000,
+    "effect": {
+      "recovery": 150,
+      "xp": 75
+    },
+    "ability": "+150% copper recovery · +75% XP",
+    "index": 15,
+    "color": "#b7a1ff"
+  },
+  {
+    "id": "eternal",
+    "name": "Eternal Furnace",
+    "odds": 250000000,
+    "effect": {
+      "smelting": 100,
+      "factory": 100
+    },
+    "ability": "+100% smelting and factory speed",
+    "index": 16,
+    "color": "#ffbd89"
+  },
+  {
+    "id": "cosmic",
+    "name": "Cosmic Copperstorm",
+    "odds": 500000000,
+    "effect": {
+      "recovery": 200,
+      "xp": 100
+    },
+    "ability": "+200% copper recovery · +100% XP",
+    "index": 17,
+    "color": "#92edff"
+  },
+  {
+    "id": "reality",
+    "name": "Reality Breaker",
+    "odds": 1000000000,
+    "effect": {
+      "recovery": 250,
+      "xp": 125
+    },
+    "ability": "+250% copper recovery · +125% XP",
+    "index": 18,
+    "color": "#ff99bb"
+  },
+  {
+    "id": "god",
+    "name": "Copper God",
+    "odds": 10000000000,
+    "effect": {
+      "recovery": 300,
+      "xp": 150,
+      "factory": 50
+    },
+    "ability": "+300% copper recovery · +150% XP · +50% factory speed",
+    "index": 19,
+    "color": "#fff1ac"
+  }
+]
