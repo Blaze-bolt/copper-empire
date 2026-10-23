@@ -2,6 +2,7 @@ import test from 'node:test';import assert from 'node:assert/strict';
 import * as E from '../src/empire/state.js';
 import {UNIFIED_KEY,SYNC_INTERVAL,validateSnapshot,clone,candidate,selectMigration,statePatch,applyPatch,canonical} from '../src/unified/save.js';
 import {UnifiedSync} from '../src/unified/sync.js';
+import {completeTutorial,tutorialSeen} from '../src/empire/tutorial-state.js';
 import {auraForgeView} from '../src/empire/aura-ui.js';
 import {unifiedAccountView,saveComparison} from '../src/unified/ui.js';
 const uid='11000000-0000-4000-8000-000000000001';
@@ -10,6 +11,9 @@ const state=(a=0,r=0)=>{const s=E.newState(0);s.ascension.level=a;s.compressionA
 const meta=(parent=null)=>({schema:1,id:crypto.randomUUID(),parent,root:'root',lineage:[],ownerId:uid,migrated:true});
 function controller(){let s=state(),time=0,account=uid,current=null,calls=[],failure=null,delay=null;const disk=storage();const api=async b=>{calls.push(clone(b));if(failure)throw failure;if(b.command==='unified-load')return {current:clone(current),token:'sources'};if(delay)await delay;current={state:clone(b.state||applyPatch(current.state,b.patch)),meta:clone(b.meta),revision:(current?.revision||0)+1};return clone(current);};const sync=new UnifiedSync({storage:disk,state:()=>s,apply:n=>s=n,api,account:()=>account,now:()=>time,locks:null});return {sync,disk,calls,get s(){return s;},set s(n){s=n;},set time(n){time=n;},get time(){return time;},set failure(e){failure=e;},set delay(d){delay=d;},set current(n){current=n;},get current(){return current;},set account(a){account=a;}};}
 async function connected(){const f=controller();await f.sync.connect();await f.sync.choose('device');f.calls.length=0;return f;}
+
+test('cloud continuation unions completed tutorials and keeps the missing metadata dirty until accepted',async()=>{const f=await connected();completeTutorial(f.s,5);f.sync.save();const remote=clone(f.current);completeTutorial(remote.state,6);remote.revision++;remote.meta=meta(f.current.meta.id);await f.sync.acceptRemote(remote);assert.ok(tutorialSeen(f.s,5));assert.ok(tutorialSeen(f.s,6));assert.equal(f.sync.doc.dirty,true);assert.equal(tutorialSeen(f.sync.base,5),false);assert.equal(tutorialSeen(f.sync.base,6),true);assert.equal(f.s.money,remote.state.money);});
+test('tutorial completions use the normal 15-minute upload and survive conflict/recovery selection',async()=>{const f=await connected();completeTutorial(f.s,7);f.sync.save();assert.equal(f.calls.length,0);f.time=SYNC_INTERVAL-1;await f.sync.tick();assert.equal(f.calls.length,0);f.time=SYNC_INTERVAL;await f.sync.tick();assert.ok(tutorialSeen(f.current.state,7));const copy=state();completeTutorial(copy,8);f.sync.importSave(copy,'QA earlier coherent copy');assert.ok(tutorialSeen(f.s,7));assert.ok(tutorialSeen(f.s,8));});
 
 test('migration: Ascension always beats Rebirth and timestamps never override progression',()=>{const result=selectMigration([candidate('device',state(2,5),{updatedAt:1}),candidate('cloud',state(1,26),{updatedAt:999999})]);assert.equal(result.recommended,'device');assert.deepEqual(result.eligible,['device']);});
 test('migration: equal Ascension uses higher Rebirth across all three original sources',()=>{assert.equal(selectMigration([candidate('device',state(1,12)),candidate('legacy-main',state(1,11)),candidate('cloud-backup',state(1,14))]).recommended,'cloud-backup');});
