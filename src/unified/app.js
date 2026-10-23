@@ -1,4 +1,5 @@
 import {candidate,clone,validateSnapshot} from './save.js';
+import {mergeTutorials} from '../empire/tutorial-state.js';
 import {saveComparison,conflictView} from './ui.js';
 import {money,copper} from '../empire/data.js';
 const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -12,7 +13,7 @@ export function connectUnifiedUI({unified:u,online:o,modal,close,render,toast,st
    if(action==='connect'){await u.connect();show();}
    if(action==='review')show();
    if(action==='choose'){const source=el.dataset.source;if(u.plan?.kind==='resolution')await u.resolveConflict(source);else if(u.plan?.kind==='tab'){
-    const previous=clone(state()),other=u.readDisk();if(!other)throw Error('The other copy is unavailable; export this save first.');u.doc=other;u.archive('Alternate tab',previous);if(source==='device')u.importSave(previous,'Other tab before confirmed replacement');else u.apply(validateSnapshot(other.state));u.conflict=null;u.plan=null;u.persistDocument({...u.doc});
+    const previous=clone(state()),other=u.readDisk();if(!other)throw Error('The other copy is unavailable; export this save first.');mergeTutorials(previous,other.state);mergeTutorials(other.state,previous);u.doc=other;u.archive('Alternate tab',previous);if(source==='device')u.importSave(previous,'Other tab before confirmed replacement');else u.apply(validateSnapshot(other.state));u.conflict=null;u.plan=null;u.persistDocument({...u.doc});
    }else await u.choose(source);close();render();toast('Selected workshop preserved and connected. Alternatives remain recoverable.');}
    if(action==='conflict-review'){
     if(u.conflict?.kind==='tab'||u.conflict?.kind==='storage'){const other=u.readDisk();u.plan={kind:'tab',candidates:[candidate('device',state(),u.doc),candidate('other-tab',other.state,other)],eligible:['device','other-tab'],reason:'Both browser tabs contain changes. Explicitly choose the complete copy to keep; the other is archived.'};}
