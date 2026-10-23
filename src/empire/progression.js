@@ -1,4 +1,5 @@
 import {consumeCopper} from './copper-sales.js';
+import {tutorialDefaults} from './tutorial-state.js';
 // Permanent expansion progression. All quantities of metal are integer milligrams.
 import {DOLLAR,MG} from './data.js';
 import {auraDefaults} from './aura-forge.js';
@@ -69,6 +70,7 @@ export const GOLD_RESEARCH=[
  ['legacy','Golden Legacy',50000,250,1000000000,'recovery','Permanent workshop: +5% timing tolerance and one puzzle hint; requires Master Recycling and laboratory rank 2']
 ].map(([id,name,gold,kg,money,prerequisite,description],i)=>({id,name,gold:BigInt(gold),copper:BigInt(kg)*MG.kg,money:BigInt(money)*DOLLAR,prerequisite,description,component:i>=7?'masterAssembly':i>=4?'precisionPart':null}));
 export function expansionDefaults(s){
+ tutorialDefaults(s);
  industryDefaults(s);
  tradeDefaults(s);
  s.run.grades.EX??=0;s.stats.exRecoveries??=0;s.furnace.queue??=[];s.era2??={highestRebirth:0,signatures:[],milestones:{}};
