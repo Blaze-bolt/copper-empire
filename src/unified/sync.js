@@ -47,8 +47,8 @@ export class UnifiedSync {
    // Ordinary local actions may continue during a snapshot upload. Its response
    // only clears the exact generation captured, never newer local work.
    if(response.duplicate&&response.revision>response.settledRevision)throw Error('SAVE_CONFLICT: Your earlier request settled, then another device saved newer progress. Compare both copies.');
-   const current=this.state(),next=economic?validateSnapshot(response.state):current;mergeTutorials(next,current,response.state);
-   const doc={...this.doc,state:clone(next),cloudRevision:response.revision,syncedId:response.meta.id,lastSync:this.now(),id:economic?response.meta.id:this.doc.id,dirty:changed&&!economic,migrated:true,ownerId:this.account(),pending:null};
+   const current=this.state(),next=economic?validateSnapshot(response.state):current;mergeTutorials(next,current,response.state);const tutorialPending=canonical(next.tutorials)!==canonical(response.state.tutorials);
+   const doc={...this.doc,state:clone(next),cloudRevision:response.revision,syncedId:response.meta.id,lastSync:this.now(),id:economic?response.meta.id:this.doc.id,dirty:changed&&!economic||tutorialPending,migrated:true,ownerId:this.account(),pending:null};
    this.persistDocument(doc);this.base=clone(response.state);this.pending=null;this.lastMaterial=material(next);if(economic)this.apply(next);
    this.nextSync=this.now()+SYNC_INTERVAL;this.retryAt=0;this.failures=0;this.error='';this.onAccepted?.();this.notify();return response;
   }catch(error){if(error.definitive&&!/CONFLICT|STALE/.test(error.message)){this.pending=null;this.persistDocument({...this.doc,pending:null});}this.error=error.message;this.failures++;this.retryAt=this.now()+Math.min(SYNC_INTERVAL,15000*2**Math.min(6,this.failures-1));if(/CONFLICT|STALE/.test(error.message))this.conflict={kind:'cloud',local:clone(this.state()),message:error.message};this.notify();throw error;
