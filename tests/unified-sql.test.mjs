@@ -51,3 +51,17 @@ test('SQL legacy unified compression repair settles once and preserves valid pos
  await assert.rejects(run(id,{...await body(id),clientVersion:8}),/UPDATE_REQUIRED/);assert.equal((await load(id)).current.state.compression,1);
  const recovery=await db.query("select exists(select 1 from empire_private.unified_recoveries where user_id=$1 and state->>'compression'='6') as preserved",[id]);assert.equal(recovery.rows[0].preserved,true);
 });
+
+
+test('unified SQL: 20-aura migration and expanded rolls keep backups, finances, counts and retries coherent',async()=>{
+ const uid='66000000-0000-4000-8000-000000000004';await db.query('insert into auth.users values($1,$2)',[uid,{username:'expanded_unified'}]);
+ const {AURAS}=await import('../src/empire/aura-data.js');const s=rich(1,12);s.auras.glow=10n**30n;s.stats.rolls=10n**35n;s.auraForge.tier=16;s.equipped='glow';delete s.auraForge.catalogueVersion;for(const a of AURAS.filter(a=>a.isNew))delete s.auras[a.id];
+ await rpc('empire_load',{p_user:uid,p_initial:pack(s)});const original=(await db.query('select state from empire_private.players where user_id=$1',[uid])).rows[0].state;
+ await migrate(uid,s);const before=(await load(uid)).current;assert.equal(Object.keys(before.state.auras).length,34);assert.equal(before.state.equipped,'glow');
+ const rolled=clone(before.state),batch=E.rollAuras(rolled,100000000);const request=await body(uid,'unified-sync',rolled);
+ const first=unpack(await run(uid,request)),retry=unpack(await run(uid,request));assert.deepEqual(retry.state,first.state);assert.equal(Object.values(batch.counts).reduce((a,b)=>a+b,0n),100000000n);
+ assert.equal(before.state.money-first.state.money,100000000n*100n*1000000000n);assert.equal(first.state.stats.rolls-before.state.stats.rolls,100000000n);for(const a of AURAS)assert.equal(first.state.auras[a.id],before.state.auras[a.id]+batch.counts[a.id]);
+ assert.deepEqual(first.state.copper,before.state.copper);assert.deepEqual(first.state.gold,before.state.gold);assert.equal(first.state.ascension.ce,before.state.ascension.ce);
+ assert.deepEqual((await db.query('select state from empire_private.players where user_id=$1',[uid])).rows[0].state,original);
+ const synced=unpack(await run(uid,await body(uid)));assert.equal(synced.state.auras.crown,first.state.auras.crown);
+});

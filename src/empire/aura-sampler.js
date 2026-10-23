@@ -1,4 +1,4 @@
-import {AURAS,AURA_DENOMINATOR} from './aura-data.js';
+import {AURAS,AURA_DENOMINATOR,auraRatio} from './aura-data.js';
 
 // Hörmann's BTRD transformed rejection proposal (1993). Acceptance below uses
 // the binomial PMF ratio itself, not a normal/Poisson/Stirling approximation.
@@ -48,6 +48,6 @@ export function sampleAuras(n,random=secureUniform){
  const counts=Object.fromEntries(AURAS.map(a=>[a.id,0]));let remaining=n,weight=AURA_DENOMINATOR;
  // Rare first keeps tiny conditional probabilities stable. The common aura
  // receives the remaining trials, not an expected-value award.
- for(let i=AURAS.length-1;i>0;i--){const a=AURAS[i];counts[a.id]=binomial(remaining,a.weight/weight,random);remaining-=counts[a.id];weight-=a.weight;}
+ for(let i=AURAS.length-1;i>0;i--){const a=AURAS[i];counts[a.id]=binomial(remaining,auraRatio(a.weight,weight),random);remaining-=counts[a.id];weight-=a.weight;}
  counts.rusty=remaining;return counts;
 }
