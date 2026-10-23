@@ -45,7 +45,7 @@ export class OnlineWorkshop {
  async load(){const data=await this.api({command:'load',slot:this.slot});this.revision=data.revision;this.classification=data.classification||'verified';this.lastSync=Date.now();this.attempt=data.attempt;this.pending=null;this.error='';return data;}
  async command(command,payload={}){
   if(this.busy)throw Error('Your previous action is still saving. Please wait.');if(this.pending)throw Error('Retry your pending save from Account & Cloud before making another change.');this.busy=true;
-  const request={command,payload,slot:this.slot,requestId:crypto.randomUUID(),revision:this.revision};this.pending=request;
+  const request={command,payload,slot:this.slot,requestId:crypto.randomUUID(),revision:this.revision,...(this.tutorialMetadata?.()?{tutorialProgress:this.tutorialMetadata()}: {})};this.pending=request;
   try{return await this.send(request);}finally{this.busy=false;this.notify?.();}
  }
  async send(request){try{const data=await this.api(request);if(data.slot&&data.slot!==request.slot&&!(request.command==='admin-save'&&request.payload.action==='switch'))throw Error('Save slot mismatch. Refresh your workshop.');if(data.state){this.slot=data.slot||request.slot;this.revision=data.revision;this.classification=data.classification||'verified';this.attempt=data.attempt;}if(data.admin)this.admin=data.admin;this.lastSync=Date.now();this.pending=null;this.error='';return data;}catch(error){if(error.definitive)this.pending=null;this.error=error.message;this.notify?.();throw error;}}
