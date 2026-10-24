@@ -65,3 +65,13 @@ test('unified SQL: 20-aura migration and expanded rolls keep backups, finances, 
  assert.deepEqual((await db.query('select state from empire_private.players where user_id=$1',[uid])).rows[0].state,original);
  const synced=unpack(await run(uid,await body(uid)));assert.equal(synced.state.auras.crown,first.state.auras.crown);
 });
+
+
+test('unified SQL: expanded contracts keep exact terms, claims and required rebirth progress across sync and retry',async()=>{
+ const uid='66000000-0000-4000-8000-000000000005';await db.query('insert into auth.users values($1,$2)',[uid,{username:'contract_fixture'}]);
+ const s=rich(0,5);s.xp=E.levelXP(45);s.run.earned=10n**30n;s.components.parts=100;await migrate(uid,s);
+ const offer=E.availableContracts(s).find(c=>c.id==='contract-advanced-batch');E.acceptContract(s,offer);for(let i=0;i<6;i++){s.inventory[1]=1;const a=E.begin(s,1);while(a.status!=='complete'){a.status='active';E.stagePass(a,1);}E.reward(s,a,()=>.5);}
+ const accepted=clone(s.contracts[0]);const req=await body(uid,'unified-sync',s),saved=unpack(await run(uid,req));assert.deepEqual(saved.state.contracts[0],accepted);assert.equal(E.contractProgress(saved.state,saved.state.contracts[0]),6n);
+ const next=clone(saved.state);E.claimContract(next,accepted.id);const claim=await body(uid,'unified-sync',next),first=unpack(await run(uid,claim)),retry=unpack(await run(uid,claim));assert.deepEqual(retry.state,first.state);assert.equal(first.state.run.advancedContracts,1);assert.equal(first.state.money,saved.state.money+accepted.rewardMoney);assert.throws(()=>E.claimContract(first.state,accepted.id),/Finish/);
+ E.acceptContract(first.state,offer);assert.equal(E.contractProgress(first.state,first.state.contracts.at(-1)),0n);
+});
